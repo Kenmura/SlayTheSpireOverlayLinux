@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/SlayTheSpireOverlay.Core/SlayTheSpireOverlay.Core.csproj" />
+    <Project Path="src/SlayTheSpireOverlay.Godot/SlayTheSpireOverlay.Godot.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/SlayTheSpireOverlay.ArchitectureTests/SlayTheSpireOverlay.ArchitectureTests.csproj" />
+    <Project Path="tests/SlayTheSpireOverlay.Tests/SlayTheSpireOverlay.Tests.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,26 @@
+# dotnet / C# build outputs
+[Db]in/
+[Oo]bj/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# IDE metadata
+.vs/
+.vscode/
+.idea/
+
+# Godot-specific exclusions
+.godot/
+*.translation
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Sensitive local configurations
+*.local.json
+secrets.json
+local.properties
+Directory.Build.user.props
