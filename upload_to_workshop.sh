@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# Suppress LD_PRELOAD warnings for 32-bit vs 64-bit mismatch on Bazzite/Fedora
+export LD_PRELOAD=""
+
 # Base directory
 BASE_DIR="/var/home/nickmarc/repos/SlayTheSpireOverlayLinux"
 
