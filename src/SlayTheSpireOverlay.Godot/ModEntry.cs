@@ -16,21 +16,53 @@ public partial class ModEntry : Node
     {
         var services = new ServiceCollection();
 
-        // 1. Resolve Godot's user path and map it to cache options
+        // 1. Resolve Godot's user path
         string godotUserDir = ProjectSettings.GlobalizePath("user://");
+
+        // 2. Load or create user configuration file
+        string configPath = System.IO.Path.Combine(godotUserDir, "overlay_config.json");
+        OverlayConfig config;
+        
+        if (System.IO.File.Exists(configPath))
+        {
+            try
+            {
+                var json = System.IO.File.ReadAllText(configPath);
+                config = System.Text.Json.JsonSerializer.Deserialize<OverlayConfig>(json) ?? new OverlayConfig();
+            }
+            catch
+            {
+                config = new OverlayConfig();
+            }
+        }
+        else
+        {
+            config = new OverlayConfig();
+            try
+            {
+                var json = System.Text.Json.JsonSerializer.Serialize(config, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
+                System.IO.Directory.CreateDirectory(godotUserDir);
+                System.IO.File.WriteAllText(configPath, json);
+            }
+            catch { }
+        }
+
         var cacheOptions = new CacheOptions
         {
-            CacheDirectory = godotUserDir
+            CacheDirectory = godotUserDir,
+            CacheExpiryHours = config.CacheExpiryHours
         };
+
+        services.AddSingleton(config);
         services.AddSingleton(cacheOptions);
 
-        // 2. Register core services
+        // 3. Register core services
         services.AddSingleton<LocalCacheManager>();
         services.AddSingleton<System.Net.Http.HttpClient>();
         services.AddSingleton<ITierListProvider>(sp => new HttpTierListProvider(
             sp.GetRequiredService<System.Net.Http.HttpClient>(),
             sp.GetRequiredService<LocalCacheManager>(),
-            "https://raw.githubusercontent.com/community/sts2-tierlist/main/tiers.json" // Legally safe public endpoint
+            sp.GetRequiredService<OverlayConfig>()
         ));
 
         _serviceProvider = services.BuildServiceProvider();

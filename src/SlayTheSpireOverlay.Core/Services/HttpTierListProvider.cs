@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using SlayTheSpireOverlay.Core.Interfaces;
 using SlayTheSpireOverlay.Core.Models;
+using SlayTheSpireOverlay.Core.Options;
 
 namespace SlayTheSpireOverlay.Core.Services;
 
@@ -12,14 +13,14 @@ public class HttpTierListProvider : ITierListProvider
 {
     private readonly HttpClient _httpClient;
     private readonly LocalCacheManager _cacheManager;
-    private readonly string _remoteUrl;
+    private readonly OverlayConfig _config;
     private IReadOnlyDictionary<string, CardTierData>? _memoryCache;
 
-    public HttpTierListProvider(HttpClient httpClient, LocalCacheManager cacheManager, string remoteUrl)
+    public HttpTierListProvider(HttpClient httpClient, LocalCacheManager cacheManager, OverlayConfig config)
     {
         _httpClient = httpClient;
         _cacheManager = cacheManager;
-        _remoteUrl = remoteUrl;
+        _config = config;
     }
 
     public async Task<IReadOnlyDictionary<string, CardTierData>> GetTierListAsync(bool forceRefresh = false)
@@ -49,7 +50,7 @@ public class HttpTierListProvider : ITierListProvider
     {
         try
         {
-            var json = await _httpClient.GetStringAsync(_remoteUrl);
+            var json = await _httpClient.GetStringAsync(_config.RemoteUrl);
             var data = JsonSerializer.Deserialize<Dictionary<string, CardTierData>>(json);
             if (data != null)
             {

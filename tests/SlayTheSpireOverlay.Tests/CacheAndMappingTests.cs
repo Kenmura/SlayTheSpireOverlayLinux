@@ -71,7 +71,8 @@ public class CacheAndMappingTests
         var mockHandler = new MockHttpMessageHandler(HttpStatusCode.OK, jsonResponse);
         using var client = new HttpClient(mockHandler);
 
-        var provider = new HttpTierListProvider(client, _cacheManager, "https://example.com/tiers.json");
+        var config = new OverlayConfig { RemoteUrl = "https://example.com/tiers.json" };
+        var provider = new HttpTierListProvider(client, _cacheManager, config);
 
         // Act
         var result = await provider.GetTierListAsync(forceRefresh: true);
@@ -101,7 +102,8 @@ public class CacheAndMappingTests
         var mockHandler = new MockHttpMessageHandler(HttpStatusCode.InternalServerError, "Error");
         using var client = new HttpClient(mockHandler);
 
-        var provider = new HttpTierListProvider(client, _cacheManager, "https://example.com/tiers.json");
+        var config = new OverlayConfig { RemoteUrl = "https://example.com/tiers.json" };
+        var provider = new HttpTierListProvider(client, _cacheManager, config);
 
         // Act
         var result = await provider.GetTierListAsync(forceRefresh: true);
