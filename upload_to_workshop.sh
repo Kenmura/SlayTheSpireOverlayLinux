@@ -27,8 +27,8 @@ fi
 echo "=== 3. Building Mod Uploader Tool ==="
 LD_PRELOAD="" distrobox enter dotnet-dev -- env LD_PRELOAD="" dotnet build "$BASE_DIR/workshop/uploader/ModUploader.sln" -c Release
 
-# Find compiled DLL
-UPLOADER_DLL=$(find "$BASE_DIR/workshop/uploader" -name "ModUploader.dll" | head -n 1)
+# Find compiled DLL in the bin directory
+UPLOADER_DLL=$(find "$BASE_DIR/workshop/uploader/bin" -name "ModUploader.dll" | head -n 1)
 
 if [ -z "$UPLOADER_DLL" ]; then
     echo "[-] Error: Could not find compiled ModUploader.dll."
