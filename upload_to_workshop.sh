@@ -15,7 +15,7 @@ echo "=============================================="
 cd "$BASE_DIR"
 
 echo "=== 1. Building and Publishing Mod Assemblies ==="
-distrobox enter dotnet-dev -- dotnet publish src/SlayTheSpireOverlay.Godot/SlayTheSpireOverlay.Godot.csproj -c Release -o "$BASE_DIR/workshop/content/"
+LD_PRELOAD="" distrobox enter dotnet-dev -- env LD_PRELOAD="" dotnet publish src/SlayTheSpireOverlay.Godot/SlayTheSpireOverlay.Godot.csproj -c Release -o "$BASE_DIR/workshop/content/"
 
 echo "=== 2. Clonging official megacrit/sts2-mod-uploader ==="
 if [ ! -d "$BASE_DIR/workshop/uploader" ]; then
@@ -25,7 +25,7 @@ else
 fi
 
 echo "=== 3. Building Mod Uploader Tool ==="
-distrobox enter dotnet-dev -- dotnet build "$BASE_DIR/workshop/uploader/ModUploader.sln" -c Release
+LD_PRELOAD="" distrobox enter dotnet-dev -- env LD_PRELOAD="" dotnet build "$BASE_DIR/workshop/uploader/ModUploader.sln" -c Release
 
 # Find compiled DLL
 UPLOADER_DLL=$(find "$BASE_DIR/workshop/uploader" -name "ModUploader.dll" | head -n 1)
@@ -42,4 +42,4 @@ echo "[*] IMPORTANT: Steam must be running on your system and you must be logged
 echo "[*] Uploading workspace: $BASE_DIR/workshop"
 echo "----------------------------------------------"
 
-distrobox enter dotnet-dev -- dotnet "$UPLOADER_DLL" upload -w "$BASE_DIR/workshop"
+LD_PRELOAD="" distrobox enter dotnet-dev -- env LD_PRELOAD="" dotnet "$UPLOADER_DLL" upload -w "$BASE_DIR/workshop"
