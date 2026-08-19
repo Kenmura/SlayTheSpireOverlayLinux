@@ -24,3 +24,7 @@ Thumbs.db
 secrets.json
 local.properties
 Directory.Build.user.props
+
+# Workshop build and repository clones
+workshop/content/
+workshop/uploader/

@@ -1,0 +1,12 @@
+{
+  "title": "Slay the Spire 2 Untapped Overlay",
+  "description": "A clean, performant card overlay for Slay the Spire 2 showing tier lists, card scores, and evaluations. Fully isolated and offline-first.",
+  "visibility": "private",
+  "changeNote": "Initial Release",
+  "tags": [
+    "Mod",
+    "Overlay",
+    "UI"
+  ],
+  "dependencies": []
+}
