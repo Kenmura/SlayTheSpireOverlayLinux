@@ -37,6 +37,12 @@ fi
 
 echo "[+] Found ModUploader at: $UPLOADER_DLL"
 
+UPLOADER_DIR=$(dirname "$UPLOADER_DLL")
+echo "[*] Copying Steam API library to uploader directory..."
+cp "$BASE_DIR/workshop/uploader/steam/libsteam_api.so" "$UPLOADER_DIR/"
+mkdir -p "$UPLOADER_DIR/runtimes/linux-x64/lib/netstandard2.1/"
+cp "$BASE_DIR/workshop/uploader/steam/libsteam_api.so" "$UPLOADER_DIR/runtimes/linux-x64/lib/netstandard2.1/"
+
 echo "=== 4. Starting Mod Upload ==="
 echo "[*] IMPORTANT: Steam must be running on your system and you must be logged in."
 echo "[*] Uploading workspace: $BASE_DIR/workshop"
