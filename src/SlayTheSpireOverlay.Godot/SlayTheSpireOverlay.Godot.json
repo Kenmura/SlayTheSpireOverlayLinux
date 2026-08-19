@@ -1,0 +1,10 @@
+{
+  "id": "SlayTheSpireOverlay.Godot",
+  "name": "Slay the Spire 2 Untapped Overlay",
+  "author": "Kenmura",
+  "description": "Displays procedurally drawn card tier, score, and commentary overlays.",
+  "version": "v1.0.0",
+  "has_pck": false,
+  "has_dll": true,
+  "affects_gameplay": false
+}

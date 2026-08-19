@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
     <ProjectReference Include="..\SlayTheSpireOverlay.Core\SlayTheSpireOverlay.Core.csproj" />
@@ -14,5 +14,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="SlayTheSpireOverlay.Godot.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
 
 </Project>
