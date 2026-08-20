@@ -8,8 +8,19 @@
     <PackageReference Include="GodotSharp" Version="4.7.2" ExcludeAssets="Runtime" PrivateAssets="All" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="sts2">
+      <HintPath>/var/home/nickmarc/.local/share/Steam/steamapps/common/Slay the Spire 2/data_sts2_windows_x86_64/sts2.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>/var/home/nickmarc/.local/share/Steam/steamapps/common/Slay the Spire 2/data_sts2_windows_x86_64/0Harmony.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>

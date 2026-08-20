@@ -1,18 +1,22 @@
 using Godot;
 using System;
 using System.Net.Http;
+using HarmonyLib;
 using SlayTheSpireOverlay.Core.Interfaces;
 using SlayTheSpireOverlay.Core.Services;
 using SlayTheSpireOverlay.Core.Options;
 
 namespace SlayTheSpireOverlay.Godot;
 
+[MegaCrit.Sts2.Core.Modding.ModInitializer("Initialize")]
 public partial class ModEntry : Node
 {
-    private ITierListProvider _tierProvider = null!;
+    public static ITierListProvider TierProvider { get; private set; } = null!;
 
-    public override void _Ready()
+    public static void Initialize()
     {
+        GD.Print("[STS2 Overlay] ModInitializer.Initialize called!");
+
         // 1. Resolve Godot's user path
         string godotUserDir = ProjectSettings.GlobalizePath("user://");
 
@@ -53,86 +57,57 @@ public partial class ModEntry : Node
         // 3. Instantiate core services directly (zero external DI library dependency)
         var cacheManager = new LocalCacheManager(cacheOptions);
         var httpClient = new System.Net.Http.HttpClient();
-        _tierProvider = new HttpTierListProvider(httpClient, cacheManager, config);
+        TierProvider = new HttpTierListProvider(httpClient, cacheManager, config);
 
         // Trigger cache load and background fetch immediately on start
-        _ = _tierProvider.GetTierListAsync();
+        _ = TierProvider.GetTierListAsync();
 
-        // Subscribe to game signals and scene tree modifications
-        SubscribeToGameSignals();
-    }
-
-    private void SubscribeToGameSignals()
-    {
-        GetTree().NodeAdded += OnNodeAdded;
-        GD.Print("[STS2 Overlay] Subscribed to Godot SceneTree.NodeAdded signal.");
-    }
-
-    private void OnNodeAdded(Node node)
-    {
-        string? cardId = GetCardIdFromNode(node);
-        if (cardId != null)
-        {
-            CallDeferred(nameof(OnCardGenerated), node, cardId);
-        }
-    }
-
-    private string? GetCardIdFromNode(Node node)
-    {
-        if (node == null || !IsInstanceValid(node)) return null;
-        
-        if (node.GetType().FullName != "MegaCrit.Sts2.Core.Nodes.Cards.NCard")
-        {
-            return null;
-        }
-
+        // 4. Apply Harmony Patches
         try
         {
-            var modelProp = node.GetType().GetProperty("Model", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
-            var model = modelProp?.GetValue(node);
-            if (model == null) return null;
-
-            var idProp = model.GetType().GetProperty("Id", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
-            var id = idProp?.GetValue(model);
-            if (id == null) return null;
-
-            var categoryProp = id.GetType().GetProperty("Category", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
-            var entryProp = id.GetType().GetProperty("Entry", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
-
-            string? category = categoryProp?.GetValue(id) as string;
-            string? entry = entryProp?.GetValue(id) as string;
-
-            if (!string.IsNullOrEmpty(category) && !string.IsNullOrEmpty(entry))
-            {
-                return $"{category}:{entry}";
-            }
-            return entry;
+            var harmony = new Harmony("SlayTheSpireOverlay.Godot");
+            harmony.PatchAll(System.Reflection.Assembly.GetExecutingAssembly());
+            GD.Print("[STS2 Overlay] Harmony patches applied successfully!");
         }
         catch (Exception ex)
         {
-            GD.PrintErr($"[STS2 Overlay] Error reflecting card ID: {ex.Message}");
-            return null;
+            GD.PrintErr($"[STS2 Overlay] Error applying Harmony patches: {ex.Message}");
         }
     }
+}
 
-    // This method is called by the mod hook when a card UI node is created
-    public void OnCardGenerated(Node cardNode, string cardId)
+[HarmonyPatch(typeof(MegaCrit.Sts2.Core.Nodes.Cards.NCard), "_Ready")]
+public static class NCardReadyPatch
+{
+    public static void Postfix(MegaCrit.Sts2.Core.Nodes.Cards.NCard __instance)
     {
-        if (cardNode == null || !IsInstanceValid(cardNode)) return;
-
-        // Prevent duplicate badges on the same card node
-        foreach (var child in cardNode.GetChildren())
+        try
         {
-            if (child is UI.TierBadge)
-            {
-                return;
-            }
-        }
+            if (__instance == null || !global::Godot.GodotObject.IsInstanceValid(__instance)) return;
+            
+            var model = __instance.Model;
+            if (model == null || model.Id == null) return;
+            
+            string category = model.Id.Category;
+            string entry = model.Id.Entry;
+            string cardId = string.IsNullOrEmpty(category) ? entry : $"{category}:{entry}";
 
-        GD.Print($"[STS2 Overlay] Adding tier badge to card node '{cardNode.Name}' with ID: {cardId}");
-        
-        // Dynamically instantiate the UI overlay badge
-        var badge = new UI.TierBadge(_tierProvider, cardId);
-        cardNode.AddChild(badge);
+            // Prevent duplicate badges on the same card node
+            foreach (var child in __instance.GetChildren())
+            {
+                if (child is UI.TierBadge)
+                {
+                    return;
+                }
+            }
+
+            GD.Print($"[STS2 Overlay] Adding tier badge to card node '{__instance.Name}' with ID: {cardId}");
+            var badge = new UI.TierBadge(ModEntry.TierProvider, cardId);
+            __instance.AddChild(badge);
+        }
+        catch (Exception ex)
+        {
+            GD.PrintErr($"[STS2 Overlay] Error in NCard._Ready postfix patch: {ex.Message}");
+        }
     }
 }
