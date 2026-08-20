@@ -2,7 +2,7 @@
   "title": "Overlay for Tier List",
   "description": "A clean, performant in-game overlay for Slay the Spire 2 displaying card, relic, and Ancient choice tier badges, scores, and evaluations.",
   "visibility": "private",
-  "changeNote": "Tier List Update [2026-08-19]:\n[ADDED] ADRENALINE: Tier='S'\n[MODIFIED] AGGRESSION: Tier 'S' -> 'A'\n[MODIFIED] ARCHAIC_TOOTH: Tier 'Always Amazing' -> 'Always Good'\n[MODIFIED] BAG_OF_PREPARATION: Tier 'Why is this even a relic' -> 'S'\n[MODIFIED] BEAT_DOWN: Tier 'C' -> 'D'\n[MODIFIED] BIASED_COGNITION: Tier 'S' -> 'A'\n[MODIFIED] BLACK_HOLE: Tier 'A' -> 'B'\n[MODIFIED] BLACK_STAR: Tier 'Needs Synergy' -> 'Inconsistent'\n[MODIFIED] BLOOD_SOAKED_ROSE: Tier 'Inconsistent' -> 'Almost Never'\n[MODIFIED] BOLAS: Tier 'B' -> 'C'\n... and 180 more tier list updates.",
+  "changeNote": "Misc bug fixes and maintenance updates.",
   "tags": [
     "Mod",
     "Overlay",
