@@ -48,7 +48,7 @@ public class HttpTierListProvider : ITierListProvider
         // Try to load from local cache first for speed (instant startup)
         if (!forceRefresh)
         {
-            var cached = await _cacheManager.LoadFromCacheAsync();
+            var cached = await _cacheManager.LoadFromCacheAsync().ConfigureAwait(false);
             if (cached != null)
             {
                 var normalizedCached = new Dictionary<string, CardTierData>(StringComparer.OrdinalIgnoreCase);
@@ -64,19 +64,19 @@ public class HttpTierListProvider : ITierListProvider
                 }
                 _memoryCache = normalizedCached;
                 // Start a background fetch to update the cache in the background without blocking the UI
-                _ = FetchAndCacheRemoteDataAsync();
+                _ = Task.Run(async () => await FetchAndCacheRemoteDataAsync().ConfigureAwait(false));
                 return _memoryCache;
             }
         }
 
-        return await FetchAndCacheRemoteDataAsync();
+        return await FetchAndCacheRemoteDataAsync().ConfigureAwait(false);
     }
 
     private async Task<IReadOnlyDictionary<string, CardTierData>> FetchAndCacheRemoteDataAsync()
     {
         try
         {
-            var json = await _httpClient.GetStringAsync(_config.RemoteUrl);
+            var json = await _httpClient.GetStringAsync(_config.RemoteUrl).ConfigureAwait(false);
             var data = JsonSerializer.Deserialize<Dictionary<string, CardTierData>>(json);
             if (data != null)
             {
@@ -92,7 +92,7 @@ public class HttpTierListProvider : ITierListProvider
                     }
                 }
                 _memoryCache = normalizedData;
-                await _cacheManager.SaveToCacheAsync(normalizedData);
+                await _cacheManager.SaveToCacheAsync(normalizedData).ConfigureAwait(false);
                 return normalizedData;
             }
         }
@@ -100,7 +100,7 @@ public class HttpTierListProvider : ITierListProvider
         {
             // Log exception or handle network failure gracefully
             // Fallback to expired cache if available
-            var expiredCache = await _cacheManager.LoadFromCacheAsync();
+            var expiredCache = await _cacheManager.LoadFromCacheAsync().ConfigureAwait(false);
             if (expiredCache != null)
             {
                 var normalizedExpired = new Dictionary<string, CardTierData>(StringComparer.OrdinalIgnoreCase);

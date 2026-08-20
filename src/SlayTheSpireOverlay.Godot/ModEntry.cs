@@ -87,8 +87,18 @@ public partial class ModEntry : Node
         httpClient.Timeout = TimeSpan.FromSeconds(3); // Prevent hanging under Steam Proton DNS/network initialization
         TierProvider = new HttpTierListProvider(httpClient, cacheManager, config);
 
-        // Trigger cache load and background fetch immediately on start
-        _ = TierProvider.GetTierListAsync();
+        // Trigger cache load and background fetch immediately on start off-thread to avoid main-thread deadlocks
+        System.Threading.Tasks.Task.Run(async () =>
+        {
+            try
+            {
+                await TierProvider.GetTierListAsync().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                GD.PrintErr($"[STS2 Overlay] Error prefetching tierlist on start: {ex.Message}");
+            }
+        });
 
         // 4. Apply Harmony Patches
         try

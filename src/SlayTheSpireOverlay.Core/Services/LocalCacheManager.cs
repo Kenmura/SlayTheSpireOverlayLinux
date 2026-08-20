@@ -25,7 +25,7 @@ public class LocalCacheManager
         var path = Path.Combine(_options.CacheDirectory, _options.CacheFileName);
         
         var json = JsonSerializer.Serialize(data);
-        await File.WriteAllTextAsync(path, json);
+        await File.WriteAllTextAsync(path, json).ConfigureAwait(false);
     }
 
     public async Task<IReadOnlyDictionary<string, CardTierData>?> LoadFromCacheAsync()
@@ -41,7 +41,7 @@ public class LocalCacheManager
 
         try
         {
-            var json = await File.ReadAllTextAsync(path);
+            var json = await File.ReadAllTextAsync(path).ConfigureAwait(false);
             return JsonSerializer.Deserialize<Dictionary<string, CardTierData>>(json);
         }
         catch
