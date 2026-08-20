@@ -1,6 +1,6 @@
 {
-  "title": "Slay the Spire 2 Untapped Overlay",
-  "description": "A clean, performant card overlay for Slay the Spire 2 showing tier lists, card scores, and evaluations. Fully isolated and offline-first.",
+  "title": "Overlay for Tier List",
+  "description": "A clean, performant in-game overlay for Slay the Spire 2 displaying card, relic, and Ancient choice tier badges, scores, and evaluations.",
   "visibility": "private",
   "changeNote": "Initial Release",
   "tags": [

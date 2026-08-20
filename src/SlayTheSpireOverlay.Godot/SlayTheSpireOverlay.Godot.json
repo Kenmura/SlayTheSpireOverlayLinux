@@ -1,8 +1,8 @@
 {
   "id": "SlayTheSpireOverlay.Godot",
-  "name": "Slay the Spire 2 Untapped Overlay",
+  "name": "Overlay for Tier List",
   "author": "Kenmura",
-  "description": "Displays procedurally drawn card tier, score, and commentary overlays.",
+  "description": "Displays card, relic, and Ancient choice tier overlay badges in Slay the Spire 2.",
   "version": "v1.0.0",
   "has_pck": false,
   "has_dll": true,
