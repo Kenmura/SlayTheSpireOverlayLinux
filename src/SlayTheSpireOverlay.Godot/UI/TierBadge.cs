@@ -20,10 +20,10 @@ public partial class TierBadge : Control
         _cardId = cardId;
     }
 
-    public override async void _Ready()
+    public override void _Ready()
     {
         SetupUIComponents();
-        await LoadDataAndApplyStyles();
+        LoadDataAndApplyStyles();
     }
 
     private void SetupUIComponents()
@@ -64,29 +64,51 @@ public partial class TierBadge : Control
         return id.ToUpperInvariant();
     }
 
-    private async System.Threading.Tasks.Task LoadDataAndApplyStyles()
+    private void LoadDataAndApplyStyles()
     {
-        var tierList = await _tierProvider.GetTierListAsync();
-        string lookupKey = NormalizeCardId(_cardId);
-        string strippedKey = lookupKey.Replace("_", "");
-        
-        GD.Print($"[STS2 Overlay] Card ID: {_cardId} (Normalized: {lookupKey}, Stripped: {strippedKey}). Total tierlist cards: {tierList.Count}");
-
-        if (tierList.TryGetValue(lookupKey, out var cardData) || 
-            (strippedKey != lookupKey && tierList.TryGetValue(strippedKey, out cardData)))
+        System.Threading.Tasks.Task.Run(async () =>
         {
-            _tierLabel.Text = cardData.Tier;
-            _scoreLabel.Text = cardData.Score.ToString("0.0");
-            _tierLabel.SelfModulate = GetColorForTier(cardData.Tier);
-            TooltipText = cardData.Commentary;
+            try
+            {
+                var tierList = await _tierProvider.GetTierListAsync().ConfigureAwait(false);
+                string lookupKey = NormalizeCardId(_cardId);
+                string strippedKey = lookupKey.Replace("_", "");
+                
+                GD.Print($"[STS2 Overlay] Card ID: {_cardId} (Normalized: {lookupKey}, Stripped: {strippedKey}). Total tierlist cards: {tierList.Count}");
+
+                if (tierList.TryGetValue(lookupKey, out var cardData) || 
+                    (strippedKey != lookupKey && tierList.TryGetValue(strippedKey, out cardData)))
+                {
+                    CallDeferred(nameof(UpdateUI), cardData.Tier, cardData.Score, cardData.Commentary ?? "");
+                }
+                else
+                {
+                    CallDeferred(nameof(UpdateUI), "N/A", -1.0, "No evaluation data found for this card.");
+                }
+            }
+            catch (Exception ex)
+            {
+                GD.PrintErr($"[STS2 Overlay] Error loading card data: {ex.Message}");
+                CallDeferred(nameof(UpdateUI), "N/A", -1.0, "Error loading evaluation data.");
+            }
+        });
+    }
+
+    private void UpdateUI(string tier, double score, string commentary)
+    {
+        if (tier != "N/A")
+        {
+            _tierLabel.Text = tier;
+            _scoreLabel.Text = score >= 0 ? score.ToString("0.0") : "";
+            _tierLabel.SelfModulate = GetColorForTier(tier);
+            TooltipText = commentary;
         }
         else
         {
-            // Fallback: Show N/A for unrated / new cards as requested
             _tierLabel.Text = "N/A";
             _scoreLabel.Text = "";
             _tierLabel.SelfModulate = new Color(0.6f, 0.6f, 0.6f); // Grey color for N/A
-            TooltipText = "No evaluation data found for this card.";
+            TooltipText = commentary;
         }
     }
 
