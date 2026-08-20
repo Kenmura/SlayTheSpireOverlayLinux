@@ -41,11 +41,13 @@ public static class ModEntry
             config = new OverlayConfig();
             try
             {
-                var json = System.Text.Json.JsonSerializer.Serialize(config, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
-                System.IO.Directory.CreateDirectory(godotUserDir);
-                System.IO.File.WriteAllText(configPath, json);
+                var json = System.IO.File.ReadAllText(configPath);
+                config = System.Text.Json.JsonSerializer.Deserialize<OverlayConfig>(json) ?? new OverlayConfig();
             }
-            catch { }
+            catch
+            {
+                config = new OverlayConfig();
+            }
         }
 
         // Seed the cache from the embedded resource if it doesn't exist yet
@@ -187,5 +189,43 @@ public static class NRelicSetModelPatch
     public static void Postfix(MegaCrit.Sts2.Core.Nodes.Relics.NRelic __instance)
     {
         NRelicReadyPatch.UpdateRelicBadge(__instance);
+    }
+}
+
+[HarmonyPatch(typeof(MegaCrit.Sts2.Core.Nodes.Events.NEventOptionButton), "_Ready")]
+public static class NEventOptionButtonReadyPatch
+{
+    public static void Postfix(MegaCrit.Sts2.Core.Nodes.Events.NEventOptionButton __instance)
+    {
+        UpdateOptionBadge(__instance);
+    }
+
+    public static void UpdateOptionBadge(MegaCrit.Sts2.Core.Nodes.Events.NEventOptionButton buttonNode)
+    {
+        try
+        {
+            if (buttonNode == null || !GodotObject.IsInstanceValid(buttonNode)) return;
+            var option = buttonNode.Option;
+            if (option == null || option.Relic == null || option.Relic.Id == null) return;
+
+            string category = option.Relic.Id.Category;
+            string entry = option.Relic.Id.Entry;
+            string relicId = string.IsNullOrEmpty(category) ? entry : $"{category}:{entry}";
+
+            UI.RelicBadgeFactory.CreateOrUpdateOptionBadge(buttonNode, ModEntry.TierProvider, relicId);
+        }
+        catch (Exception ex)
+        {
+            GD.PrintErr($"[STS2 Overlay] Error in NEventOptionButton patch: {ex.Message}");
+        }
+    }
+}
+
+[HarmonyPatch(typeof(MegaCrit.Sts2.Core.Nodes.Events.NEventOptionButton), "set_Option")]
+public static class NEventOptionButtonSetOptionPatch
+{
+    public static void Postfix(MegaCrit.Sts2.Core.Nodes.Events.NEventOptionButton __instance)
+    {
+        NEventOptionButtonReadyPatch.UpdateOptionBadge(__instance);
     }
 }
