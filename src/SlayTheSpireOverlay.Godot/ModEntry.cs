@@ -39,42 +39,48 @@ public static class ModEntry
         else
         {
             config = new OverlayConfig();
-            try
-            {
-                var json = System.IO.File.ReadAllText(configPath);
-                config = System.Text.Json.JsonSerializer.Deserialize<OverlayConfig>(json) ?? new OverlayConfig();
-            }
-            catch
-            {
-                config = new OverlayConfig();
-            }
         }
 
-        // Seed the cache from the embedded resource if it doesn't exist yet
+        // 3. Always ensure cache on disk is seeded or updated with latest embedded resource
         string cachePath = System.IO.Path.Combine(godotUserDir, "tier_list_cache.json");
-        if (!System.IO.File.Exists(cachePath))
+        try
         {
-            try
+            var assembly = typeof(ModEntry).Assembly;
+            using var stream = assembly.GetManifestResourceStream("SlayTheSpireOverlay.Godot.baalorlord_tiers.json");
+            if (stream != null)
             {
-                var assembly = typeof(ModEntry).Assembly;
-                using var stream = assembly.GetManifestResourceStream("SlayTheSpireOverlay.Godot.baalorlord_tiers.json");
-                if (stream != null)
+                using var reader = new System.IO.StreamReader(stream);
+                string embeddedJson = reader.ReadToEnd();
+                System.IO.Directory.CreateDirectory(godotUserDir);
+
+                bool shouldOverwrite = !System.IO.File.Exists(cachePath);
+                if (!shouldOverwrite)
                 {
-                    using var reader = new System.IO.StreamReader(stream);
-                    string json = reader.ReadToEnd();
-                    System.IO.Directory.CreateDirectory(godotUserDir);
-                    System.IO.File.WriteAllText(cachePath, json);
-                    GD.Print("[STS2 Overlay] Seeded tier_list_cache.json from embedded resource successfully.");
+                    try
+                    {
+                        var diskJson = System.IO.File.ReadAllText(cachePath);
+                        shouldOverwrite = embeddedJson.Length > diskJson.Length;
+                    }
+                    catch
+                    {
+                        shouldOverwrite = true;
+                    }
                 }
-                else
+
+                if (shouldOverwrite)
                 {
-                    GD.PrintErr("[STS2 Overlay] Embedded resource stream for baalorlord_tiers.json was null!");
+                    System.IO.File.WriteAllText(cachePath, embeddedJson);
+                    GD.Print("[STS2 Overlay] Updated tier_list_cache.json from embedded resource (802 items).");
                 }
             }
-            catch (Exception ex)
+            else
             {
-                GD.PrintErr($"[STS2 Overlay] Error seeding cache from embedded resource: {ex.Message}");
+                GD.PrintErr("[STS2 Overlay] Embedded resource stream for baalorlord_tiers.json was null!");
             }
+        }
+        catch (Exception ex)
+        {
+            GD.PrintErr($"[STS2 Overlay] Error seeding cache from embedded resource: {ex.Message}");
         }
 
         var cacheOptions = new CacheOptions
@@ -83,13 +89,13 @@ public static class ModEntry
             CacheExpiryHours = config.CacheExpiryHours
         };
 
-        // 3. Instantiate core services directly
+        // 4. Instantiate core services directly
         var cacheManager = new LocalCacheManager(cacheOptions);
         var httpClient = new System.Net.Http.HttpClient();
         httpClient.Timeout = TimeSpan.FromSeconds(3);
         TierProvider = new HttpTierListProvider(httpClient, cacheManager, config);
 
-        // Trigger cache load and background fetch immediately on start off-thread to avoid main-thread deadlocks
+        // Trigger cache load off-thread
         System.Threading.Tasks.Task.Run(async () =>
         {
             try
@@ -102,7 +108,7 @@ public static class ModEntry
             }
         });
 
-        // 4. Apply Harmony Patches
+        // 5. Apply Harmony Patches
         try
         {
             var harmony = new Harmony("SlayTheSpireOverlay.Godot");
@@ -206,13 +212,44 @@ public static class NEventOptionButtonReadyPatch
         {
             if (buttonNode == null || !GodotObject.IsInstanceValid(buttonNode)) return;
             var option = buttonNode.Option;
-            if (option == null || option.Relic == null || option.Relic.Id == null) return;
+            if (option == null) return;
 
-            string category = option.Relic.Id.Category;
-            string entry = option.Relic.Id.Entry;
-            string relicId = string.IsNullOrEmpty(category) ? entry : $"{category}:{entry}";
+            string? targetId = null;
 
-            UI.RelicBadgeFactory.CreateOrUpdateOptionBadge(buttonNode, ModEntry.TierProvider, relicId);
+            // 1. Check direct Relic property on EventOption
+            if (option.Relic != null && option.Relic.Id != null)
+            {
+                targetId = option.Relic.Id.Entry;
+            }
+
+            // 2. Check HoverTips on EventOption
+            if (string.IsNullOrEmpty(targetId) && option.HoverTips != null)
+            {
+                foreach (var tip in option.HoverTips)
+                {
+                    if (tip is MegaCrit.Sts2.Core.HoverTips.CardHoverTip cardTip && cardTip.Card != null && cardTip.Card.Id != null)
+                    {
+                        targetId = cardTip.Card.Id.Entry;
+                        break;
+                    }
+                    else if (tip is MegaCrit.Sts2.Core.HoverTips.HoverTip hoverTip && hoverTip.CanonicalModel != null && hoverTip.CanonicalModel.Id != null)
+                    {
+                        targetId = hoverTip.CanonicalModel.Id.Entry;
+                        break;
+                    }
+                }
+            }
+
+            // 3. Fallback to option.TextKey
+            if (string.IsNullOrEmpty(targetId) && !string.IsNullOrEmpty(option.TextKey))
+            {
+                targetId = option.TextKey;
+            }
+
+            if (!string.IsNullOrEmpty(targetId))
+            {
+                UI.RelicBadgeFactory.CreateOrUpdateOptionBadge(buttonNode, ModEntry.TierProvider, targetId);
+            }
         }
         catch (Exception ex)
         {
