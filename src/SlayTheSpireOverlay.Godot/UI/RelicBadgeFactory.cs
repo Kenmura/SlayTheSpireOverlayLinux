@@ -97,12 +97,21 @@ public static class RelicBadgeFactory
                     {
                         if (GodotObject.IsInstanceValid(panel) && GodotObject.IsInstanceValid(tierLabel) && GodotObject.IsInstanceValid(scoreLabel))
                         {
-                            dividerLabel.Visible = true;
                             tierLabel.Text = relicData.Tier;
-                            scoreLabel.Text = relicData.Score.ToString("0.0");
                             tierLabel.SelfModulate = GetColorForTier(relicData.Tier);
-                            scoreLabel.SelfModulate = new Color(0.95f, 0.95f, 0.98f);
                             panel.TooltipText = relicData.Commentary ?? "";
+
+                            if (relicData.Score > 0)
+                            {
+                                dividerLabel.Visible = true;
+                                scoreLabel.Text = relicData.Score.ToString("0.0");
+                                scoreLabel.SelfModulate = new Color(0.95f, 0.95f, 0.98f);
+                            }
+                            else
+                            {
+                                dividerLabel.Visible = false;
+                                scoreLabel.Text = "";
+                            }
                         }
                     }).CallDeferred();
                 }
@@ -218,12 +227,21 @@ public static class RelicBadgeFactory
                     {
                         if (GodotObject.IsInstanceValid(panel) && GodotObject.IsInstanceValid(tierLabel) && GodotObject.IsInstanceValid(scoreLabel))
                         {
-                            dividerLabel.Visible = true;
                             tierLabel.Text = relicData.Tier;
-                            scoreLabel.Text = relicData.Score.ToString("0.0");
                             tierLabel.SelfModulate = GetColorForTier(relicData.Tier);
-                            scoreLabel.SelfModulate = new Color(0.95f, 0.95f, 0.98f);
                             panel.TooltipText = relicData.Commentary ?? "";
+
+                            if (relicData.Score > 0)
+                            {
+                                dividerLabel.Visible = true;
+                                scoreLabel.Text = relicData.Score.ToString("0.0");
+                                scoreLabel.SelfModulate = new Color(0.95f, 0.95f, 0.98f);
+                            }
+                            else
+                            {
+                                dividerLabel.Visible = false;
+                                scoreLabel.Text = "";
+                            }
                         }
                     }).CallDeferred();
                 }
@@ -262,7 +280,7 @@ public static class RelicBadgeFactory
             id = id.Substring(colonIndex + 1);
         }
 
-        // Convert CamelCase (e.g. AlchemicalCoffer -> ALCHEMICAL_COFFER, NeowsBones -> NEOWS_BONES)
+        // Convert CamelCase (e.g. LavaRockOption -> LAVA_ROCK_OPTION)
         var sb = new System.Text.StringBuilder();
         for (int i = 0; i < id.Length; i++)
         {
@@ -274,7 +292,15 @@ public static class RelicBadgeFactory
             sb.Append(char.ToUpperInvariant(c));
         }
 
-        return sb.ToString();
+        string result = sb.ToString();
+
+        // Strip _OPTION suffix if option button node passes Option variant name
+        if (result.EndsWith("_OPTION"))
+        {
+            result = result.Substring(0, result.Length - 7);
+        }
+
+        return result;
     }
 
     private static Color GetColorForTier(string tier) => tier switch
@@ -284,6 +310,8 @@ public static class RelicBadgeFactory
         "B" => new Color(0.95f, 0.95f, 0.3f), // Golden Yellow
         "C" => new Color(0.45f, 0.85f, 1.0f), // Sky Blue
         "D" => new Color(0.65f, 0.65f, 0.65f), // Grey
+        "Map Dependent" => new Color(1.0f, 0.7f, 0.3f), // Warm Amber
+        "Inconsistent" => new Color(0.85f, 0.5f, 1.0f), // Light Purple
         _ => new Color(0.85f, 0.85f, 0.85f)
     };
 }

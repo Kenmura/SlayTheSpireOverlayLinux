@@ -3811,9 +3811,9 @@
   },
   "LAVA_ROCK": {
     "CardId": "LAVA_ROCK",
-    "Tier": "C",
-    "Score": 50.0,
-    "Commentary": "LavaRock: Niche relic requiring specific synergies."
+    "Tier": "Map Dependent",
+    "Score": 0.0,
+    "Commentary": "Lava Rock value depends heavily on current map routing and pathing."
   },
   "LEAD_PAPERWEIGHT": {
     "CardId": "LEAD_PAPERWEIGHT",
@@ -4411,9 +4411,9 @@
   },
   "SCROLL_BOXES": {
     "CardId": "SCROLL_BOXES",
-    "Tier": "D",
-    "Score": 40.0,
-    "Commentary": "ScrollBoxes: Low impact relic with limited benefit."
+    "Tier": "Inconsistent",
+    "Score": 0.0,
+    "Commentary": "Scroll Boxes performance is highly variable and inconsistent."
   },
   "SEA_GLASS": {
     "CardId": "SEA_GLASS",

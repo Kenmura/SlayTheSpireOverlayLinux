@@ -179,6 +179,37 @@ public class CacheAndMappingTests
         Assert.AreEqual("A", result["BAG_OF_PREPARATION"].Tier);
     }
 
+    [TestMethod]
+    public async Task TestHttpProvider_CustomTextTiers_ShouldMatchCorrectRatings()
+    {
+        // Arrange: Populate cache with custom text tier items
+        var cachedData = new Dictionary<string, CardTierData>
+        {
+            ["LAVA_ROCK"] = new CardTierData("LAVA_ROCK", "Map Dependent", 0.0, "Map Dependent"),
+            ["SCROLL_BOXES"] = new CardTierData("SCROLL_BOXES", "Inconsistent", 0.0, "Inconsistent")
+        };
+        await _cacheManager.SaveToCacheAsync(cachedData);
+
+        var mockHandler = new MockHttpMessageHandler(HttpStatusCode.InternalServerError, "Error");
+        using var client = new HttpClient(mockHandler);
+
+        var config = new OverlayConfig { RemoteUrl = "https://example.com/tiers.json" };
+        var provider = new HttpTierListProvider(client, _cacheManager, config);
+
+        // Act
+        var result = await provider.GetTierListAsync(forceRefresh: true);
+
+        // Assert
+        Assert.IsNotNull(result);
+        Assert.IsTrue(result.ContainsKey("LAVA_ROCK"));
+        Assert.AreEqual("Map Dependent", result["LAVA_ROCK"].Tier);
+        Assert.AreEqual(0.0, result["LAVA_ROCK"].Score);
+
+        Assert.IsTrue(result.ContainsKey("SCROLL_BOXES"));
+        Assert.AreEqual("Inconsistent", result["SCROLL_BOXES"].Tier);
+        Assert.AreEqual(0.0, result["SCROLL_BOXES"].Score);
+    }
+
     // Simple mock message handler for testing HttpClient without Moq
     private class MockHttpMessageHandler : HttpMessageHandler
     {
