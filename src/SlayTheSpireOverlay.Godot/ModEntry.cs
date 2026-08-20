@@ -151,3 +151,41 @@ public static class NCardSetModelPatch
         NCardReadyPatch.UpdateCardBadge(__instance);
     }
 }
+
+[HarmonyPatch(typeof(MegaCrit.Sts2.Core.Nodes.Relics.NRelic), "_Ready")]
+public static class NRelicReadyPatch
+{
+    public static void Postfix(MegaCrit.Sts2.Core.Nodes.Relics.NRelic __instance)
+    {
+        UpdateRelicBadge(__instance);
+    }
+
+    public static void UpdateRelicBadge(MegaCrit.Sts2.Core.Nodes.Relics.NRelic relicNode)
+    {
+        try
+        {
+            if (relicNode == null || !GodotObject.IsInstanceValid(relicNode)) return;
+            var model = relicNode.Model;
+            if (model == null || model.Id == null) return;
+
+            string category = model.Id.Category;
+            string entry = model.Id.Entry;
+            string relicId = string.IsNullOrEmpty(category) ? entry : $"{category}:{entry}";
+
+            UI.RelicBadgeFactory.CreateOrUpdateBadge(relicNode, ModEntry.TierProvider, relicId);
+        }
+        catch (Exception ex)
+        {
+            GD.PrintErr($"[STS2 Overlay] Error in NRelic patch: {ex.Message}");
+        }
+    }
+}
+
+[HarmonyPatch(typeof(MegaCrit.Sts2.Core.Nodes.Relics.NRelic), "set_Model")]
+public static class NRelicSetModelPatch
+{
+    public static void Postfix(MegaCrit.Sts2.Core.Nodes.Relics.NRelic __instance)
+    {
+        NRelicReadyPatch.UpdateRelicBadge(__instance);
+    }
+}

@@ -149,6 +149,36 @@ public class CacheAndMappingTests
         Assert.AreEqual("C", result["LEAP"].Tier);
     }
 
+    [TestMethod]
+    public async Task TestHttpProvider_RelicLookups_ShouldMatchCorrectRatings()
+    {
+        // Arrange: Populate cache with relic snake case keys
+        var cachedData = new Dictionary<string, CardTierData>
+        {
+            ["AKABEKO"] = new CardTierData("AKABEKO", "S", 95.0, "Top tier relic"),
+            ["BAG_OF_PREPARATION"] = new CardTierData("BAG_OF_PREPARATION", "A", 85.0, "Draw 2 extra cards on turn 1")
+        };
+        await _cacheManager.SaveToCacheAsync(cachedData);
+
+        var mockHandler = new MockHttpMessageHandler(HttpStatusCode.InternalServerError, "Error");
+        using var client = new HttpClient(mockHandler);
+
+        var config = new OverlayConfig { RemoteUrl = "https://example.com/tiers.json" };
+        var provider = new HttpTierListProvider(client, _cacheManager, config);
+
+        // Act
+        var result = await provider.GetTierListAsync(forceRefresh: true);
+
+        // Assert
+        Assert.IsNotNull(result);
+        Assert.IsTrue(result.ContainsKey("AKABEKO"));
+        Assert.AreEqual("S", result["AKABEKO"].Tier);
+        Assert.AreEqual(95.0, result["AKABEKO"].Score);
+
+        Assert.IsTrue(result.ContainsKey("BAG_OF_PREPARATION"));
+        Assert.AreEqual("A", result["BAG_OF_PREPARATION"].Tier);
+    }
+
     // Simple mock message handler for testing HttpClient without Moq
     private class MockHttpMessageHandler : HttpMessageHandler
     {
