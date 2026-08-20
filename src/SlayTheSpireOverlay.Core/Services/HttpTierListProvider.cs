@@ -16,6 +16,9 @@ public class HttpTierListProvider : ITierListProvider
     private readonly OverlayConfig _config;
     private IReadOnlyDictionary<string, CardTierData>? _memoryCache;
 
+    private readonly object _lock = new object();
+    private Task<IReadOnlyDictionary<string, CardTierData>>? _initTask;
+
     public HttpTierListProvider(HttpClient httpClient, LocalCacheManager cacheManager, OverlayConfig config)
     {
         _httpClient = httpClient;
@@ -23,20 +26,43 @@ public class HttpTierListProvider : ITierListProvider
         _config = config;
     }
 
-    public async Task<IReadOnlyDictionary<string, CardTierData>> GetTierListAsync(bool forceRefresh = false)
+    public Task<IReadOnlyDictionary<string, CardTierData>> GetTierListAsync(bool forceRefresh = false)
     {
         if (_memoryCache != null && !forceRefresh)
         {
-            return _memoryCache;
+            return Task.FromResult(_memoryCache);
         }
 
+        lock (_lock)
+        {
+            if (_initTask == null || forceRefresh)
+            {
+                _initTask = LoadDataInternalAsync(forceRefresh);
+            }
+            return _initTask;
+        }
+    }
+
+    private async Task<IReadOnlyDictionary<string, CardTierData>> LoadDataInternalAsync(bool forceRefresh)
+    {
         // Try to load from local cache first for speed (instant startup)
         if (!forceRefresh)
         {
             var cached = await _cacheManager.LoadFromCacheAsync();
             if (cached != null)
             {
-                _memoryCache = cached;
+                var normalizedCached = new Dictionary<string, CardTierData>(StringComparer.OrdinalIgnoreCase);
+                foreach (var kvp in cached)
+                {
+                    string key = kvp.Key.ToUpperInvariant();
+                    normalizedCached[key] = kvp.Value;
+                    string stripped = key.Replace("_", "");
+                    if (stripped != key)
+                    {
+                        normalizedCached.TryAdd(stripped, kvp.Value);
+                    }
+                }
+                _memoryCache = normalizedCached;
                 // Start a background fetch to update the cache in the background without blocking the UI
                 _ = FetchAndCacheRemoteDataAsync();
                 return _memoryCache;
@@ -54,9 +80,20 @@ public class HttpTierListProvider : ITierListProvider
             var data = JsonSerializer.Deserialize<Dictionary<string, CardTierData>>(json);
             if (data != null)
             {
-                _memoryCache = data;
-                await _cacheManager.SaveToCacheAsync(data);
-                return data;
+                var normalizedData = new Dictionary<string, CardTierData>(StringComparer.OrdinalIgnoreCase);
+                foreach (var kvp in data)
+                {
+                    string key = kvp.Key.ToUpperInvariant();
+                    normalizedData[key] = kvp.Value;
+                    string stripped = key.Replace("_", "");
+                    if (stripped != key)
+                    {
+                        normalizedData.TryAdd(stripped, kvp.Value);
+                    }
+                }
+                _memoryCache = normalizedData;
+                await _cacheManager.SaveToCacheAsync(normalizedData);
+                return normalizedData;
             }
         }
         catch (Exception)
@@ -66,10 +103,21 @@ public class HttpTierListProvider : ITierListProvider
             var expiredCache = await _cacheManager.LoadFromCacheAsync();
             if (expiredCache != null)
             {
-                return expiredCache;
+                var normalizedExpired = new Dictionary<string, CardTierData>(StringComparer.OrdinalIgnoreCase);
+                foreach (var kvp in expiredCache)
+                {
+                    string key = kvp.Key.ToUpperInvariant();
+                    normalizedExpired[key] = kvp.Value;
+                    string stripped = key.Replace("_", "");
+                    if (stripped != key)
+                    {
+                        normalizedExpired.TryAdd(stripped, kvp.Value);
+                    }
+                }
+                return normalizedExpired;
             }
         }
 
-        return new Dictionary<string, CardTierData>(); // Empty fallback to prevent crashes
+        return new Dictionary<string, CardTierData>(StringComparer.OrdinalIgnoreCase); // Empty fallback to prevent crashes
     }
 }

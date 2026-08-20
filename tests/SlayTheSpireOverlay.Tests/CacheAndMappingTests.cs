@@ -85,7 +85,7 @@ public class CacheAndMappingTests
         // Verify cache file was created
         var cached = await _cacheManager.LoadFromCacheAsync();
         Assert.IsNotNull(cached);
-        Assert.IsTrue(cached.ContainsKey("Defend"));
+        Assert.IsTrue(cached.ContainsKey("DEFEND"));
     }
 
     [TestMethod]

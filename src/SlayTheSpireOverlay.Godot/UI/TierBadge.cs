@@ -44,25 +44,44 @@ public partial class TierBadge : Control
         _backgroundPanel.SelfModulate = new Color(0.12f, 0.12f, 0.16f, 0.9f);
     }
 
+    private string NormalizeCardId(string rawId)
+    {
+        if (string.IsNullOrWhiteSpace(rawId)) return string.Empty;
+        
+        string id = rawId.Trim();
+        
+        // Remove namespacing prefixes like "base:Bash" -> "Bash"
+        int colonIndex = id.IndexOf(':');
+        if (colonIndex >= 0 && colonIndex < id.Length - 1)
+        {
+            id = id.Substring(colonIndex + 1);
+        }
+        
+        return id.ToUpperInvariant();
+    }
+
     private async System.Threading.Tasks.Task LoadDataAndApplyStyles()
     {
         var tierList = await _tierProvider.GetTierListAsync();
-        if (tierList.TryGetValue(_cardId, out var cardData))
+        string lookupKey = NormalizeCardId(_cardId);
+        string strippedKey = lookupKey.Replace("_", "");
+        
+        GD.Print($"[STS2 Overlay] Card ID: {_cardId} (Normalized: {lookupKey}, Stripped: {strippedKey}). Total tierlist cards: {tierList.Count}");
+
+        if (tierList.TryGetValue(lookupKey, out var cardData) || 
+            (strippedKey != lookupKey && tierList.TryGetValue(strippedKey, out cardData)))
         {
             _tierLabel.Text = cardData.Tier;
             _scoreLabel.Text = cardData.Score.ToString("0.0");
-            
-            // Apply HSL-curated coloring depending on the tier score
             _tierLabel.SelfModulate = GetColorForTier(cardData.Tier);
-            
-            // Setup tooltip for commentary
             TooltipText = cardData.Commentary;
         }
         else
         {
-            // Fallback for unrated / new cards
-            _tierLabel.Text = "?";
-            _scoreLabel.Text = "N/A";
+            // Fallback: Show N/A for unrated / new cards as requested
+            _tierLabel.Text = "N/A";
+            _scoreLabel.Text = "";
+            _tierLabel.SelfModulate = new Color(0.6f, 0.6f, 0.6f); // Grey color for N/A
             TooltipText = "No evaluation data found for this card.";
         }
     }
