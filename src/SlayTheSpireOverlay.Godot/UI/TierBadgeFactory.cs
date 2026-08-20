@@ -7,62 +7,80 @@ namespace SlayTheSpireOverlay.Godot.UI;
 
 public static class TierBadgeFactory
 {
-    public static void CreateAndAttach(Node cardNode, ITierListProvider tierProvider, string cardId)
+    public static void CreateOrUpdateBadge(Node cardNode, ITierListProvider tierProvider, string cardId)
     {
-        // Use built-in Godot PanelContainer directly (no custom C# script class inheritance)
-        var panel = new PanelContainer();
-        panel.Name = "TierBadgePanel";
+        if (cardNode == null || !GodotObject.IsInstanceValid(cardNode)) return;
 
-        // Create a custom StyleBoxFlat for a sleek glassmorphic pill background
-        var styleBox = new StyleBoxFlat
+        // Check if badge panel already exists on this card node
+        PanelContainer panel = cardNode.GetNodeOrNull<PanelContainer>("TierBadgePanel");
+        Label tierLabel;
+        Label dividerLabel;
+        Label scoreLabel;
+
+        if (panel == null || !GodotObject.IsInstanceValid(panel))
         {
-            BgColor = new Color(0.08f, 0.09f, 0.12f, 0.92f),
-            CornerRadiusTopLeft = 6,
-            CornerRadiusTopRight = 6,
-            CornerRadiusBottomLeft = 6,
-            CornerRadiusBottomRight = 6,
-            BorderWidthLeft = 1,
-            BorderWidthTop = 1,
-            BorderWidthRight = 1,
-            BorderWidthBottom = 1,
-            BorderColor = new Color(1.0f, 1.0f, 1.0f, 0.2f),
-            ContentMarginLeft = 8,
-            ContentMarginTop = 3,
-            ContentMarginRight = 8,
-            ContentMarginBottom = 3
-        };
-        panel.AddThemeStyleboxOverride("panel", styleBox);
+            panel = new PanelContainer();
+            panel.Name = "TierBadgePanel";
 
-        // Use horizontal layout for a compact pill badge (Tier | Score)
-        var layout = new HBoxContainer();
-        layout.AddThemeConstantOverride("separation", 5);
+            var styleBox = new StyleBoxFlat
+            {
+                BgColor = new Color(0.08f, 0.09f, 0.12f, 0.92f),
+                CornerRadiusTopLeft = 6,
+                CornerRadiusTopRight = 6,
+                CornerRadiusBottomLeft = 6,
+                CornerRadiusBottomRight = 6,
+                BorderWidthLeft = 1,
+                BorderWidthTop = 1,
+                BorderWidthRight = 1,
+                BorderWidthBottom = 1,
+                BorderColor = new Color(1.0f, 1.0f, 1.0f, 0.2f),
+                ContentMarginLeft = 8,
+                ContentMarginTop = 3,
+                ContentMarginRight = 8,
+                ContentMarginBottom = 3
+            };
+            panel.AddThemeStyleboxOverride("panel", styleBox);
 
-        var tierLabel = new Label();
-        var dividerLabel = new Label();
-        var scoreLabel = new Label();
+            var layout = new HBoxContainer();
+            layout.Name = "BadgeLayout";
+            layout.AddThemeConstantOverride("separation", 5);
 
-        // Label styling and alignment
-        tierLabel.VerticalAlignment = VerticalAlignment.Center;
-        dividerLabel.VerticalAlignment = VerticalAlignment.Center;
-        scoreLabel.VerticalAlignment = VerticalAlignment.Center;
+            tierLabel = new Label();
+            tierLabel.Name = "TierLabel";
+            dividerLabel = new Label();
+            dividerLabel.Name = "DividerLabel";
+            scoreLabel = new Label();
+            scoreLabel.Name = "ScoreLabel";
 
-        dividerLabel.Text = "|";
-        dividerLabel.SelfModulate = new Color(0.5f, 0.5f, 0.6f, 0.6f);
+            tierLabel.VerticalAlignment = VerticalAlignment.Center;
+            dividerLabel.VerticalAlignment = VerticalAlignment.Center;
+            scoreLabel.VerticalAlignment = VerticalAlignment.Center;
 
-        layout.AddChild(tierLabel);
-        layout.AddChild(dividerLabel);
-        layout.AddChild(scoreLabel);
-        panel.AddChild(layout);
+            dividerLabel.Text = "|";
+            dividerLabel.SelfModulate = new Color(0.5f, 0.5f, 0.6f, 0.6f);
 
-        // Position pill at top-right of the card header frame
-        panel.Position = new Vector2(70, -145);
+            layout.AddChild(tierLabel);
+            layout.AddChild(dividerLabel);
+            layout.AddChild(scoreLabel);
+            panel.AddChild(layout);
 
-        // Set initial placeholder text
-        tierLabel.Text = "...";
-        scoreLabel.Text = "";
+            // Position pill at top-right of the card header frame
+            panel.Position = new Vector2(70, -145);
 
-        // Attach panel directly to card node
-        cardNode.AddChild(panel);
+            tierLabel.Text = "...";
+            scoreLabel.Text = "";
+
+            cardNode.AddChild(panel);
+        }
+        else
+        {
+            var layout = panel.GetNodeOrNull<HBoxContainer>("BadgeLayout");
+            if (layout == null) return;
+            tierLabel = layout.GetNodeOrNull<Label>("TierLabel");
+            dividerLabel = layout.GetNodeOrNull<Label>("DividerLabel");
+            scoreLabel = layout.GetNodeOrNull<Label>("ScoreLabel");
+            if (tierLabel == null || dividerLabel == null || scoreLabel == null) return;
+        }
 
         // Load tier data asynchronously off-thread and update labels thread-safely
         System.Threading.Tasks.Task.Run(async () =>
@@ -80,6 +98,7 @@ public static class TierBadgeFactory
                     {
                         if (GodotObject.IsInstanceValid(panel) && GodotObject.IsInstanceValid(tierLabel) && GodotObject.IsInstanceValid(scoreLabel))
                         {
+                            dividerLabel.Visible = true;
                             tierLabel.Text = cardData.Tier;
                             scoreLabel.Text = cardData.Score.ToString("0.0");
                             tierLabel.SelfModulate = GetColorForTier(cardData.Tier);
@@ -106,17 +125,6 @@ public static class TierBadgeFactory
             catch (Exception ex)
             {
                 GD.PrintErr($"[STS2 Overlay] Error loading card rating data: {ex.Message}");
-                Callable.From(() =>
-                {
-                    if (GodotObject.IsInstanceValid(panel) && GodotObject.IsInstanceValid(tierLabel) && GodotObject.IsInstanceValid(scoreLabel))
-                    {
-                        tierLabel.Text = "N/A";
-                        dividerLabel.Visible = false;
-                        scoreLabel.Text = "";
-                        tierLabel.SelfModulate = new Color(0.6f, 0.6f, 0.6f);
-                        panel.TooltipText = "Error loading evaluation data.";
-                    }
-                }).CallDeferred();
             }
         });
     }
@@ -134,7 +142,7 @@ public static class TierBadgeFactory
             id = id.Substring(colonIndex + 1);
         }
 
-        // Convert CamelCase (e.g. GoForTheEyes -> GO_FOR_THE_EYES, BulkUp -> BULK_UP)
+        // Convert CamelCase (e.g. GoForTheEyes -> GO_FOR_THE_EYES, DefendNecrobinder -> DEFEND_NECROBINDER)
         var sb = new System.Text.StringBuilder();
         for (int i = 0; i < id.Length; i++)
         {

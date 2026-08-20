@@ -119,32 +119,35 @@ public static class NCardReadyPatch
 {
     public static void Postfix(MegaCrit.Sts2.Core.Nodes.Cards.NCard __instance)
     {
+        UpdateCardBadge(__instance);
+    }
+
+    public static void UpdateCardBadge(MegaCrit.Sts2.Core.Nodes.Cards.NCard cardNode)
+    {
         try
         {
-            if (__instance == null || !GodotObject.IsInstanceValid(__instance)) return;
-            
-            var model = __instance.Model;
+            if (cardNode == null || !GodotObject.IsInstanceValid(cardNode)) return;
+            var model = cardNode.Model;
             if (model == null || model.Id == null) return;
-            
+
             string category = model.Id.Category;
             string entry = model.Id.Entry;
             string cardId = string.IsNullOrEmpty(category) ? entry : $"{category}:{entry}";
 
-            // Check if badge already exists
-            foreach (var child in __instance.GetChildren())
-            {
-                if (child.Name == "TierBadgePanel")
-                {
-                    return;
-                }
-            }
-
-            GD.Print($"[STS2 Overlay] Adding tier badge to card node '{__instance.Name}' with ID: {cardId}");
-            UI.TierBadgeFactory.CreateAndAttach(__instance, ModEntry.TierProvider, cardId);
+            UI.TierBadgeFactory.CreateOrUpdateBadge(cardNode, ModEntry.TierProvider, cardId);
         }
         catch (Exception ex)
         {
-            GD.PrintErr($"[STS2 Overlay] Error in NCard._Ready postfix patch: {ex.Message}");
+            GD.PrintErr($"[STS2 Overlay] Error in NCard patch: {ex.Message}");
         }
+    }
+}
+
+[HarmonyPatch(typeof(MegaCrit.Sts2.Core.Nodes.Cards.NCard), "set_Model")]
+public static class NCardSetModelPatch
+{
+    public static void Postfix(MegaCrit.Sts2.Core.Nodes.Cards.NCard __instance)
+    {
+        NCardReadyPatch.UpdateCardBadge(__instance);
     }
 }
