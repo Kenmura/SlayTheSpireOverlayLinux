@@ -1,16 +1,4 @@
 {
-  "ABRASIVE": {
-    "CardId": "ABRASIVE",
-    "Commentary": "Abrasive [Silent Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
-  },
-  "ACCELERANT": {
-    "CardId": "ACCELERANT",
-    "Commentary": "Accelerant [Silent Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
-  },
   "ACCURACY": {
     "CardId": "ACCURACY",
     "Commentary": "Accuracy [Silent Tier List] - Rated 'B'.",
@@ -29,6 +17,12 @@
     "Score": 65.0,
     "Tier": "B"
   },
+  "ADRENALINE": {
+    "CardId": "ADRENALINE",
+    "Commentary": "Adrenaline [Silent Tier List] - Rated 'S'.",
+    "Score": 95.0,
+    "Tier": "S"
+  },
   "AFTERIMAGE": {
     "CardId": "AFTERIMAGE",
     "Commentary": "Afterimage [Silent Tier List] - Rated 'A'.",
@@ -43,21 +37,15 @@
   },
   "AGGRESSION": {
     "CardId": "AGGRESSION",
-    "Commentary": "Aggression [Ironclad Tier List] - Rated 'S'.",
-    "Score": 95.0,
-    "Tier": "S"
+    "Commentary": "Aggression [Ironclad Tier List] - Rated 'A'.",
+    "Score": 80.0,
+    "Tier": "A"
   },
   "ALCHEMICAL_COFFER": {
     "CardId": "ALCHEMICAL_COFFER",
     "Commentary": "Alchemical Coffer [Act 2 Ancient Tier List] - Rated 'Always Amazing'.",
     "Score": 0.0,
     "Tier": "Always Amazing"
-  },
-  "ALCHEMIZE": {
-    "CardId": "ALCHEMIZE",
-    "Commentary": "Alchemize [Colorless Tier List] - Rated 'S'.",
-    "Score": 95.0,
-    "Tier": "S"
   },
   "ALIGNMENT": {
     "CardId": "ALIGNMENT",
@@ -67,7 +55,7 @@
   },
   "ALL_FOR_ONE": {
     "CardId": "ALL_FOR_ONE",
-    "Commentary": "All for One [Defect Tier List] - Rated 'S'.",
+    "Commentary": "All For One [Defect Tier List] - Rated 'S'.",
     "Score": 95.0,
     "Tier": "S"
   },
@@ -83,18 +71,6 @@
     "Score": 80.0,
     "Tier": "A"
   },
-  "ANGER": {
-    "CardId": "ANGER",
-    "Commentary": "Anger [Ironclad Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
-  },
-  "ANOINTED": {
-    "CardId": "ANOINTED",
-    "Commentary": "Anointed [Colorless Tier List] - Rated 'C'.",
-    "Score": 50.0,
-    "Tier": "C"
-  },
   "ANTICIPATE": {
     "CardId": "ANTICIPATE",
     "Commentary": "Anticipate [Silent Tier List] - Rated 'B'.",
@@ -109,33 +85,15 @@
   },
   "ARCHAIC_TOOTH": {
     "CardId": "ARCHAIC_TOOTH",
-    "Commentary": "Archaic Tooth [Act 2 Ancient Tier List] - Rated 'Always Amazing'.",
+    "Commentary": "Archaic Tooth [Act 2 Ancient Tier List] - Rated 'Always Good'.",
     "Score": 0.0,
-    "Tier": "Always Amazing"
-  },
-  "ARMAMENTS": {
-    "CardId": "ARMAMENTS",
-    "Commentary": "Armaments [Ironclad Tier List] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
+    "Tier": "Always Good"
   },
   "ARSENAL": {
     "CardId": "ARSENAL",
     "Commentary": "Arsenal [Regent Tierlist] - Rated 'S'.",
     "Score": 95.0,
     "Tier": "S"
-  },
-  "ASHEN_STRIKE": {
-    "CardId": "ASHEN_STRIKE",
-    "Commentary": "Ashen Strike [Ironclad Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
-  },
-  "ASSASSINATE": {
-    "CardId": "ASSASSINATE",
-    "Commentary": "Assassinate [Silent Tier List] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
   },
   "ASTRAL_PULSE": {
     "CardId": "ASTRAL_PULSE",
@@ -161,23 +119,17 @@
     "Score": 80.0,
     "Tier": "A"
   },
-  "BACKSTAB": {
-    "CardId": "BACKSTAB",
-    "Commentary": "Backstab [Silent Tier List] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
-  },
   "BAG_OF_MARBLES": {
     "CardId": "BAG_OF_MARBLES",
-    "Commentary": "Bag of Marbles [Common Relic Tier List] - Rated 'A'.",
+    "Commentary": "Bag Of Marbles [Common Relic Tier List] - Rated 'A'.",
     "Score": 80.0,
     "Tier": "A"
   },
   "BAG_OF_PREPARATION": {
     "CardId": "BAG_OF_PREPARATION",
-    "Commentary": "Bag of Preparation [Common Relic Tier List] - Rated 'Why is this even a relic'.",
-    "Score": 0.0,
-    "Tier": "Why is this even a relic"
+    "Commentary": "Bag Of Preparation [Common Relic Tier List] - Rated 'S'.",
+    "Score": 95.0,
+    "Tier": "S"
   },
   "BALL_LIGHTNING": {
     "CardId": "BALL_LIGHTNING",
@@ -187,7 +139,7 @@
   },
   "BANSHEES_CRY": {
     "CardId": "BANSHEES_CRY",
-    "Commentary": "Banshee's Cry [Necrobinder Tier List] - Rated 'S'.",
+    "Commentary": "Banshees Cry [Necrobinder Tier List] - Rated 'S'.",
     "Score": 95.0,
     "Tier": "S"
   },
@@ -196,12 +148,6 @@
     "Commentary": "Barrage [Defect Tier List] - Rated 'A'.",
     "Score": 80.0,
     "Tier": "A"
-  },
-  "BARRICADE": {
-    "CardId": "BARRICADE",
-    "Commentary": "Barricade [Ironclad Tier List] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
   },
   "BASH": {
     "CardId": "BASH",
@@ -217,7 +163,7 @@
   },
   "BEACON_OF_HOPE": {
     "CardId": "BEACON_OF_HOPE",
-    "Commentary": "Beacon of Hope [Colorless Tier List] - Rated 'B'.",
+    "Commentary": "Beacon Of Hope [Colorless Tier List] - Rated 'B'.",
     "Score": 65.0,
     "Tier": "B"
   },
@@ -229,13 +175,13 @@
   },
   "BEAT_DOWN": {
     "CardId": "BEAT_DOWN",
-    "Commentary": "Beat Down [Colorless Tier List] - Rated 'C'.",
-    "Score": 50.0,
-    "Tier": "C"
+    "Commentary": "Beat Down [Colorless Tier List] - Rated 'D'.",
+    "Score": 35.0,
+    "Tier": "D"
   },
   "BEAT_INTO_SHAPE": {
     "CardId": "BEAT_INTO_SHAPE",
-    "Commentary": "Beat into Shape [Regent Tierlist] - Rated 'C'.",
+    "Commentary": "Beat Into Shape [Regent Tierlist] - Rated 'C'.",
     "Score": 50.0,
     "Tier": "C"
   },
@@ -247,21 +193,21 @@
   },
   "BEGONE": {
     "CardId": "BEGONE",
-    "Commentary": "BEGONE! [Regent Tierlist] - Rated 'A'.",
+    "Commentary": "Begone [Regent Tierlist] - Rated 'A'.",
     "Score": 80.0,
     "Tier": "A"
   },
   "BELIEVE_IN_YOU": {
     "CardId": "BELIEVE_IN_YOU",
-    "Commentary": "Believe in You [Colorless Tier List] - Rated 'A'.",
+    "Commentary": "Believe In You [Colorless Tier List] - Rated 'A'.",
     "Score": 80.0,
     "Tier": "A"
   },
   "BIASED_COGNITION": {
     "CardId": "BIASED_COGNITION",
-    "Commentary": "Biased Cognition [Defect Tier List] - Rated 'S'.",
-    "Score": 95.0,
-    "Tier": "S"
+    "Commentary": "Biased Cognition [Defect Tier List] - Rated 'A'.",
+    "Score": 80.0,
+    "Tier": "A"
   },
   "BIG_BANG": {
     "CardId": "BIG_BANG",
@@ -277,15 +223,15 @@
   },
   "BLACK_HOLE": {
     "CardId": "BLACK_HOLE",
-    "Commentary": "Black Hole [Regent Tierlist] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
+    "Commentary": "Black Hole [Regent Tierlist] - Rated 'B'.",
+    "Score": 65.0,
+    "Tier": "B"
   },
   "BLACK_STAR": {
     "CardId": "BLACK_STAR",
-    "Commentary": "Black Star [Act 2 Ancient Tier List] - Rated 'Needs Synergy'.",
+    "Commentary": "Black Star [Act 2 Ancient Tier List] - Rated 'Inconsistent'.",
     "Score": 0.0,
-    "Tier": "Needs Synergy"
+    "Tier": "Inconsistent"
   },
   "BLADE_DANCE": {
     "CardId": "BLADE_DANCE",
@@ -295,7 +241,7 @@
   },
   "BLADE_OF_INK": {
     "CardId": "BLADE_OF_INK",
-    "Commentary": "Blade of Ink [Silent Tier List] - Rated 'A'.",
+    "Commentary": "Blade Of Ink [Silent Tier List] - Rated 'A'.",
     "Score": 80.0,
     "Tier": "A"
   },
@@ -311,17 +257,11 @@
     "Score": 50.0,
     "Tier": "C"
   },
-  "BLOODLETTING": {
-    "CardId": "BLOODLETTING",
-    "Commentary": "Bloodletting [Ironclad Tier List] - Rated 'S'.",
-    "Score": 95.0,
-    "Tier": "S"
-  },
   "BLOOD_SOAKED_ROSE": {
     "CardId": "BLOOD_SOAKED_ROSE",
-    "Commentary": "Blood-Soaked Rose [Act 3 Ancient Tier List] - Rated 'Inconsistent'.",
+    "Commentary": "Blood Soaked Rose [Act 3 Ancient Tier List] - Rated 'Almost Never'.",
     "Score": 0.0,
-    "Tier": "Inconsistent"
+    "Tier": "Almost Never"
   },
   "BLOOD_VIAL": {
     "CardId": "BLOOD_VIAL",
@@ -335,12 +275,6 @@
     "Score": 65.0,
     "Tier": "B"
   },
-  "BLUDGEON": {
-    "CardId": "BLUDGEON",
-    "Commentary": "Bludgeon [Ironclad Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
-  },
   "BLUR": {
     "CardId": "BLUR",
     "Commentary": "Blur [Silent Tier List] - Rated 'A'.",
@@ -353,17 +287,11 @@
     "Score": 80.0,
     "Tier": "A"
   },
-  "BODY_SLAM": {
-    "CardId": "BODY_SLAM",
-    "Commentary": "Body Slam [Ironclad Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
-  },
   "BOLAS": {
     "CardId": "BOLAS",
-    "Commentary": "Bolas [Colorless Tier List] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
+    "Commentary": "Bolas [Colorless Tier List] - Rated 'C'.",
+    "Score": 50.0,
+    "Tier": "C"
   },
   "BOMBARDMENT": {
     "CardId": "BOMBARDMENT",
@@ -385,25 +313,19 @@
   },
   "BOOK_OF_FIVE_RINGS": {
     "CardId": "BOOK_OF_FIVE_RINGS",
-    "Commentary": "Book of Five Rings [Common Relic Tier List] - Rated 'C'.",
+    "Commentary": "Book Of Five Rings [Common Relic Tier List] - Rated 'C'.",
     "Score": 50.0,
     "Tier": "C"
   },
   "BOOMING_CONCH": {
     "CardId": "BOOMING_CONCH",
-    "Commentary": "Booming Conch [Neow Tier List] - Rated 'Always Amazing'.",
+    "Commentary": "Booming Conch [Neow Tier List] - Rated 'Always Good'.",
     "Score": 0.0,
-    "Tier": "Always Amazing"
+    "Tier": "Always Good"
   },
   "BOOST_AWAY": {
     "CardId": "BOOST_AWAY",
     "Commentary": "Boost Away [Defect Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
-  },
-  "BOOT_SEQUENCE": {
-    "CardId": "BOOT_SEQUENCE",
-    "Commentary": "Boot Sequence [Defect Tier List] - Rated 'A'.",
     "Score": 80.0,
     "Tier": "A"
   },
@@ -413,45 +335,21 @@
     "Score": 95.0,
     "Tier": "S"
   },
-  "BOUNCING_FLASK": {
-    "CardId": "BOUNCING_FLASK",
-    "Commentary": "Bouncing Flask [Silent Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
-  },
-  "BRAND": {
-    "CardId": "BRAND",
-    "Commentary": "Brand [Ironclad Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
-  },
   "BREAK": {
     "CardId": "BREAK",
     "Commentary": "Break [Ironclad Tier List] - Rated 'S'.",
     "Score": 95.0,
     "Tier": "S"
   },
-  "BREAKTHROUGH": {
-    "CardId": "BREAKTHROUGH",
-    "Commentary": "Breakthrough [Ironclad Tier List] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
-  },
   "BRILLIANT_SCARF": {
     "CardId": "BRILLIANT_SCARF",
-    "Commentary": "Brilliant Scarf [Act 3 Ancient Tier List] - Rated 'Always Amazing'.",
+    "Commentary": "Brilliant Scarf [Act 3 Ancient Tier List] - Rated 'Always Good'.",
     "Score": 0.0,
-    "Tier": "Always Amazing"
+    "Tier": "Always Good"
   },
   "BRONZE_SCALES": {
     "CardId": "BRONZE_SCALES",
     "Commentary": "Bronze Scales [Common Relic Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
-  },
-  "BUBBLE_BUBBLE": {
-    "CardId": "BUBBLE_BUBBLE",
-    "Commentary": "Bubble Bubble [Silent Tier List] - Rated 'A'.",
     "Score": 80.0,
     "Tier": "A"
   },
@@ -461,21 +359,9 @@
     "Score": 80.0,
     "Tier": "A"
   },
-  "BULK_UP": {
-    "CardId": "BULK_UP",
-    "Commentary": "Bulk Up [Defect Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
-  },
   "BULLET_TIME": {
     "CardId": "BULLET_TIME",
     "Commentary": "Bullet Time [Silent Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
-  },
-  "BULLY": {
-    "CardId": "BULLY",
-    "Commentary": "Bully [Ironclad Tier List] - Rated 'A'.",
     "Score": 80.0,
     "Tier": "A"
   },
@@ -487,15 +373,9 @@
   },
   "BUNDLE_OF_JOY": {
     "CardId": "BUNDLE_OF_JOY",
-    "Commentary": "Bundle of Joy [Regent Tierlist] - Rated 'B'.",
+    "Commentary": "Bundle Of Joy [Regent Tierlist] - Rated 'B'.",
     "Score": 65.0,
     "Tier": "B"
-  },
-  "BURNING_PACT": {
-    "CardId": "BURNING_PACT",
-    "Commentary": "Burning Pact [Ironclad Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
   },
   "BURST": {
     "CardId": "BURST",
@@ -505,9 +385,9 @@
   },
   "BURY": {
     "CardId": "BURY",
-    "Commentary": "Bury [Necrobinder Tier List] - Rated 'C'.",
-    "Score": 50.0,
-    "Tier": "C"
+    "Commentary": "Bury [Necrobinder Tier List] - Rated 'D'.",
+    "Score": 35.0,
+    "Tier": "D"
   },
   "CALAMITY": {
     "CardId": "CALAMITY",
@@ -521,12 +401,6 @@
     "Score": 65.0,
     "Tier": "B"
   },
-  "CALCULATED_GAMBLE": {
-    "CardId": "CALCULATED_GAMBLE",
-    "Commentary": "Calculated Gamble [Silent Tier List] - Rated 'D'.",
-    "Score": 35.0,
-    "Tier": "D"
-  },
   "CALLING_BELL": {
     "CardId": "CALLING_BELL",
     "Commentary": "Calling Bell [Act 2 Ancient Tier List] - Rated 'Inconsistent'.",
@@ -535,7 +409,7 @@
   },
   "CALL_OF_THE_VOID": {
     "CardId": "CALL_OF_THE_VOID",
-    "Commentary": "Call of the Void [Necrobinder Tier List] - Rated 'S'.",
+    "Commentary": "Call Of The Void [Necrobinder Tier List] - Rated 'S'.",
     "Score": 95.0,
     "Tier": "S"
   },
@@ -544,12 +418,6 @@
     "Commentary": "Caltrops [Silent Tier List] - Rated 'A'.",
     "Score": 80.0,
     "Tier": "A"
-  },
-  "CAPACITOR": {
-    "CardId": "CAPACITOR",
-    "Commentary": "Capacitor [Defect Tier List] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
   },
   "CAPTURE_SPIRIT": {
     "CardId": "CAPTURE_SPIRIT",
@@ -581,18 +449,6 @@
     "Score": 95.0,
     "Tier": "S"
   },
-  "CHAOS": {
-    "CardId": "CHAOS",
-    "Commentary": "Chaos [Defect Tier List] - Rated 'D'.",
-    "Score": 35.0,
-    "Tier": "D"
-  },
-  "CHARGE": {
-    "CardId": "CHARGE",
-    "Commentary": "CHARGE!! [Regent Tierlist] - Rated 'S'.",
-    "Score": 95.0,
-    "Tier": "S"
-  },
   "CHARGE_BATTERY": {
     "CardId": "CHARGE_BATTERY",
     "Commentary": "Charge Battery [Defect Tier List] - Rated 'A'.",
@@ -601,7 +457,7 @@
   },
   "CHILD_OF_THE_STARS": {
     "CardId": "CHILD_OF_THE_STARS",
-    "Commentary": "Child of the Stars [Regent Tierlist] - Rated 'A'.",
+    "Commentary": "Child Of The Stars [Regent Tierlist] - Rated 'A'.",
     "Score": 80.0,
     "Tier": "A"
   },
@@ -623,18 +479,6 @@
     "Score": 50.0,
     "Tier": "C"
   },
-  "CLASH": {
-    "CardId": "CLASH",
-    "Commentary": "Clash [Ironclad Tier List] - Rated 'C'.",
-    "Score": 50.0,
-    "Tier": "C"
-  },
-  "CLAW": {
-    "CardId": "CLAW",
-    "Commentary": "Claw [Defect Tier List] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
-  },
   "CLAWS": {
     "CardId": "CLAWS",
     "Commentary": "Claws [Act 3 Ancient Tier List] - Rated 'Almost Never'.",
@@ -649,33 +493,21 @@
   },
   "CLOAK_AND_DAGGER": {
     "CardId": "CLOAK_AND_DAGGER",
-    "Commentary": "Cloak and Dagger [Silent Tier List] - Rated 'C'.",
+    "Commentary": "Cloak And Dagger [Silent Tier List] - Rated 'C'.",
     "Score": 50.0,
     "Tier": "C"
   },
   "CLOAK_OF_STARS": {
     "CardId": "CLOAK_OF_STARS",
-    "Commentary": "Cloak of Stars [Regent Tierlist] - Rated 'B'.",
+    "Commentary": "Cloak Of Stars [Regent Tierlist] - Rated 'B'.",
     "Score": 65.0,
     "Tier": "B"
-  },
-  "COLD_SNAP": {
-    "CardId": "COLD_SNAP",
-    "Commentary": "Cold Snap [Defect Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
   },
   "COLLISION_COURSE": {
     "CardId": "COLLISION_COURSE",
     "Commentary": "Collision Course [Regent Tierlist] - Rated 'B'.",
     "Score": 65.0,
     "Tier": "B"
-  },
-  "COLOSSUS": {
-    "CardId": "COLOSSUS",
-    "Commentary": "Colossus [Ironclad Tier List] - Rated 'S'.",
-    "Score": 95.0,
-    "Tier": "S"
   },
   "COMET": {
     "CardId": "COMET",
@@ -697,27 +529,9 @@
   },
   "CONFLAGRATION": {
     "CardId": "CONFLAGRATION",
-    "Commentary": "Conflagration [Ironclad Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
-  },
-  "CONQUEROR": {
-    "CardId": "CONQUEROR",
-    "Commentary": "Conqueror [Regent Tierlist] - Rated 'B'.",
+    "Commentary": "Conflagration [Ironclad Tier List] - Rated 'B'.",
     "Score": 65.0,
     "Tier": "B"
-  },
-  "CONSUMING_SHADOW": {
-    "CardId": "CONSUMING_SHADOW",
-    "Commentary": "Consuming Shadow [Defect Tier List] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
-  },
-  "CONVERGENCE": {
-    "CardId": "CONVERGENCE",
-    "Commentary": "Convergence [Regent Tierlist] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
   },
   "COOLANT": {
     "CardId": "COOLANT",
@@ -725,23 +539,11 @@
     "Score": 80.0,
     "Tier": "A"
   },
-  "COOLHEADED": {
-    "CardId": "COOLHEADED",
-    "Commentary": "Coolheaded [Defect Tier List] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
-  },
   "COORDINATE": {
     "CardId": "COORDINATE",
     "Commentary": "Coordinate [Colorless Tier List] - Rated 'D'.",
     "Score": 35.0,
     "Tier": "D"
-  },
-  "CORROSIVE_WAVE": {
-    "CardId": "CORROSIVE_WAVE",
-    "Commentary": "Corrosive Wave [Silent Tier List] - Rated 'S'.",
-    "Score": 95.0,
-    "Tier": "S"
   },
   "CORRUPTION": {
     "CardId": "CORRUPTION",
@@ -763,15 +565,9 @@
   },
   "CRASH_LANDING": {
     "CardId": "CRASH_LANDING",
-    "Commentary": "Crash Landing [Regent Tierlist] - Rated 'S'.",
-    "Score": 95.0,
-    "Tier": "S"
-  },
-  "CREATIVE_AI": {
-    "CardId": "CREATIVE_AI",
-    "Commentary": "Creative AI [Defect Tier List] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
+    "Commentary": "Crash Landing [Regent Tierlist] - Rated 'A'.",
+    "Score": 80.0,
+    "Tier": "A"
   },
   "CRESCENT_SPEAR": {
     "CardId": "CRESCENT_SPEAR",
@@ -781,9 +577,9 @@
   },
   "CRIMSON_MANTLE": {
     "CardId": "CRIMSON_MANTLE",
-    "Commentary": "Crimson Mantle [Ironclad Tier List] - Rated 'S'.",
-    "Score": 95.0,
-    "Tier": "S"
+    "Commentary": "Crimson Mantle [Ironclad Tier List] - Rated 'A'.",
+    "Score": 80.0,
+    "Tier": "A"
   },
   "CROSSBOW": {
     "CardId": "CROSSBOW",
@@ -827,51 +623,15 @@
     "Score": 80.0,
     "Tier": "A"
   },
-  "DARKNESS": {
-    "CardId": "DARKNESS",
-    "Commentary": "Darkness [Defect Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
-  },
-  "DARK_EMBRACE": {
-    "CardId": "DARK_EMBRACE",
-    "Commentary": "Dark Embrace [Ironclad Tier List] - Rated 'S'.",
-    "Score": 95.0,
-    "Tier": "S"
-  },
   "DARK_SHACKLES": {
     "CardId": "DARK_SHACKLES",
     "Commentary": "Dark Shackles [Colorless Tier List] - Rated 'S'.",
     "Score": 95.0,
     "Tier": "S"
   },
-  "DASH": {
-    "CardId": "DASH",
-    "Commentary": "Dash [Silent Tier List] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
-  },
   "DATA_DISK": {
     "CardId": "DATA_DISK",
-    "Commentary": "Data Disk [Colorless Tier List] - Rated 'S'.",
-    "Score": 95.0,
-    "Tier": "S"
-  },
-  "DEADLY_POISON": {
-    "CardId": "DEADLY_POISON",
-    "Commentary": "Deadly Poison [Silent Tier List] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
-  },
-  "DEATHBRINGER": {
-    "CardId": "DEATHBRINGER",
-    "Commentary": "Deathbringer [Necrobinder Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
-  },
-  "DEATHS_DOOR": {
-    "CardId": "DEATHS_DOOR",
-    "Commentary": "Death's Door [Necrobinder Tier List] - Rated 'S'.",
+    "Commentary": "Data Disk [Common Relic Tier List] - Rated 'S'.",
     "Score": 95.0,
     "Tier": "S"
   },
@@ -887,41 +647,29 @@
     "Score": 80.0,
     "Tier": "A"
   },
-  "DECISIONS_DECISIONS": {
-    "CardId": "DECISIONS_DECISIONS",
-    "Commentary": "Decisions, Decisions [Regent Tierlist] - Rated 'S'.",
-    "Score": 95.0,
-    "Tier": "S"
-  },
   "DEFEND_DEFECT": {
     "CardId": "DEFEND_DEFECT",
-    "Commentary": "Defend [Defect Tier List] - Rated 'C'.",
+    "Commentary": "Defend Defect [Defect Tier List] - Rated 'C'.",
     "Score": 50.0,
     "Tier": "C"
   },
   "DEFEND_IRONCLAD": {
     "CardId": "DEFEND_IRONCLAD",
-    "Commentary": "Defend [Ironclad Tier List] - Rated 'C'.",
+    "Commentary": "Defend Ironclad [Ironclad Tier List] - Rated 'C'.",
     "Score": 50.0,
     "Tier": "C"
   },
   "DEFEND_NECROBINDER": {
     "CardId": "DEFEND_NECROBINDER",
-    "Commentary": "Defend [Necrobinder Tier List] - Rated 'C'.",
+    "Commentary": "Defend Necrobinder [Necrobinder Tier List] - Rated 'C'.",
     "Score": 50.0,
     "Tier": "C"
   },
   "DEFEND_REGENT": {
     "CardId": "DEFEND_REGENT",
-    "Commentary": "Defend [Regent Tierlist] - Rated 'C'.",
+    "Commentary": "Defend Regent [Regent Tierlist] - Rated 'C'.",
     "Score": 50.0,
     "Tier": "C"
-  },
-  "DEFEND_SILENT": {
-    "CardId": "DEFEND_SILENT",
-    "Commentary": "Defend [Silent Tier List] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
   },
   "DEFILE": {
     "CardId": "DEFILE",
@@ -961,21 +709,15 @@
   },
   "DEMESNE": {
     "CardId": "DEMESNE",
-    "Commentary": "Demesne [Necrobinder Tier List] - Rated 'F'.",
-    "Score": 15.0,
-    "Tier": "F"
+    "Commentary": "Demesne [Necrobinder Tier List] - Rated 'S'.",
+    "Score": 95.0,
+    "Tier": "S"
   },
   "DEMONIC_SHIELD": {
     "CardId": "DEMONIC_SHIELD",
     "Commentary": "Demonic Shield [Ironclad Tier List] - Rated 'A'.",
     "Score": 80.0,
     "Tier": "A"
-  },
-  "DEMON_FORM": {
-    "CardId": "DEMON_FORM",
-    "Commentary": "Demon Form [Ironclad Tier List] - Rated 'D'.",
-    "Score": 35.0,
-    "Tier": "D"
   },
   "DEVASTATE": {
     "CardId": "DEVASTATE",
@@ -985,9 +727,9 @@
   },
   "DEVOUR_LIFE": {
     "CardId": "DEVOUR_LIFE",
-    "Commentary": "Devour Life [Necrobinder Tier List] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
+    "Commentary": "Devour Life [Necrobinder Tier List] - Rated 'C'.",
+    "Score": 50.0,
+    "Tier": "C"
   },
   "DIAMOND_DIADEM": {
     "CardId": "DIAMOND_DIADEM",
@@ -1027,7 +769,7 @@
   },
   "DODGE_AND_ROLL": {
     "CardId": "DODGE_AND_ROLL",
-    "Commentary": "Dodge and Roll [Silent Tier List] - Rated 'B'.",
+    "Commentary": "Dodge And Roll [Silent Tier List] - Rated 'B'.",
     "Score": 65.0,
     "Tier": "B"
   },
@@ -1069,7 +811,7 @@
   },
   "DRUM_OF_BATTLE": {
     "CardId": "DRUM_OF_BATTLE",
-    "Commentary": "Drum of Battle [Ironclad Tier List] - Rated 'C'.",
+    "Commentary": "Drum Of Battle [Ironclad Tier List] - Rated 'C'.",
     "Score": 50.0,
     "Tier": "C"
   },
@@ -1079,27 +821,15 @@
     "Score": 65.0,
     "Tier": "B"
   },
-  "DUAL_WIELD": {
-    "CardId": "DUAL_WIELD",
-    "Commentary": "Dual Wield [Ironclad Tier List] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
-  },
   "DUSTY_TOME": {
     "CardId": "DUSTY_TOME",
-    "Commentary": "Dusty Tome [Act 2 Ancient Tier List] - Rated 'Always Good'.",
+    "Commentary": "Dusty Tome [Act 2 Ancient Tier List] - Rated 'Needs Synergy'.",
     "Score": 0.0,
-    "Tier": "Always Good"
+    "Tier": "Needs Synergy"
   },
   "DYING_STAR": {
     "CardId": "DYING_STAR",
     "Commentary": "Dying Star [Regent Tierlist] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
-  },
-  "ECHOING_SLASH": {
-    "CardId": "ECHOING_SLASH",
-    "Commentary": "Echoing Slash [Silent Tier List] - Rated 'B'.",
     "Score": 65.0,
     "Tier": "B"
   },
@@ -1108,12 +838,6 @@
     "Commentary": "Ectoplasm [Act 2 Ancient Tier List] - Rated 'Inconsistent'.",
     "Score": 0.0,
     "Tier": "Inconsistent"
-  },
-  "EIDOLON": {
-    "CardId": "EIDOLON",
-    "Commentary": "Eidolon [Necrobinder Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
   },
   "ELECTRIC_SHRYMP": {
     "CardId": "ELECTRIC_SHRYMP",
@@ -1129,7 +853,7 @@
   },
   "END_OF_DAYS": {
     "CardId": "END_OF_DAYS",
-    "Commentary": "End of Days [Necrobinder Tier List] - Rated 'S'.",
+    "Commentary": "End Of Days [Necrobinder Tier List] - Rated 'S'.",
     "Score": 95.0,
     "Tier": "S"
   },
@@ -1159,9 +883,9 @@
   },
   "ENVENOM": {
     "CardId": "ENVENOM",
-    "Commentary": "Envenom [Silent Tier List] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
+    "Commentary": "Envenom [Silent Tier List] - Rated 'C'.",
+    "Score": 50.0,
+    "Tier": "C"
   },
   "EQUILIBRIUM": {
     "CardId": "EQUILIBRIUM",
@@ -1183,21 +907,9 @@
   },
   "ETERNAL_ARMOR": {
     "CardId": "ETERNAL_ARMOR",
-    "Commentary": "Eternal Armor [Colorless Tier List] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
-  },
-  "EVIL_EYE": {
-    "CardId": "EVIL_EYE",
-    "Commentary": "Evil Eye [Ironclad Tier List] - Rated 'S'.",
-    "Score": 95.0,
-    "Tier": "S"
-  },
-  "EXPECT_A_FIGHT": {
-    "CardId": "EXPECT_A_FIGHT",
-    "Commentary": "Expect a Fight [Ironclad Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
+    "Commentary": "Eternal Armor [Colorless Tier List] - Rated 'C'.",
+    "Score": 50.0,
+    "Tier": "C"
   },
   "EXPERTISE": {
     "CardId": "EXPERTISE",
@@ -1207,9 +919,9 @@
   },
   "EXPOSE": {
     "CardId": "EXPOSE",
-    "Commentary": "Expose [Silent Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
+    "Commentary": "Expose [Silent Tier List] - Rated 'B'.",
+    "Score": 65.0,
+    "Tier": "B"
   },
   "FALLING_STAR": {
     "CardId": "FALLING_STAR",
@@ -1219,7 +931,7 @@
   },
   "FAN_OF_KNIVES": {
     "CardId": "FAN_OF_KNIVES",
-    "Commentary": "Fan of Knives [Silent Tier List] - Rated 'B'.",
+    "Commentary": "Fan Of Knives [Silent Tier List] - Rated 'B'.",
     "Score": 65.0,
     "Tier": "B"
   },
@@ -1249,15 +961,9 @@
   },
   "FENCING_MANUAL": {
     "CardId": "FENCING_MANUAL",
-    "Commentary": "Fencing Manual [Common Relic Tier List] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
-  },
-  "FERAL": {
-    "CardId": "FERAL",
-    "Commentary": "Feral [Defect Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
+    "Commentary": "Fencing Manual [Common Relic Tier List] - Rated 'C'.",
+    "Score": 50.0,
+    "Tier": "C"
   },
   "FESTIVE_POPPER": {
     "CardId": "FESTIVE_POPPER",
@@ -1276,18 +982,6 @@
     "Commentary": "Fiddle [Act 3 Ancient Tier List] - Rated 'Needs Synergy'.",
     "Score": 0.0,
     "Tier": "Needs Synergy"
-  },
-  "FIEND_FIRE": {
-    "CardId": "FIEND_FIRE",
-    "Commentary": "Fiend Fire [Ironclad Tier List] - Rated 'S'.",
-    "Score": 95.0,
-    "Tier": "S"
-  },
-  "FIGHT_ME": {
-    "CardId": "FIGHT_ME",
-    "Commentary": "Fight Me! [Ironclad Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
   },
   "FIGHT_THROUGH": {
     "CardId": "FIGHT_THROUGH",
@@ -1319,12 +1013,6 @@
     "Score": 80.0,
     "Tier": "A"
   },
-  "FLAK_CANNON": {
-    "CardId": "FLAK_CANNON",
-    "Commentary": "Flak Cannon [Defect Tier List] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
-  },
   "FLAME_BARRIER": {
     "CardId": "FLAME_BARRIER",
     "Commentary": "Flame Barrier [Ironclad Tier List] - Rated 'A'.",
@@ -1339,9 +1027,9 @@
   },
   "FLASH_OF_STEEL": {
     "CardId": "FLASH_OF_STEEL",
-    "Commentary": "Flash of Steel [Colorless Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
+    "Commentary": "Flash Of Steel [Colorless Tier List] - Rated 'B'.",
+    "Score": 65.0,
+    "Tier": "B"
   },
   "FLATTEN": {
     "CardId": "FLATTEN",
@@ -1357,15 +1045,15 @@
   },
   "FLICK_FLACK": {
     "CardId": "FLICK_FLACK",
-    "Commentary": "Flick-Flack [Silent Tier List] - Rated 'B'.",
+    "Commentary": "Flick Flack [Silent Tier List] - Rated 'B'.",
     "Score": 65.0,
     "Tier": "B"
   },
-  "FOCUSED_STRIKE": {
-    "CardId": "FOCUSED_STRIKE",
-    "Commentary": "Focused Strike [Defect Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
+  "FOLLOW_THROUGH": {
+    "CardId": "FOLLOW_THROUGH",
+    "Commentary": "Follow Through [Silent Tier List] - Rated 'C'.",
+    "Score": 50.0,
+    "Tier": "C"
   },
   "FOOTWORK": {
     "CardId": "FOOTWORK",
@@ -1399,7 +1087,7 @@
   },
   "FTL": {
     "CardId": "FTL",
-    "Commentary": "FTL [Defect Tier List] - Rated 'B'.",
+    "Commentary": "Ftl [Defect Tier List] - Rated 'B'.",
     "Score": 65.0,
     "Tier": "B"
   },
@@ -1439,12 +1127,6 @@
     "Score": 65.0,
     "Tier": "B"
   },
-  "GENESIS": {
-    "CardId": "GENESIS",
-    "Commentary": "Genesis [Regent Tierlist] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
-  },
   "GENETIC_ALGORITHM": {
     "CardId": "GENETIC_ALGORITHM",
     "Commentary": "Genetic Algorithm [Defect Tier List] - Rated 'A'.",
@@ -1456,12 +1138,6 @@
     "Commentary": "Glacier [Defect Tier List] - Rated 'S'.",
     "Score": 95.0,
     "Tier": "S"
-  },
-  "GLASSWORK": {
-    "CardId": "GLASSWORK",
-    "Commentary": "Glasswork [Defect Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
   },
   "GLASS_EYE": {
     "CardId": "GLASS_EYE",
@@ -1486,12 +1162,6 @@
     "Commentary": "Glitter [Act 3 Ancient Tier List] - Rated 'Always Amazing'.",
     "Score": 0.0,
     "Tier": "Always Amazing"
-  },
-  "GLITTERSTREAM": {
-    "CardId": "GLITTERSTREAM",
-    "Commentary": "Glitterstream [Regent Tierlist] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
   },
   "GLOW": {
     "CardId": "GLOW",
@@ -1519,13 +1189,13 @@
   },
   "GORGET": {
     "CardId": "GORGET",
-    "Commentary": "Gorget [Common Relic Tier List] - Rated 'S'.",
-    "Score": 95.0,
-    "Tier": "S"
+    "Commentary": "Gorget [Common Relic Tier List] - Rated 'A'.",
+    "Score": 80.0,
+    "Tier": "A"
   },
   "GO_FOR_THE_EYES": {
     "CardId": "GO_FOR_THE_EYES",
-    "Commentary": "Go for the Eyes [Defect Tier List] - Rated 'S'.",
+    "Commentary": "Go For The Eyes [Defect Tier List] - Rated 'S'.",
     "Score": 95.0,
     "Tier": "S"
   },
@@ -1537,21 +1207,15 @@
   },
   "GRAVEBLAST": {
     "CardId": "GRAVEBLAST",
-    "Commentary": "Graveblast [Necrobinder Tier List] - Rated 'C'.",
-    "Score": 50.0,
-    "Tier": "C"
+    "Commentary": "Graveblast [Necrobinder Tier List] - Rated 'D'.",
+    "Score": 35.0,
+    "Tier": "D"
   },
   "GRAVE_WARDEN": {
     "CardId": "GRAVE_WARDEN",
     "Commentary": "Grave Warden [Necrobinder Tier List] - Rated 'A'.",
     "Score": 80.0,
     "Tier": "A"
-  },
-  "GUARDS": {
-    "CardId": "GUARDS",
-    "Commentary": "GUARDS!!! [Regent Tierlist] - Rated 'S'.",
-    "Score": 95.0,
-    "Tier": "S"
   },
   "GUIDING_STAR": {
     "CardId": "GUIDING_STAR",
@@ -1567,9 +1231,9 @@
   },
   "HAILSTORM": {
     "CardId": "HAILSTORM",
-    "Commentary": "Hailstorm [Defect Tier List] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
+    "Commentary": "Hailstorm [Defect Tier List] - Rated 'C'.",
+    "Score": 50.0,
+    "Tier": "C"
   },
   "HAMMER_TIME": {
     "CardId": "HAMMER_TIME",
@@ -1579,7 +1243,7 @@
   },
   "HAND_OF_GREED": {
     "CardId": "HAND_OF_GREED",
-    "Commentary": "Hand of Greed [Colorless Tier List] - Rated 'A'.",
+    "Commentary": "Hand Of Greed [Colorless Tier List] - Rated 'A'.",
     "Score": 80.0,
     "Tier": "A"
   },
@@ -1607,23 +1271,11 @@
     "Score": 50.0,
     "Tier": "C"
   },
-  "HAVOC": {
-    "CardId": "HAVOC",
-    "Commentary": "Havoc [Ironclad Tier List] - Rated 'C'.",
-    "Score": 50.0,
-    "Tier": "C"
-  },
   "HAZE": {
     "CardId": "HAZE",
     "Commentary": "Haze [Silent Tier List] - Rated 'B'.",
     "Score": 65.0,
     "Tier": "B"
-  },
-  "HEADBUTT": {
-    "CardId": "HEADBUTT",
-    "Commentary": "Headbutt [Ironclad Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
   },
   "HEAVENLY_DRILL": {
     "CardId": "HEAVENLY_DRILL",
@@ -1633,15 +1285,9 @@
   },
   "HEFTY_TABLET": {
     "CardId": "HEFTY_TABLET",
-    "Commentary": "Hefty Tablet [Neow Tier List] - Rated 'Map Dependent'.",
+    "Commentary": "Hefty Tablet [Neow Tier List] - Rated 'Inconsistent'.",
     "Score": 0.0,
-    "Tier": "Map Dependent"
-  },
-  "HEGEMONY": {
-    "CardId": "HEGEMONY",
-    "Commentary": "Hegemony [Regent Tierlist] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
+    "Tier": "Inconsistent"
   },
   "HEIRLOOM_HAMMER": {
     "CardId": "HEIRLOOM_HAMMER",
@@ -1661,18 +1307,6 @@
     "Score": 50.0,
     "Tier": "C"
   },
-  "HELLRAISER": {
-    "CardId": "HELLRAISER",
-    "Commentary": "Hellraiser [Ironclad Tier List] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
-  },
-  "HEMOKINESIS": {
-    "CardId": "HEMOKINESIS",
-    "Commentary": "Hemokinesis [Ironclad Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
-  },
   "HIDDEN_CACHE": {
     "CardId": "HIDDEN_CACHE",
     "Commentary": "Hidden Cache [Regent Tierlist] - Rated 'A'.",
@@ -1685,6 +1319,12 @@
     "Score": 80.0,
     "Tier": "A"
   },
+  "HIDDEN_GEM": {
+    "CardId": "HIDDEN_GEM",
+    "Commentary": "Hidden Gem [Colorless Tier List] - Rated 'S'.",
+    "Score": 95.0,
+    "Tier": "S"
+  },
   "HIGH_FIVE": {
     "CardId": "HIGH_FIVE",
     "Commentary": "High Five [Necrobinder Tier List] - Rated 'B'.",
@@ -1693,9 +1333,9 @@
   },
   "HOLOGRAM": {
     "CardId": "HOLOGRAM",
-    "Commentary": "Hologram [Defect Tier List] - Rated 'F'.",
-    "Score": 15.0,
-    "Tier": "F"
+    "Commentary": "Hologram [Defect Tier List] - Rated 'S'.",
+    "Score": 95.0,
+    "Tier": "S"
   },
   "HOTFIX": {
     "CardId": "HOTFIX",
@@ -1703,29 +1343,11 @@
     "Score": 80.0,
     "Tier": "A"
   },
-  "HOWL_FROM_BEYOND": {
-    "CardId": "HOWL_FROM_BEYOND",
-    "Commentary": "Howl from Beyond [Ironclad Tier List] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
-  },
   "HUDDLE_UP": {
     "CardId": "HUDDLE_UP",
     "Commentary": "Huddle Up [Colorless Tier List] - Rated 'S'.",
     "Score": 95.0,
     "Tier": "S"
-  },
-  "HYPERBEAM": {
-    "CardId": "HYPERBEAM",
-    "Commentary": "Hyperbeam [Defect Tier List] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
-  },
-  "ICE_LANCE": {
-    "CardId": "ICE_LANCE",
-    "Commentary": "Ice Lance [Defect Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
   },
   "IGNITION": {
     "CardId": "IGNITION",
@@ -1753,19 +1375,13 @@
   },
   "INFERNO": {
     "CardId": "INFERNO",
-    "Commentary": "Inferno [Ironclad Tier List] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
+    "Commentary": "Inferno [Ironclad Tier List] - Rated 'C'.",
+    "Score": 50.0,
+    "Tier": "C"
   },
   "INFINITE_BLADES": {
     "CardId": "INFINITE_BLADES",
     "Commentary": "Infinite Blades [Silent Tier List] - Rated 'C'.",
-    "Score": 50.0,
-    "Tier": "C"
-  },
-  "INFLAME": {
-    "CardId": "INFLAME",
-    "Commentary": "Inflame [Ironclad Tier List] - Rated 'C'.",
     "Score": 50.0,
     "Tier": "C"
   },
@@ -1783,21 +1399,9 @@
   },
   "IRON_CLUB": {
     "CardId": "IRON_CLUB",
-    "Commentary": "Iron Club [Act 3 Ancient Tier List] - Rated 'Always Amazing'.",
+    "Commentary": "Iron Club [Act 3 Ancient Tier List] - Rated 'Always Good'.",
     "Score": 0.0,
-    "Tier": "Always Amazing"
-  },
-  "IRON_WAVE": {
-    "CardId": "IRON_WAVE",
-    "Commentary": "Iron Wave [Ironclad Tier List] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
-  },
-  "ITERATION": {
-    "CardId": "ITERATION",
-    "Commentary": "Iteration [Defect Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
+    "Tier": "Always Good"
   },
   "I_AM_INVINCIBLE": {
     "CardId": "I_AM_INVINCIBLE",
@@ -1813,7 +1417,7 @@
   },
   "JACK_OF_ALL_TRADES": {
     "CardId": "JACK_OF_ALL_TRADES",
-    "Commentary": "Jack of All Trades [Regent Tierlist] - Rated 'A'.",
+    "Commentary": "Jack Of All Trades [Regent Tierlist] - Rated 'A'.",
     "Score": 80.0,
     "Tier": "A"
   },
@@ -1829,12 +1433,6 @@
     "Score": 0.0,
     "Tier": "Always Amazing"
   },
-  "JUGGERNAUT": {
-    "CardId": "JUGGERNAUT",
-    "Commentary": "Juggernaut [Ironclad Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
-  },
   "JUGGLING": {
     "CardId": "JUGGLING",
     "Commentary": "Juggling [Ironclad Tier List] - Rated 'B'.",
@@ -1843,21 +1441,15 @@
   },
   "JUZU_BRACELET": {
     "CardId": "JUZU_BRACELET",
-    "Commentary": "Juzu Bracelet [Common Relic Tier List] - Rated 'C'.",
-    "Score": 50.0,
-    "Tier": "C"
+    "Commentary": "Juzu Bracelet [Common Relic Tier List] - Rated 'Why is this even a relic'.",
+    "Score": 0.0,
+    "Tier": "Why is this even a relic"
   },
   "KALEIDOSCOPE": {
     "CardId": "KALEIDOSCOPE",
     "Commentary": "Kaleidoscope [Neow Tier List] - Rated 'Always Good'.",
     "Score": 0.0,
     "Tier": "Always Good"
-  },
-  "KINGLY_KICK": {
-    "CardId": "KINGLY_KICK",
-    "Commentary": "Kingly Kick [Regent Tierlist] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
   },
   "KINGLY_PUNCH": {
     "CardId": "KINGLY_PUNCH",
@@ -1883,17 +1475,11 @@
     "Score": 50.0,
     "Tier": "C"
   },
-  "KNOW_THY_PLACE": {
-    "CardId": "KNOW_THY_PLACE",
-    "Commentary": "Know Thy Place [Regent Tierlist] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
-  },
   "LANTERN": {
     "CardId": "LANTERN",
-    "Commentary": "Lantern [Common Relic Tier List] - Rated 'S'.",
-    "Score": 95.0,
-    "Tier": "S"
+    "Commentary": "Lantern [Common Relic Tier List] - Rated 'A'.",
+    "Score": 80.0,
+    "Tier": "A"
   },
   "LARGESSE": {
     "CardId": "LARGESSE",
@@ -1903,15 +1489,15 @@
   },
   "LARGE_CAPSULE": {
     "CardId": "LARGE_CAPSULE",
-    "Commentary": "Large Capsule [Neow Tier List] - Rated 'Map Dependent'.",
+    "Commentary": "Large Capsule [Neow Tier List] - Rated 'Inconsistent'.",
     "Score": 0.0,
-    "Tier": "Map Dependent"
+    "Tier": "Inconsistent"
   },
   "LAVA_ROCK": {
     "CardId": "LAVA_ROCK",
-    "Commentary": "Lava Rock [Neow Tier List] - Rated 'Always Good'.",
+    "Commentary": "Lava Rock [Neow Tier List] - Rated 'Map Dependent'.",
     "Score": 0.0,
-    "Tier": "Always Good"
+    "Tier": "Map Dependent"
   },
   "LEADING_STRIKE": {
     "CardId": "LEADING_STRIKE",
@@ -1925,6 +1511,12 @@
     "Score": 0.0,
     "Tier": "Always Good"
   },
+  "LEAFY_POULTICE": {
+    "CardId": "LEAFY_POULTICE",
+    "Commentary": "Leafy Poultice [Neow Tier List] - Rated 'Always Amazing'.",
+    "Score": 0.0,
+    "Tier": "Always Amazing"
+  },
   "LEAP": {
     "CardId": "LEAP",
     "Commentary": "Leap [Defect Tier List] - Rated 'C'.",
@@ -1933,7 +1525,7 @@
   },
   "LEGION_OF_BONE": {
     "CardId": "LEGION_OF_BONE",
-    "Commentary": "Legion of Bone [Necrobinder Tier List] - Rated 'B'.",
+    "Commentary": "Legion Of Bone [Necrobinder Tier List] - Rated 'B'.",
     "Score": 65.0,
     "Tier": "B"
   },
@@ -1967,23 +1559,17 @@
     "Score": 0.0,
     "Tier": "Always Good"
   },
-  "LOOP": {
-    "CardId": "LOOP",
-    "Commentary": "Loop [Defect Tier List] - Rated 'C'.",
-    "Score": 50.0,
-    "Tier": "C"
-  },
   "LORDS_PARASOL": {
     "CardId": "LORDS_PARASOL",
-    "Commentary": "Lord's Parasol [Act 3 Ancient Tier List] - Rated 'Always Good'.",
+    "Commentary": "Lords Parasol [Act 3 Ancient Tier List] - Rated 'Always Good'.",
     "Score": 0.0,
     "Tier": "Always Good"
   },
   "LOST_COFFER": {
     "CardId": "LOST_COFFER",
-    "Commentary": "Lost Coffer [Neow Tier List] - Rated 'Inconsistent'.",
+    "Commentary": "Lost Coffer [Neow Tier List] - Rated 'Almost Never'.",
     "Score": 0.0,
-    "Tier": "Inconsistent"
+    "Tier": "Almost Never"
   },
   "LUNAR_BLAST": {
     "CardId": "LUNAR_BLAST",
@@ -2009,12 +1595,6 @@
     "Score": 80.0,
     "Tier": "A"
   },
-  "MANGLE": {
-    "CardId": "MANGLE",
-    "Commentary": "Mangle [Ironclad Tier List] - Rated 'C'.",
-    "Score": 50.0,
-    "Tier": "C"
-  },
   "MANIFEST_AUTHORITY": {
     "CardId": "MANIFEST_AUTHORITY",
     "Commentary": "Manifest Authority [Regent Tierlist] - Rated 'A'.",
@@ -2029,7 +1609,7 @@
   },
   "MASTER_OF_STRATEGY": {
     "CardId": "MASTER_OF_STRATEGY",
-    "Commentary": "Master of Strategy [Silent Tier List] - Rated 'S'.",
+    "Commentary": "Master Of Strategy [Silent Tier List] - Rated 'S'.",
     "Score": 95.0,
     "Tier": "S"
   },
@@ -2053,9 +1633,9 @@
   },
   "MEAT_CLEAVER": {
     "CardId": "MEAT_CLEAVER",
-    "Commentary": "Meat Cleaver [Act 3 Ancient Tier List] - Rated 'Almost Never'.",
+    "Commentary": "Meat Cleaver [Act 3 Ancient Tier List] - Rated 'Always Amazing'.",
     "Score": 0.0,
-    "Tier": "Almost Never"
+    "Tier": "Always Amazing"
   },
   "MELANCHOLY": {
     "CardId": "MELANCHOLY",
@@ -2065,15 +1645,15 @@
   },
   "MEMENTO_MORI": {
     "CardId": "MEMENTO_MORI",
-    "Commentary": "Memento Mori [Silent Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
+    "Commentary": "Memento Mori [Silent Tier List] - Rated 'B'.",
+    "Score": 65.0,
+    "Tier": "B"
   },
   "METEOR_SHOWER": {
     "CardId": "METEOR_SHOWER",
-    "Commentary": "Meteor Shower [Regent Tierlist] - Rated 'S'.",
-    "Score": 95.0,
-    "Tier": "S"
+    "Commentary": "Meteor Shower [Regent Tierlist] - Rated 'A'.",
+    "Score": 80.0,
+    "Tier": "A"
   },
   "METEOR_STRIKE": {
     "CardId": "METEOR_STRIKE",
@@ -2123,23 +1703,11 @@
     "Score": 50.0,
     "Tier": "C"
   },
-  "MONARCHS_GAZE": {
-    "CardId": "MONARCHS_GAZE",
-    "Commentary": "Monarch's Gaze [Regent Tierlist] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
-  },
   "MONOLOGUE": {
     "CardId": "MONOLOGUE",
     "Commentary": "Monologue [Regent Tierlist] - Rated 'C'.",
     "Score": 50.0,
     "Tier": "C"
-  },
-  "MULTI_CAST": {
-    "CardId": "MULTI_CAST",
-    "Commentary": "Multi-Cast [Defect Tier List] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
   },
   "MURDER": {
     "CardId": "MURDER",
@@ -2167,27 +1735,21 @@
   },
   "NEOWS_BONES": {
     "CardId": "NEOWS_BONES",
-    "Commentary": "Neow's Bones [Neow Tier List] - Rated 'Inconsistent'.",
+    "Commentary": "Neows Bones [Neow Tier List] - Rated 'Inconsistent'.",
     "Score": 0.0,
     "Tier": "Inconsistent"
   },
   "NEOWS_TALISMAN": {
     "CardId": "NEOWS_TALISMAN",
-    "Commentary": "Neow's Talisman [Neow Tier List] - Rated 'Always Good'.",
+    "Commentary": "Neows Talisman [Neow Tier List] - Rated 'Always Good'.",
     "Score": 0.0,
     "Tier": "Always Good"
   },
   "NEOWS_TORMENT": {
     "CardId": "NEOWS_TORMENT",
-    "Commentary": "Neow's Torment [Neow Tier List] - Rated 'Always Good'.",
+    "Commentary": "Neows Torment [Neow Tier List] - Rated 'Always Good'.",
     "Score": 0.0,
     "Tier": "Always Good"
-  },
-  "NEUROSURGE": {
-    "CardId": "NEUROSURGE",
-    "Commentary": "Neurosurge [Necrobinder Tier List] - Rated 'S'.",
-    "Score": 95.0,
-    "Tier": "S"
   },
   "NEUTRALIZE": {
     "CardId": "NEUTRALIZE",
@@ -2195,33 +1757,15 @@
     "Score": 80.0,
     "Tier": "A"
   },
-  "NEUTRON_AEGIS": {
-    "CardId": "NEUTRON_AEGIS",
-    "Commentary": "Neutron Aegis [Regent Tierlist] - Rated 'C'.",
-    "Score": 50.0,
-    "Tier": "C"
-  },
   "NEW_LEAF": {
     "CardId": "NEW_LEAF",
-    "Commentary": "New Leaf [Neow Tier List] - Rated 'Always Amazing'.",
+    "Commentary": "New Leaf [Neow Tier List] - Rated 'Always Good'.",
     "Score": 0.0,
-    "Tier": "Always Amazing"
+    "Tier": "Always Good"
   },
   "NIGHTMARE": {
     "CardId": "NIGHTMARE",
     "Commentary": "Nightmare [Silent Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
-  },
-  "NOSTALGIA": {
-    "CardId": "NOSTALGIA",
-    "Commentary": "Nostalgia [Colorless Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
-  },
-  "NOT_YET": {
-    "CardId": "NOT_YET",
-    "Commentary": "Not Yet [Ironclad Tier List] - Rated 'A'.",
     "Score": 80.0,
     "Tier": "A"
   },
@@ -2255,17 +1799,17 @@
     "Score": 0.0,
     "Tier": "Always Good"
   },
-  "OBLIVION": {
-    "CardId": "OBLIVION",
-    "Commentary": "Oblivion [Necrobinder Tier List] - Rated 'S'.",
-    "Score": 95.0,
-    "Tier": "S"
-  },
   "ODDLY_SMOOTH_STONE": {
     "CardId": "ODDLY_SMOOTH_STONE",
     "Commentary": "Oddly Smooth Stone [Common Relic Tier List] - Rated 'A'.",
     "Score": 80.0,
     "Tier": "A"
+  },
+  "OFFERING": {
+    "CardId": "OFFERING",
+    "Commentary": "Offering [Ironclad Tier List] - Rated 'S'.",
+    "Score": 95.0,
+    "Tier": "S"
   },
   "OMNISLICE": {
     "CardId": "OMNISLICE",
@@ -2275,13 +1819,7 @@
   },
   "ONE_TWO_PUNCH": {
     "CardId": "ONE_TWO_PUNCH",
-    "Commentary": "One-Two Punch [Ironclad Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
-  },
-  "ORBIT": {
-    "CardId": "ORBIT",
-    "Commentary": "Orbit [Regent Tierlist] - Rated 'A'.",
+    "Commentary": "One Two Punch [Ironclad Tier List] - Rated 'A'.",
     "Score": 80.0,
     "Tier": "A"
   },
@@ -2297,77 +1835,65 @@
     "Score": 65.0,
     "Tier": "B"
   },
-  "OVERCLOCK": {
-    "CardId": "OVERCLOCK",
-    "Commentary": "Overclock [Defect Tier List] - Rated 'S'.",
-    "Score": 95.0,
-    "Tier": "S"
-  },
-  "PACTS_END": {
-    "CardId": "PACTS_END",
-    "Commentary": "Pact's End [Ironclad Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
-  },
   "PAELS_BLOOD": {
     "CardId": "PAELS_BLOOD",
-    "Commentary": "Pael's Blood [Act 2 Ancient Tier List] - Rated 'Always Amazing'.",
+    "Commentary": "Paels Blood [Act 2 Ancient Tier List] - Rated 'Always Amazing'.",
     "Score": 0.0,
     "Tier": "Always Amazing"
   },
   "PAELS_CLAW": {
     "CardId": "PAELS_CLAW",
-    "Commentary": "Pael's Claw [Act 2 Ancient Tier List] - Rated 'Always Good'.",
+    "Commentary": "Paels Claw [Act 2 Ancient Tier List] - Rated 'Always Good'.",
     "Score": 0.0,
     "Tier": "Always Good"
   },
   "PAELS_EYE": {
     "CardId": "PAELS_EYE",
-    "Commentary": "Pael's Eye [Act 2 Ancient Tier List] - Rated 'Almost Never'.",
+    "Commentary": "Paels Eye [Act 2 Ancient Tier List] - Rated 'Almost Never'.",
     "Score": 0.0,
     "Tier": "Almost Never"
   },
   "PAELS_FLESH": {
     "CardId": "PAELS_FLESH",
-    "Commentary": "Pael's Flesh [Act 2 Ancient Tier List] - Rated 'Always Good'.",
+    "Commentary": "Paels Flesh [Act 2 Ancient Tier List] - Rated 'Always Good'.",
     "Score": 0.0,
     "Tier": "Always Good"
   },
   "PAELS_GROWTH": {
     "CardId": "PAELS_GROWTH",
-    "Commentary": "Pael's Growth [Act 2 Ancient Tier List] - Rated 'Needs Synergy'.",
+    "Commentary": "Paels Growth [Act 2 Ancient Tier List] - Rated 'Needs Synergy'.",
     "Score": 0.0,
     "Tier": "Needs Synergy"
   },
   "PAELS_HORN": {
     "CardId": "PAELS_HORN",
-    "Commentary": "Pael's Horn [Act 2 Ancient Tier List] - Rated 'Inconsistent'.",
+    "Commentary": "Paels Horn [Act 2 Ancient Tier List] - Rated 'Almost Never'.",
     "Score": 0.0,
-    "Tier": "Inconsistent"
+    "Tier": "Almost Never"
   },
   "PAELS_LEGION": {
     "CardId": "PAELS_LEGION",
-    "Commentary": "Pael's Legion [Act 2 Ancient Tier List] - Rated 'Always Good'.",
+    "Commentary": "Paels Legion [Act 2 Ancient Tier List] - Rated 'Always Good'.",
     "Score": 0.0,
     "Tier": "Always Good"
   },
   "PAELS_TEARS": {
     "CardId": "PAELS_TEARS",
-    "Commentary": "Pael's Tears [Act 2 Ancient Tier List] - Rated 'Always Amazing'.",
+    "Commentary": "Paels Tears [Act 2 Ancient Tier List] - Rated 'Always Good'.",
     "Score": 0.0,
-    "Tier": "Always Amazing"
+    "Tier": "Always Good"
   },
   "PAELS_TOOTH": {
     "CardId": "PAELS_TOOTH",
-    "Commentary": "Pael's Tooth [Act 2 Ancient Tier List] - Rated 'Inconsistent'.",
+    "Commentary": "Paels Tooth [Act 2 Ancient Tier List] - Rated 'Inconsistent'.",
     "Score": 0.0,
     "Tier": "Inconsistent"
   },
   "PAELS_WING": {
     "CardId": "PAELS_WING",
-    "Commentary": "Pael's Wing [Act 2 Ancient Tier List] - Rated 'Needs Synergy'.",
+    "Commentary": "Paels Wing [Act 2 Ancient Tier List] - Rated 'Inconsistent'.",
     "Score": 0.0,
-    "Tier": "Needs Synergy"
+    "Tier": "Inconsistent"
   },
   "PAGESTORM": {
     "CardId": "PAGESTORM",
@@ -2389,7 +1915,7 @@
   },
   "PANDORAS_BOX": {
     "CardId": "PANDORAS_BOX",
-    "Commentary": "Pandora's Box [Act 2 Ancient Tier List] - Rated 'Always Amazing'.",
+    "Commentary": "Pandoras Box [Act 2 Ancient Tier List] - Rated 'Always Amazing'.",
     "Score": 0.0,
     "Tier": "Always Amazing"
   },
@@ -2399,23 +1925,11 @@
     "Score": 80.0,
     "Tier": "A"
   },
-  "PARRY": {
-    "CardId": "PARRY",
-    "Commentary": "Parry [Regent Tierlist] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
-  },
   "PARSE": {
     "CardId": "PARSE",
     "Commentary": "Parse [Necrobinder Tier List] - Rated 'C'.",
     "Score": 50.0,
     "Tier": "C"
-  },
-  "PARTICLE_WALL": {
-    "CardId": "PARTICLE_WALL",
-    "Commentary": "Particle Wall [Regent Tierlist] - Rated 'S'.",
-    "Score": 95.0,
-    "Tier": "S"
   },
   "PATTER": {
     "CardId": "PATTER",
@@ -2449,15 +1963,9 @@
   },
   "PHILOSOPHERS_STONE": {
     "CardId": "PHILOSOPHERS_STONE",
-    "Commentary": "Philosopher's Stone [Act 3 Ancient Tier List] - Rated 'Always Good'.",
+    "Commentary": "Philosophers Stone [Act 3 Ancient Tier List] - Rated 'Always Good'.",
     "Score": 0.0,
     "Tier": "Always Good"
-  },
-  "PHOTON_CUT": {
-    "CardId": "PHOTON_CUT",
-    "Commentary": "Photon Cut [Regent Tierlist] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
   },
   "PIERCING_WAIL": {
     "CardId": "PIERCING_WAIL",
@@ -2473,7 +1981,7 @@
   },
   "PILLAR_OF_CREATION": {
     "CardId": "PILLAR_OF_CREATION",
-    "Commentary": "Pillar of Creation [Regent Tierlist] - Rated 'A'.",
+    "Commentary": "Pillar Of Creation [Regent Tierlist] - Rated 'A'.",
     "Score": 80.0,
     "Tier": "A"
   },
@@ -2521,9 +2029,9 @@
   },
   "PRECARIOUS_SHEARS": {
     "CardId": "PRECARIOUS_SHEARS",
-    "Commentary": "Precarious Shears [Neow Tier List] - Rated 'Always Good'.",
+    "Commentary": "Precarious Shears [Neow Tier List] - Rated 'Map Dependent'.",
     "Score": 0.0,
-    "Tier": "Always Good"
+    "Tier": "Map Dependent"
   },
   "PRECISE_CUT": {
     "CardId": "PRECISE_CUT",
@@ -2581,9 +2089,9 @@
   },
   "PROLONG": {
     "CardId": "PROLONG",
-    "Commentary": "Prolong [Colorless Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
+    "Commentary": "Prolong [Ironclad Tier List] - Rated 'S'.",
+    "Score": 95.0,
+    "Tier": "S"
   },
   "PROPHESIZE": {
     "CardId": "PROPHESIZE",
@@ -2611,7 +2119,7 @@
   },
   "PULL_FROM_BELOW": {
     "CardId": "PULL_FROM_BELOW",
-    "Commentary": "Pull from Below [Necrobinder Tier List] - Rated 'C'.",
+    "Commentary": "Pull From Below [Necrobinder Tier List] - Rated 'C'.",
     "Score": 50.0,
     "Tier": "C"
   },
@@ -2639,41 +2147,17 @@
     "Score": 80.0,
     "Tier": "A"
   },
-  "QUADCAST": {
-    "CardId": "QUADCAST",
-    "Commentary": "Quadcast [Defect Tier List] - Rated 'S'.",
-    "Score": 95.0,
-    "Tier": "S"
-  },
-  "QUASAR": {
-    "CardId": "QUASAR",
-    "Commentary": "Quasar [Regent Tierlist] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
-  },
   "RADIANT_PEARL": {
     "CardId": "RADIANT_PEARL",
     "Commentary": "Radiant Pearl [Act 2 Ancient Tier List] - Rated 'Always Good'.",
     "Score": 0.0,
     "Tier": "Always Good"
   },
-  "RADIATE": {
-    "CardId": "RADIATE",
-    "Commentary": "Radiate [Regent Tierlist] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
-  },
   "RAGE": {
     "CardId": "RAGE",
     "Commentary": "Rage [Ironclad Tier List] - Rated 'S'.",
     "Score": 95.0,
     "Tier": "S"
-  },
-  "RAINBOW": {
-    "CardId": "RAINBOW",
-    "Commentary": "Rainbow [Defect Tier List] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
   },
   "RALLY": {
     "CardId": "RALLY",
@@ -2695,9 +2179,9 @@
   },
   "REANIMATE": {
     "CardId": "REANIMATE",
-    "Commentary": "Reanimate [Necrobinder Tier List] - Rated 'S'.",
-    "Score": 95.0,
-    "Tier": "S"
+    "Commentary": "Reanimate [Necrobinder Tier List] - Rated 'A'.",
+    "Score": 80.0,
+    "Tier": "A"
   },
   "REAP": {
     "CardId": "REAP",
@@ -2719,15 +2203,9 @@
   },
   "REBOOT": {
     "CardId": "REBOOT",
-    "Commentary": "Reboot [Defect Tier List] - Rated 'C'.",
-    "Score": 50.0,
-    "Tier": "C"
-  },
-  "REBOUND": {
-    "CardId": "REBOUND",
-    "Commentary": "Rebound [Defect Tier List] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
+    "Commentary": "Reboot [Defect Tier List] - Rated 'D'.",
+    "Score": 35.0,
+    "Tier": "D"
   },
   "RED_MASK": {
     "CardId": "RED_MASK",
@@ -2747,15 +2225,15 @@
     "Score": 65.0,
     "Tier": "B"
   },
+  "REFLECT": {
+    "CardId": "REFLECT",
+    "Commentary": "Reflect [Regent Tierlist] - Rated 'S'.",
+    "Score": 95.0,
+    "Tier": "S"
+  },
   "REFLEX": {
     "CardId": "REFLEX",
     "Commentary": "Reflex [Silent Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
-  },
-  "REFRACT": {
-    "CardId": "REFRACT",
-    "Commentary": "Refract [Defect Tier List] - Rated 'A'.",
     "Score": 80.0,
     "Tier": "A"
   },
@@ -2773,15 +2251,9 @@
   },
   "RESONANCE": {
     "CardId": "RESONANCE",
-    "Commentary": "Resonance [Regent Tierlist] - Rated 'D'.",
-    "Score": 35.0,
-    "Tier": "D"
-  },
-  "RESTLESSNESS": {
-    "CardId": "RESTLESSNESS",
-    "Commentary": "Restlessness [Colorless Tier List] - Rated 'C'.",
-    "Score": 50.0,
-    "Tier": "C"
+    "Commentary": "Resonance [Regent Tierlist] - Rated 'F'.",
+    "Score": 15.0,
+    "Tier": "F"
   },
   "RICOCHET": {
     "CardId": "RICOCHET",
@@ -2797,15 +2269,9 @@
   },
   "RIP_AND_TEAR": {
     "CardId": "RIP_AND_TEAR",
-    "Commentary": "Rip and Tear [Defect Tier List] - Rated 'C'.",
+    "Commentary": "Rip And Tear [Defect Tier List] - Rated 'C'.",
     "Score": 50.0,
     "Tier": "C"
-  },
-  "ROCKET_PUNCH": {
-    "CardId": "ROCKET_PUNCH",
-    "Commentary": "Rocket Punch [Defect Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
   },
   "ROLLING_BOULDER": {
     "CardId": "ROLLING_BOULDER",
@@ -2815,9 +2281,9 @@
   },
   "ROYALTIES": {
     "CardId": "ROYALTIES",
-    "Commentary": "Royalties [Regent Tierlist] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
+    "Commentary": "Royalties [Regent Tierlist] - Rated 'B'.",
+    "Score": 65.0,
+    "Tier": "B"
   },
   "ROYAL_GAMBLE": {
     "CardId": "ROYAL_GAMBLE",
@@ -2827,9 +2293,9 @@
   },
   "RUNIC_PYRAMID": {
     "CardId": "RUNIC_PYRAMID",
-    "Commentary": "Runic Pyramid [Colorless Tier List] - Rated 'F'.",
-    "Score": 15.0,
-    "Tier": "F"
+    "Commentary": "Runic Pyramid [Act 2 Ancient Tier List] - Rated 'Always Amazing'.",
+    "Score": 0.0,
+    "Tier": "Always Amazing"
   },
   "RUPTURE": {
     "CardId": "RUPTURE",
@@ -2873,23 +2339,11 @@
     "Score": 65.0,
     "Tier": "B"
   },
-  "SCOURGE": {
-    "CardId": "SCOURGE",
-    "Commentary": "Scourge [Necrobinder Tier List] - Rated 'C'.",
-    "Score": 50.0,
-    "Tier": "C"
-  },
-  "SCRAPE": {
-    "CardId": "SCRAPE",
-    "Commentary": "Scrape [Defect Tier List] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
-  },
   "SCRAWL": {
     "CardId": "SCRAWL",
-    "Commentary": "Scrawl [Colorless Tier List] - Rated 'Almost Never'.",
-    "Score": 0.0,
-    "Tier": "Almost Never"
+    "Commentary": "Scrawl [Colorless Tier List] - Rated 'S'.",
+    "Score": 95.0,
+    "Tier": "S"
   },
   "SCROLL_BOXES": {
     "CardId": "SCROLL_BOXES",
@@ -2905,9 +2359,9 @@
   },
   "SEAL_OF_GOLD": {
     "CardId": "SEAL_OF_GOLD",
-    "Commentary": "Seal of Gold [Act 2 Ancient Tier List] - Rated 'Inconsistent'.",
+    "Commentary": "Seal Of Gold [Act 2 Ancient Tier List] - Rated 'Almost Never'.",
     "Score": 0.0,
-    "Tier": "Inconsistent"
+    "Tier": "Almost Never"
   },
   "SEANCE": {
     "CardId": "SEANCE",
@@ -2947,9 +2401,9 @@
   },
   "SEEKING_EDGE": {
     "CardId": "SEEKING_EDGE",
-    "Commentary": "Seeking Edge [Regent Tierlist] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
+    "Commentary": "Seeking Edge [Regent Tierlist] - Rated 'C'.",
+    "Score": 50.0,
+    "Tier": "C"
   },
   "SENTRY_MODE": {
     "CardId": "SENTRY_MODE",
@@ -2959,9 +2413,9 @@
   },
   "SERE_TALON": {
     "CardId": "SERE_TALON",
-    "Commentary": "Sere Talon [Act 3 Ancient Tier List] - Rated 'Needs Synergy'.",
+    "Commentary": "Sere Talon [Act 3 Ancient Tier List] - Rated 'Inconsistent'.",
     "Score": 0.0,
-    "Tier": "Needs Synergy"
+    "Tier": "Inconsistent"
   },
   "SERPENT_FORM": {
     "CardId": "SERPENT_FORM",
@@ -2972,12 +2426,6 @@
   "SETUP_STRIKE": {
     "CardId": "SETUP_STRIKE",
     "Commentary": "Setup Strike [Ironclad Tier List] - Rated 'C'.",
-    "Score": 50.0,
-    "Tier": "C"
-  },
-  "SEVEN_STARS": {
-    "CardId": "SEVEN_STARS",
-    "Commentary": "Seven Stars [Regent Tierlist] - Rated 'C'.",
     "Score": 50.0,
     "Tier": "C"
   },
@@ -3043,15 +2491,15 @@
   },
   "SIC_EM": {
     "CardId": "SIC_EM",
-    "Commentary": "Sic 'Em [Necrobinder Tier List] - Rated 'B'.",
+    "Commentary": "Sic Em [Necrobinder Tier List] - Rated 'B'.",
     "Score": 65.0,
     "Tier": "B"
   },
   "SIGNAL_BOOST": {
     "CardId": "SIGNAL_BOOST",
-    "Commentary": "Signal Boost [Defect Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
+    "Commentary": "Signal Boost [Defect Tier List] - Rated 'B'.",
+    "Score": 65.0,
+    "Tier": "B"
   },
   "SIGNET_RING": {
     "CardId": "SIGNET_RING",
@@ -3061,9 +2509,9 @@
   },
   "SILKEN_TRESS": {
     "CardId": "SILKEN_TRESS",
-    "Commentary": "Silken Tress [Neow Tier List] - Rated 'Almost Never'.",
+    "Commentary": "Silken Tress [Neow Tier List] - Rated 'Always Amazing'.",
     "Score": 0.0,
-    "Tier": "Almost Never"
+    "Tier": "Always Amazing"
   },
   "SILVER_CRUCIBLE": {
     "CardId": "SILVER_CRUCIBLE",
@@ -3080,6 +2528,12 @@
   "SKIM": {
     "CardId": "SKIM",
     "Commentary": "Skim [Defect Tier List] - Rated 'S'.",
+    "Score": 95.0,
+    "Tier": "S"
+  },
+  "SLEIGHT_OF_FLESH": {
+    "CardId": "SLEIGHT_OF_FLESH",
+    "Commentary": "Sleight Of Flesh [Necrobinder Tier List] - Rated 'S'.",
     "Score": 95.0,
     "Tier": "S"
   },
@@ -3121,9 +2575,9 @@
   },
   "SNECKO_EYE": {
     "CardId": "SNECKO_EYE",
-    "Commentary": "Snecko Eye [Act 2 Ancient Tier List] - Rated 'Always Good'.",
+    "Commentary": "Snecko Eye [Act 2 Ancient Tier List] - Rated 'Needs Synergy'.",
     "Score": 0.0,
-    "Tier": "Always Good"
+    "Tier": "Needs Synergy"
   },
   "SNECKO_SKULL": {
     "CardId": "SNECKO_SKULL",
@@ -3139,9 +2593,9 @@
   },
   "SOUL_STORM": {
     "CardId": "SOUL_STORM",
-    "Commentary": "Soul Storm [Necrobinder Tier List] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
+    "Commentary": "Soul Storm [Necrobinder Tier List] - Rated 'C'.",
+    "Score": 50.0,
+    "Tier": "C"
   },
   "SOW": {
     "CardId": "SOW",
@@ -3154,12 +2608,6 @@
     "Commentary": "Sozu [Act 2 Ancient Tier List] - Rated 'Needs Synergy'.",
     "Score": 0.0,
     "Tier": "Needs Synergy"
-  },
-  "SPECTRUM_SHIFT": {
-    "CardId": "SPECTRUM_SHIFT",
-    "Commentary": "Spectrum Shift [Regent Tierlist] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
   },
   "SPEEDSTER": {
     "CardId": "SPEEDSTER",
@@ -3181,7 +2629,7 @@
   },
   "SPIRIT_OF_ASH": {
     "CardId": "SPIRIT_OF_ASH",
-    "Commentary": "Spirit of Ash [Necrobinder Tier List] - Rated 'A'.",
+    "Commentary": "Spirit Of Ash [Necrobinder Tier List] - Rated 'A'.",
     "Score": 80.0,
     "Tier": "A"
   },
@@ -3199,7 +2647,7 @@
   },
   "SPOILS_OF_BATTLE": {
     "CardId": "SPOILS_OF_BATTLE",
-    "Commentary": "Spoils of Battle [Regent Tierlist] - Rated 'C'.",
+    "Commentary": "Spoils Of Battle [Regent Tierlist] - Rated 'C'.",
     "Score": 50.0,
     "Tier": "C"
   },
@@ -3215,12 +2663,6 @@
     "Score": 95.0,
     "Tier": "S"
   },
-  "STACK": {
-    "CardId": "STACK",
-    "Commentary": "Stack [Defect Tier List] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
-  },
   "STAMPEDE": {
     "CardId": "STAMPEDE",
     "Commentary": "Stampede [Ironclad Tier List] - Rated 'B'.",
@@ -3232,12 +2674,6 @@
     "Commentary": "Stardust [Regent Tierlist] - Rated 'B'.",
     "Score": 65.0,
     "Tier": "B"
-  },
-  "STOKE": {
-    "CardId": "STOKE",
-    "Commentary": "Stoke [Ironclad Tier List] - Rated 'S'.",
-    "Score": 95.0,
-    "Tier": "S"
   },
   "STOMP": {
     "CardId": "STOMP",
@@ -3265,25 +2701,19 @@
   },
   "STORM_OF_STEEL": {
     "CardId": "STORM_OF_STEEL",
-    "Commentary": "Storm of Steel [Silent Tier List] - Rated 'B'.",
+    "Commentary": "Storm Of Steel [Silent Tier List] - Rated 'B'.",
     "Score": 65.0,
     "Tier": "B"
   },
   "STORYBOOK": {
     "CardId": "STORYBOOK",
-    "Commentary": "Storybook [Act 2 Ancient Tier List] - Rated 'Almost Never'.",
+    "Commentary": "Storybook [Act 2 Ancient Tier List] - Rated 'Always Amazing'.",
     "Score": 0.0,
-    "Tier": "Almost Never"
+    "Tier": "Always Amazing"
   },
   "STRANGLE": {
     "CardId": "STRANGLE",
     "Commentary": "Strangle [Silent Tier List] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
-  },
-  "STRATAGEM": {
-    "CardId": "STRATAGEM",
-    "Commentary": "Stratagem [Colorless Tier List] - Rated 'B'.",
     "Score": 65.0,
     "Tier": "B"
   },
@@ -3295,9 +2725,9 @@
   },
   "STRIKE_DEFECT": {
     "CardId": "STRIKE_DEFECT",
-    "Commentary": "Strike [Defect Tier List] - Rated 'D'.",
-    "Score": 35.0,
-    "Tier": "D"
+    "Commentary": "Strike Defect [Defect Tier List] - Rated 'F'.",
+    "Score": 15.0,
+    "Tier": "F"
   },
   "STRIKE_DUMMY": {
     "CardId": "STRIKE_DUMMY",
@@ -3307,27 +2737,27 @@
   },
   "STRIKE_IRONCLAD": {
     "CardId": "STRIKE_IRONCLAD",
-    "Commentary": "Strike [Ironclad Tier List] - Rated 'C'.",
+    "Commentary": "Strike Ironclad [Ironclad Tier List] - Rated 'C'.",
     "Score": 50.0,
     "Tier": "C"
   },
   "STRIKE_NECROBINDER": {
     "CardId": "STRIKE_NECROBINDER",
-    "Commentary": "Strike [Necrobinder Tier List] - Rated 'D'.",
-    "Score": 35.0,
-    "Tier": "D"
+    "Commentary": "Strike Necrobinder [Necrobinder Tier List] - Rated 'F'.",
+    "Score": 15.0,
+    "Tier": "F"
   },
   "STRIKE_REGENT": {
     "CardId": "STRIKE_REGENT",
-    "Commentary": "Strike [Regent Tierlist] - Rated 'D'.",
-    "Score": 35.0,
-    "Tier": "D"
+    "Commentary": "Strike Regent [Regent Tierlist] - Rated 'F'.",
+    "Score": 15.0,
+    "Tier": "F"
   },
   "STRIKE_SILENT": {
     "CardId": "STRIKE_SILENT",
-    "Commentary": "Strike [Silent Tier List] - Rated 'C'.",
-    "Score": 50.0,
-    "Tier": "C"
+    "Commentary": "Strike Silent [Silent Tier List] - Rated 'D'.",
+    "Score": 35.0,
+    "Tier": "D"
   },
   "SUBROUTINE": {
     "CardId": "SUBROUTINE",
@@ -3421,21 +2851,15 @@
   },
   "TANK": {
     "CardId": "TANK",
-    "Commentary": "Tank [Ironclad Tier List] - Rated 'C'.",
-    "Score": 50.0,
-    "Tier": "C"
+    "Commentary": "Tank [Ironclad Tier List] - Rated 'D'.",
+    "Score": 35.0,
+    "Tier": "D"
   },
   "TANXS_WHISTLE": {
     "CardId": "TANXS_WHISTLE",
-    "Commentary": "Tanx's Whistle [Act 3 Ancient Tier List] - Rated 'Inconsistent'.",
+    "Commentary": "Tanxs Whistle [Act 3 Ancient Tier List] - Rated 'Almost Never'.",
     "Score": 0.0,
-    "Tier": "Inconsistent"
-  },
-  "TAUNT": {
-    "CardId": "TAUNT",
-    "Commentary": "Taunt [Ironclad Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
+    "Tier": "Almost Never"
   },
   "TEAR_ASUNDER": {
     "CardId": "TEAR_ASUNDER",
@@ -3446,12 +2870,6 @@
   "TEMPEST": {
     "CardId": "TEMPEST",
     "Commentary": "Tempest [Defect Tier List] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
-  },
-  "TERRAFORMING": {
-    "CardId": "TERRAFORMING",
-    "Commentary": "Terraforming [Regent Tierlist] - Rated 'B'.",
     "Score": 65.0,
     "Tier": "B"
   },
@@ -3469,13 +2887,7 @@
   },
   "THE_GAMBIT": {
     "CardId": "THE_GAMBIT",
-    "Commentary": "The Gambit [Colorless Tier List] - Rated 'C'.",
-    "Score": 50.0,
-    "Tier": "C"
-  },
-  "THE_HUNT": {
-    "CardId": "THE_HUNT",
-    "Commentary": "The Hunt [Silent Tier List] - Rated 'B'.",
+    "Commentary": "The Gambit [Ironclad Tier List] - Rated 'B'.",
     "Score": 65.0,
     "Tier": "B"
   },
@@ -3484,6 +2896,12 @@
     "Commentary": "The Scythe [Necrobinder Tier List] - Rated 'A'.",
     "Score": 80.0,
     "Tier": "A"
+  },
+  "THE_SEALED_THRONE": {
+    "CardId": "THE_SEALED_THRONE",
+    "Commentary": "The Sealed Throne [Regent Tierlist] - Rated 'S'.",
+    "Score": 95.0,
+    "Tier": "S"
   },
   "THE_SMITH": {
     "CardId": "THE_SMITH",
@@ -3496,12 +2914,6 @@
     "Commentary": "Thinking Ahead [Colorless Tier List] - Rated 'D'.",
     "Score": 35.0,
     "Tier": "D"
-  },
-  "THRASH": {
-    "CardId": "THRASH",
-    "Commentary": "Thrash [Ironclad Tier List] - Rated 'S'.",
-    "Score": 95.0,
-    "Tier": "S"
   },
   "THROWING_AXE": {
     "CardId": "THROWING_AXE",
@@ -3529,9 +2941,9 @@
   },
   "TIMES_UP": {
     "CardId": "TIMES_UP",
-    "Commentary": "Time's Up [Necrobinder Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
+    "Commentary": "Times Up [Necrobinder Tier List] - Rated 'B'.",
+    "Score": 65.0,
+    "Tier": "B"
   },
   "TOASTY_MITTENS": {
     "CardId": "TOASTY_MITTENS",
@@ -3541,13 +2953,13 @@
   },
   "TOOLS_OF_THE_TRADE": {
     "CardId": "TOOLS_OF_THE_TRADE",
-    "Commentary": "Tools of the Trade [Silent Tier List] - Rated 'S'.",
+    "Commentary": "Tools Of The Trade [Silent Tier List] - Rated 'S'.",
     "Score": 95.0,
     "Tier": "S"
   },
   "TOUCH_OF_OROBAS": {
     "CardId": "TOUCH_OF_OROBAS",
-    "Commentary": "Touch of Orobas [Act 2 Ancient Tier List] - Rated 'Needs Synergy'.",
+    "Commentary": "Touch Of Orobas [Act 2 Ancient Tier List] - Rated 'Needs Synergy'.",
     "Score": 0.0,
     "Tier": "Needs Synergy"
   },
@@ -3559,19 +2971,13 @@
   },
   "TRACKING": {
     "CardId": "TRACKING",
-    "Commentary": "Tracking [Silent Tier List] - Rated 'S'.",
-    "Score": 95.0,
-    "Tier": "S"
-  },
-  "TRANSFIGURE": {
-    "CardId": "TRANSFIGURE",
-    "Commentary": "Transfigure [Necrobinder Tier List] - Rated 'S'.",
-    "Score": 95.0,
-    "Tier": "S"
+    "Commentary": "Tracking [Silent Tier List] - Rated 'A'.",
+    "Score": 80.0,
+    "Tier": "A"
   },
   "TRASH_TO_TREASURE": {
     "CardId": "TRASH_TO_TREASURE",
-    "Commentary": "Trash to Treasure [Defect Tier List] - Rated 'A'.",
+    "Commentary": "Trash To Treasure [Defect Tier List] - Rated 'A'.",
     "Score": 80.0,
     "Tier": "A"
   },
@@ -3583,7 +2989,7 @@
   },
   "TRI_BOOMERANG": {
     "CardId": "TRI_BOOMERANG",
-    "Commentary": "Tri-Boomerang [Act 3 Ancient Tier List] - Rated 'Needs Synergy'.",
+    "Commentary": "Tri Boomerang [Act 3 Ancient Tier List] - Rated 'Needs Synergy'.",
     "Score": 0.0,
     "Tier": "Needs Synergy"
   },
@@ -3595,7 +3001,7 @@
   },
   "TURBO": {
     "CardId": "TURBO",
-    "Commentary": "TURBO [Defect Tier List] - Rated 'S'.",
+    "Commentary": "Turbo [Defect Tier List] - Rated 'S'.",
     "Score": 95.0,
     "Tier": "S"
   },
@@ -3623,12 +3029,6 @@
     "Score": 80.0,
     "Tier": "A"
   },
-  "UNDEATH": {
-    "CardId": "UNDEATH",
-    "Commentary": "Undeath [Necrobinder Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
-  },
   "UNLEASH": {
     "CardId": "UNLEASH",
     "Commentary": "Unleash [Necrobinder Tier List] - Rated 'A'.",
@@ -3653,12 +3053,6 @@
     "Score": 80.0,
     "Tier": "A"
   },
-  "UPROAR": {
-    "CardId": "UPROAR",
-    "Commentary": "Uproar [Defect Tier List] - Rated 'D'.",
-    "Score": 35.0,
-    "Tier": "D"
-  },
   "UP_MY_SLEEVE": {
     "CardId": "UP_MY_SLEEVE",
     "Commentary": "Up My Sleeve [Silent Tier List] - Rated 'C'.",
@@ -3667,9 +3061,9 @@
   },
   "VAJRA": {
     "CardId": "VAJRA",
-    "Commentary": "Vajra [Common Relic Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
+    "Commentary": "Vajra [Common Relic Tier List] - Rated 'B'.",
+    "Score": 65.0,
+    "Tier": "B"
   },
   "VEILPIERCER": {
     "CardId": "VEILPIERCER",
@@ -3679,15 +3073,15 @@
   },
   "VELVET_CHOKER": {
     "CardId": "VELVET_CHOKER",
-    "Commentary": "Velvet Choker [Act 3 Ancient Tier List] - Rated 'Always Good'.",
+    "Commentary": "Velvet Choker [Act 3 Ancient Tier List] - Rated 'Needs Synergy'.",
     "Score": 0.0,
-    "Tier": "Always Good"
+    "Tier": "Needs Synergy"
   },
   "VENERABLE_TEA_SET": {
     "CardId": "VENERABLE_TEA_SET",
-    "Commentary": "Venerable Tea Set [Common Relic Tier List] - Rated 'A'.",
-    "Score": 80.0,
-    "Tier": "A"
+    "Commentary": "Venerable Tea Set [Common Relic Tier List] - Rated 'B'.",
+    "Score": 65.0,
+    "Tier": "B"
   },
   "VENERATE": {
     "CardId": "VENERATE",
@@ -3721,9 +3115,9 @@
   },
   "VOLTAIC": {
     "CardId": "VOLTAIC",
-    "Commentary": "Voltaic [Defect Tier List] - Rated 'S'.",
-    "Score": 95.0,
-    "Tier": "S"
+    "Commentary": "Voltaic [Defect Tier List] - Rated 'A'.",
+    "Score": 80.0,
+    "Tier": "A"
   },
   "WAR_HAMMER": {
     "CardId": "WAR_HAMMER",
@@ -3737,17 +3131,11 @@
     "Score": 65.0,
     "Tier": "B"
   },
-  "WELL_LAID_PLANS": {
-    "CardId": "WELL_LAID_PLANS",
-    "Commentary": "Well-Laid Plans [Silent Tier List] - Rated 'S'.",
-    "Score": 95.0,
-    "Tier": "S"
-  },
   "WHETSTONE": {
     "CardId": "WHETSTONE",
-    "Commentary": "Whetstone [Common Relic Tier List] - Rated 'B'.",
-    "Score": 65.0,
-    "Tier": "B"
+    "Commentary": "Whetstone [Common Relic Tier List] - Rated 'C'.",
+    "Score": 50.0,
+    "Tier": "C"
   },
   "WHIRLWIND": {
     "CardId": "WHIRLWIND",
@@ -3787,7 +3175,7 @@
   },
   "WROUGHT_IN_WAR": {
     "CardId": "WROUGHT_IN_WAR",
-    "Commentary": "Wrought in War [Regent Tierlist] - Rated 'C'.",
+    "Commentary": "Wrought In War [Regent Tierlist] - Rated 'C'.",
     "Score": 50.0,
     "Tier": "C"
   },
