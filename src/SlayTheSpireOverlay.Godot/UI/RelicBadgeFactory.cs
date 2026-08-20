@@ -305,13 +305,13 @@ public static class RelicBadgeFactory
 
     private static Color GetColorForTier(string tier) => tier switch
     {
-        "S" => new Color(1.0f, 0.35f, 0.35f), // Crimson Red
-        "A" => new Color(1.0f, 0.65f, 0.25f), // Bright Amber
-        "B" => new Color(0.95f, 0.95f, 0.3f), // Golden Yellow
-        "C" => new Color(0.45f, 0.85f, 1.0f), // Sky Blue
-        "D" => new Color(0.65f, 0.65f, 0.65f), // Grey
-        "Map Dependent" => new Color(1.0f, 0.7f, 0.3f), // Warm Amber
-        "Inconsistent" => new Color(0.85f, 0.5f, 1.0f), // Light Purple
+        "S Tier" or "S" or "Always Amazing" => new Color(1.0f, 0.35f, 0.35f), // Crimson Red
+        "A Tier" or "A" or "Always Good" => new Color(1.0f, 0.65f, 0.25f), // Bright Amber
+        "B Tier" or "B" or "Great" or "Good" => new Color(0.95f, 0.95f, 0.3f), // Golden Yellow
+        "C Tier" or "C" or "Needs Synergy" => new Color(0.45f, 0.85f, 1.0f), // Sky Cyan
+        "D Tier" or "D" or "Inconsistent" => new Color(0.85f, 0.5f, 1.0f), // Soft Purple
+        "Map Dependent" or "Situational" => new Color(1.0f, 0.7f, 0.3f), // Warm Amber
+        "Almost Never" or "Never Take" or "Skip" => new Color(0.65f, 0.65f, 0.65f), // Muted Grey
         _ => new Color(0.85f, 0.85f, 0.85f)
     };
 }
