@@ -34,6 +34,9 @@ public partial class TierBadge : Control
         _tierLabel = new Label();
         _scoreLabel = new Label();
 
+        _tierLabel.HorizontalAlignment = HorizontalAlignment.Center;
+        _scoreLabel.HorizontalAlignment = HorizontalAlignment.Center;
+
         layout.AddChild(_tierLabel);
         layout.AddChild(_scoreLabel);
         _backgroundPanel.AddChild(layout);
@@ -41,6 +44,7 @@ public partial class TierBadge : Control
 
         // Styling badge with premium HSL-curated dark mode and glassmorphism styling
         Size = new Vector2(60, 40);
+        Position = new Vector2(10, 10); // Float at top-left of card with a small margin
         _backgroundPanel.SelfModulate = new Color(0.12f, 0.12f, 0.16f, 0.9f);
     }
 

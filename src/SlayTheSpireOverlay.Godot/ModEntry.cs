@@ -58,19 +58,79 @@ public partial class ModEntry : Node
         // Trigger cache load and background fetch immediately on start
         _ = _tierProvider.GetTierListAsync();
 
-        // Subscribe to game signals
+        // Subscribe to game signals and scene tree modifications
         SubscribeToGameSignals();
     }
 
     private void SubscribeToGameSignals()
     {
-        // Example integration point for game signals:
-        // e.g. CardLoader.Connect("CardGenerated", new Callable(this, nameof(OnCardGenerated)));
+        GetTree().NodeAdded += OnNodeAdded;
+        GD.Print("[STS2 Overlay] Subscribed to Godot SceneTree.NodeAdded signal.");
+    }
+
+    private void OnNodeAdded(Node node)
+    {
+        string? cardId = GetCardIdFromNode(node);
+        if (cardId != null)
+        {
+            CallDeferred(nameof(OnCardGenerated), node, cardId);
+        }
+    }
+
+    private string? GetCardIdFromNode(Node node)
+    {
+        if (node == null || !IsInstanceValid(node)) return null;
+        
+        if (node.GetType().FullName != "MegaCrit.Sts2.Core.Nodes.Cards.NCard")
+        {
+            return null;
+        }
+
+        try
+        {
+            var modelProp = node.GetType().GetProperty("Model", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            var model = modelProp?.GetValue(node);
+            if (model == null) return null;
+
+            var idProp = model.GetType().GetProperty("Id", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            var id = idProp?.GetValue(model);
+            if (id == null) return null;
+
+            var categoryProp = id.GetType().GetProperty("Category", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            var entryProp = id.GetType().GetProperty("Entry", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+
+            string? category = categoryProp?.GetValue(id) as string;
+            string? entry = entryProp?.GetValue(id) as string;
+
+            if (!string.IsNullOrEmpty(category) && !string.IsNullOrEmpty(entry))
+            {
+                return $"{category}:{entry}";
+            }
+            return entry;
+        }
+        catch (Exception ex)
+        {
+            GD.PrintErr($"[STS2 Overlay] Error reflecting card ID: {ex.Message}");
+            return null;
+        }
     }
 
     // This method is called by the mod hook when a card UI node is created
     public void OnCardGenerated(Node cardNode, string cardId)
     {
+        if (cardNode == null || !IsInstanceValid(cardNode)) return;
+
+        // Prevent duplicate badges on the same card node
+        foreach (var child in cardNode.GetChildren())
+        {
+            if (child is UI.TierBadge)
+            {
+                return;
+            }
+        }
+
+        GD.Print($"[STS2 Overlay] Adding tier badge to card node '{cardNode.Name}' with ID: {cardId}");
+        
         // Dynamically instantiate the UI overlay badge
         var badge = new UI.TierBadge(_tierProvider, cardId);
         cardNode.AddChild(badge);
