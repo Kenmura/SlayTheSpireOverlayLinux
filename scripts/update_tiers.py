@@ -12,9 +12,6 @@ REPO_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 WORKSHOP_JSON = os.path.join(REPO_DIR, "workshop", "baalorlord_tiers.json")
 EMBEDDED_JSON = os.path.join(REPO_DIR, "src", "SlayTheSpireOverlay.Godot", "baalorlord_tiers.json")
 WORKSHOP_META_JSON = os.path.join(REPO_DIR, "workshop", "workshop.json")
-PROTON_USER_DIR = "/var/home/nickmarc/.local/share/Steam/steamapps/compatdata/2868840/pfx/drive_c/users/steamuser/AppData/Roaming/SlayTheSpire2"
-PROTON_CACHE_JSON = os.path.join(PROTON_USER_DIR, "tier_list_cache.json")
-LOCAL_MOD_DIR = "/var/home/nickmarc/.local/share/Steam/steamapps/common/Slay the Spire 2/mods/"
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, Gecko) Chrome/120.0.0.0 Safari/537.36"
@@ -176,16 +173,11 @@ def main():
         except Exception as ex:
             print(f"[!] Warning: Could not update workshop.json changeNote: {ex}")
 
-    if os.path.exists(PROTON_USER_DIR):
-        with open(PROTON_CACHE_JSON, "w") as f:
-            json.dump(new_db, f, indent=2, sort_keys=True)
-        print(f"[+] Updated proton disk cache: {PROTON_CACHE_JSON}")
-
     print("\n[*] Step 3: Running unit test suite...")
     run_command("distrobox enter dotnet-dev -- dotnet test SlayTheSpireOverlay.slnx")
 
-    print("\n[*] Step 4: Compiling & Publishing mod assembly...")
-    run_command(f"distrobox enter dotnet-dev -- dotnet publish src/SlayTheSpireOverlay.Godot/SlayTheSpireOverlay.Godot.csproj -c Release -o '{LOCAL_MOD_DIR}'")
+    print("\n[*] Step 4: Compiling mod assembly (Release)...")
+    run_command("distrobox enter dotnet-dev -- dotnet build src/SlayTheSpireOverlay.Godot/SlayTheSpireOverlay.Godot.csproj -c Release")
 
     print("\n[*] Step 5: Committing and pushing changes to GitHub...")
     commit_msg = f"Auto-update tier lists [{datetime.now().strftime('%Y-%m-%d %H:%M')}]"
