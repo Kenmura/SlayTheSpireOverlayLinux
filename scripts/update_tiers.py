@@ -11,6 +11,7 @@ from datetime import datetime
 REPO_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 WORKSHOP_JSON = os.path.join(REPO_DIR, "workshop", "baalorlord_tiers.json")
 EMBEDDED_JSON = os.path.join(REPO_DIR, "src", "SlayTheSpireOverlay.Godot", "baalorlord_tiers.json")
+WORKSHOP_META_JSON = os.path.join(REPO_DIR, "workshop", "workshop.json")
 PROTON_USER_DIR = "/var/home/nickmarc/.local/share/Steam/steamapps/compatdata/2868840/pfx/drive_c/users/steamuser/AppData/Roaming/SlayTheSpire2"
 PROTON_CACHE_JSON = os.path.join(PROTON_USER_DIR, "tier_list_cache.json")
 LOCAL_MOD_DIR = "/var/home/nickmarc/.local/share/Steam/steamapps/common/Slay the Spire 2/mods/"
@@ -95,7 +96,7 @@ def scrape_untapped_tierlists():
         except Exception as ex:
             print(f"[-] Error scraping {page_url}: {ex}")
 
-    # Return dictionary sorted alphabetically by key for deterministic ordering
+    # Return dictionary sorted alphabetically by key
     sorted_data = {k: raw_data[k] for k in sorted(raw_data.keys())}
     return sorted_data
 
@@ -155,11 +156,25 @@ def main():
     if len(changes) > 20:
         print(f"  ... and {len(changes) - 20} more changes.")
 
-    print("\n[*] Step 2: Updating JSON database files (Sorted Alphabetically)...")
+    print("\n[*] Step 2: Updating JSON database files & Steam Workshop changeNote...")
     with open(WORKSHOP_JSON, "w") as f:
         json.dump(new_db, f, indent=2, sort_keys=True)
     with open(EMBEDDED_JSON, "w") as f:
         json.dump(new_db, f, indent=2, sort_keys=True)
+
+    if os.path.exists(WORKSHOP_META_JSON):
+        try:
+            with open(WORKSHOP_META_JSON) as f:
+                meta = json.load(f)
+            summary_lines = changes[:10]
+            if len(changes) > 10:
+                summary_lines.append(f"... and {len(changes) - 10} more tier list updates.")
+            meta["changeNote"] = f"Tier List Update [{datetime.now().strftime('%Y-%m-%d')}]:\n" + "\n".join(summary_lines)
+            with open(WORKSHOP_META_JSON, "w") as f:
+                json.dump(meta, f, indent=2)
+            print(f"[+] Updated changeNote in workshop.json for Steam Workshop release!")
+        except Exception as ex:
+            print(f"[!] Warning: Could not update workshop.json changeNote: {ex}")
 
     if os.path.exists(PROTON_USER_DIR):
         with open(PROTON_CACHE_JSON, "w") as f:
@@ -174,7 +189,7 @@ def main():
 
     print("\n[*] Step 5: Committing and pushing changes to GitHub...")
     commit_msg = f"Auto-update tier lists [{datetime.now().strftime('%Y-%m-%d %H:%M')}]"
-    run_command("git add workshop/baalorlord_tiers.json src/SlayTheSpireOverlay.Godot/baalorlord_tiers.json")
+    run_command("git add workshop/baalorlord_tiers.json src/SlayTheSpireOverlay.Godot/baalorlord_tiers.json workshop/workshop.json")
     run_command(f"git commit -m '{commit_msg}'")
     run_command("git push")
 
