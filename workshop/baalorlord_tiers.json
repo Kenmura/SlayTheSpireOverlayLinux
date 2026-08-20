@@ -1,0 +1,3080 @@
+{
+  "HIDDEN_GEM": {
+    "CardId": "HIDDEN_GEM",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "SCRAWL": {
+    "CardId": "SCRAWL",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "RALLY": {
+    "CardId": "RALLY",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "JACKPOT": {
+    "CardId": "JACKPOT",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "ALCHEMIZE": {
+    "CardId": "ALCHEMIZE",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "SHOCKWAVE": {
+    "CardId": "SHOCKWAVE",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "SPLASH": {
+    "CardId": "SPLASH",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "FASTEN": {
+    "CardId": "FASTEN",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "DARK_SHACKLES": {
+    "CardId": "DARK_SHACKLES",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "HUDDLE_UP": {
+    "CardId": "HUDDLE_UP",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "MASTER_OF_STRATEGY": {
+    "CardId": "MASTER_OF_STRATEGY",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "SECRET_TECHNIQUE": {
+    "CardId": "SECRET_TECHNIQUE",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "CALAMITY": {
+    "CardId": "CALAMITY",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "HAND_OF_GREED": {
+    "CardId": "HAND_OF_GREED",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "KNOCKDOWN": {
+    "CardId": "KNOCKDOWN",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "NOSTALGIA": {
+    "CardId": "NOSTALGIA",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "PANIC_BUTTON": {
+    "CardId": "PANIC_BUTTON",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "PROWESS": {
+    "CardId": "PROWESS",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "FISTICUFFS": {
+    "CardId": "FISTICUFFS",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "LIFT": {
+    "CardId": "LIFT",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "ULTIMATE_DEFEND": {
+    "CardId": "ULTIMATE_DEFEND",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "EQUILIBRIUM": {
+    "CardId": "EQUILIBRIUM",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "ULTIMATE_STRIKE": {
+    "CardId": "ULTIMATE_STRIKE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "DISCOVERY": {
+    "CardId": "DISCOVERY",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "PRODUCTION": {
+    "CardId": "PRODUCTION",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "BELIEVE_IN_YOU": {
+    "CardId": "BELIEVE_IN_YOU",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "PROLONG": {
+    "CardId": "PROLONG",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "GANG_UP": {
+    "CardId": "GANG_UP",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "TAG_TEAM": {
+    "CardId": "TAG_TEAM",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "FINESSE": {
+    "CardId": "FINESSE",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "FLASH_OF_STEEL": {
+    "CardId": "FLASH_OF_STEEL",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "OMNISLICE": {
+    "CardId": "OMNISLICE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "DRAMATIC_ENTRANCE": {
+    "CardId": "DRAMATIC_ENTRANCE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "AUTOMATION": {
+    "CardId": "AUTOMATION",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "STRATAGEM": {
+    "CardId": "STRATAGEM",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "PANACHE": {
+    "CardId": "PANACHE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "ENTROPY": {
+    "CardId": "ENTROPY",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "MAYHEM": {
+    "CardId": "MAYHEM",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "REND": {
+    "CardId": "REND",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "SALVO": {
+    "CardId": "SALVO",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "ROLLING_BOULDER": {
+    "CardId": "ROLLING_BOULDER",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "GOLD_AXE": {
+    "CardId": "GOLD_AXE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "BEACON_OF_HOPE": {
+    "CardId": "BEACON_OF_HOPE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "THRUMMING_HATCHET": {
+    "CardId": "THRUMMING_HATCHET",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "MIND_BLAST": {
+    "CardId": "MIND_BLAST",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "SEEKER_STRIKE": {
+    "CardId": "SEEKER_STRIKE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "ETERNAL_ARMOR": {
+    "CardId": "ETERNAL_ARMOR",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "BOLAS": {
+    "CardId": "BOLAS",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "ANOINTED": {
+    "CardId": "ANOINTED",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "SECRET_WEAPON": {
+    "CardId": "SECRET_WEAPON",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "MIMIC": {
+    "CardId": "MIMIC",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "RESTLESSNESS": {
+    "CardId": "RESTLESSNESS",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "PURITY": {
+    "CardId": "PURITY",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "PREP_TIME": {
+    "CardId": "PREP_TIME",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "VOLLEY": {
+    "CardId": "VOLLEY",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "IMPATIENCE": {
+    "CardId": "IMPATIENCE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "INTERCEPT": {
+    "CardId": "INTERCEPT",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "JACK_OF_ALL_TRADES": {
+    "CardId": "JACK_OF_ALL_TRADES",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "THE_BOMB": {
+    "CardId": "THE_BOMB",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "CATASTROPHE": {
+    "CardId": "CATASTROPHE",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "THE_GAMBIT": {
+    "CardId": "THE_GAMBIT",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "BEAT_DOWN": {
+    "CardId": "BEAT_DOWN",
+    "Tier": "D",
+    "Score": 35.0,
+    "Commentary": ""
+  },
+  "THINKING_AHEAD": {
+    "CardId": "THINKING_AHEAD",
+    "Tier": "D",
+    "Score": 35.0,
+    "Commentary": ""
+  },
+  "COORDINATE": {
+    "CardId": "COORDINATE",
+    "Tier": "D",
+    "Score": 35.0,
+    "Commentary": ""
+  },
+  "ECHO_FORM": {
+    "CardId": "ECHO_FORM",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "HOLOGRAM": {
+    "CardId": "HOLOGRAM",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "SUPERCRITICAL": {
+    "CardId": "SUPERCRITICAL",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "CHILL": {
+    "CardId": "CHILL",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "TURBO": {
+    "CardId": "TURBO",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "GLACIER": {
+    "CardId": "GLACIER",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "DEFRAGMENT": {
+    "CardId": "DEFRAGMENT",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "MODDED": {
+    "CardId": "MODDED",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "ALL_FOR_ONE": {
+    "CardId": "ALL_FOR_ONE",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "COMPILE_DRIVER": {
+    "CardId": "COMPILE_DRIVER",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "GO_FOR_THE_EYES": {
+    "CardId": "GO_FOR_THE_EYES",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "WHITE_NOISE": {
+    "CardId": "WHITE_NOISE",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "OVERCLOCK": {
+    "CardId": "OVERCLOCK",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "QUADCAST": {
+    "CardId": "QUADCAST",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "SKIM": {
+    "CardId": "SKIM",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "BIASED_COGNITION": {
+    "CardId": "BIASED_COGNITION",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "VOLTAIC": {
+    "CardId": "VOLTAIC",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "BEAM_CELL": {
+    "CardId": "BEAM_CELL",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "FERAL": {
+    "CardId": "FERAL",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "SUBROUTINE": {
+    "CardId": "SUBROUTINE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "SPINNER": {
+    "CardId": "SPINNER",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "BUFFER": {
+    "CardId": "BUFFER",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "SHATTER": {
+    "CardId": "SHATTER",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "ICE_LANCE": {
+    "CardId": "ICE_LANCE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "NULL": {
+    "CardId": "NULL",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "SHADOW_SHIELD": {
+    "CardId": "SHADOW_SHIELD",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "GLASSWORK": {
+    "CardId": "GLASSWORK",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "BALL_LIGHTNING": {
+    "CardId": "BALL_LIGHTNING",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "COLD_SNAP": {
+    "CardId": "COLD_SNAP",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "MACHINE_LEARNING": {
+    "CardId": "MACHINE_LEARNING",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "BULK_UP": {
+    "CardId": "BULK_UP",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "SUNDER": {
+    "CardId": "SUNDER",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "DARKNESS": {
+    "CardId": "DARKNESS",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "GENETIC_ALGORITHM": {
+    "CardId": "GENETIC_ALGORITHM",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "COOLANT": {
+    "CardId": "COOLANT",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "TESLA_COIL": {
+    "CardId": "TESLA_COIL",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "BOOST_AWAY": {
+    "CardId": "BOOST_AWAY",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "BOOT_SEQUENCE": {
+    "CardId": "BOOT_SEQUENCE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "LIGHTNING_ROD": {
+    "CardId": "LIGHTNING_ROD",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "CHARGE_BATTERY": {
+    "CardId": "CHARGE_BATTERY",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "BARRAGE": {
+    "CardId": "BARRAGE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "REFRACT": {
+    "CardId": "REFRACT",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "GUNK_UP": {
+    "CardId": "GUNK_UP",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "FOCUSED_STRIKE": {
+    "CardId": "FOCUSED_STRIKE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "HOTFIX": {
+    "CardId": "HOTFIX",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "SYNCHRONIZE": {
+    "CardId": "SYNCHRONIZE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "TRASH_TO_TREASURE": {
+    "CardId": "TRASH_TO_TREASURE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "ROCKET_PUNCH": {
+    "CardId": "ROCKET_PUNCH",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "ENERGY_SURGE": {
+    "CardId": "ENERGY_SURGE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "SIGNAL_BOOST": {
+    "CardId": "SIGNAL_BOOST",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "ITERATION": {
+    "CardId": "ITERATION",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "SMOKESTACK": {
+    "CardId": "SMOKESTACK",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "METEOR_STRIKE": {
+    "CardId": "METEOR_STRIKE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "HYPERBEAM": {
+    "CardId": "HYPERBEAM",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "CREATIVE_AI": {
+    "CardId": "CREATIVE_AI",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "MULTI_CAST": {
+    "CardId": "MULTI_CAST",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "CAPACITOR": {
+    "CardId": "CAPACITOR",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "CLAW": {
+    "CardId": "CLAW",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "ADAPTIVE_STRIKE": {
+    "CardId": "ADAPTIVE_STRIKE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "RAINBOW": {
+    "CardId": "RAINBOW",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "FTL": {
+    "CardId": "FTL",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "THUNDER": {
+    "CardId": "THUNDER",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "COMPACT": {
+    "CardId": "COMPACT",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "FIGHT_THROUGH": {
+    "CardId": "FIGHT_THROUGH",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "COOLHEADED": {
+    "CardId": "COOLHEADED",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "SCRAPE": {
+    "CardId": "SCRAPE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "TEMPEST": {
+    "CardId": "TEMPEST",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "STORM": {
+    "CardId": "STORM",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "FUSION": {
+    "CardId": "FUSION",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "SCAVENGE": {
+    "CardId": "SCAVENGE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "DOUBLE_ENERGY": {
+    "CardId": "DOUBLE_ENERGY",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "FLAK_CANNON": {
+    "CardId": "FLAK_CANNON",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "ZAP": {
+    "CardId": "ZAP",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "DUALCAST": {
+    "CardId": "DUALCAST",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "IGNITION": {
+    "CardId": "IGNITION",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "REBOUND": {
+    "CardId": "REBOUND",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "STACK": {
+    "CardId": "STACK",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "HAILSTORM": {
+    "CardId": "HAILSTORM",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "CONSUMING_SHADOW": {
+    "CardId": "CONSUMING_SHADOW",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "HELLO_WORLD": {
+    "CardId": "HELLO_WORLD",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "RIP_AND_TEAR": {
+    "CardId": "RIP_AND_TEAR",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "SWEEPING_BEAM": {
+    "CardId": "SWEEPING_BEAM",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "LEAP": {
+    "CardId": "LEAP",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "MOMENTUM_STRIKE": {
+    "CardId": "MOMENTUM_STRIKE",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "HELIX_DRILL": {
+    "CardId": "HELIX_DRILL",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "SYNTHESIS": {
+    "CardId": "SYNTHESIS",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "DEFEND_DEFECT": {
+    "CardId": "DEFEND_DEFECT",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "LOOP": {
+    "CardId": "LOOP",
+    "Tier": "D",
+    "Score": 35.0,
+    "Commentary": ""
+  },
+  "REBOOT": {
+    "CardId": "REBOOT",
+    "Tier": "D",
+    "Score": 35.0,
+    "Commentary": ""
+  },
+  "UPROAR": {
+    "CardId": "UPROAR",
+    "Tier": "D",
+    "Score": 35.0,
+    "Commentary": ""
+  },
+  "CHAOS": {
+    "CardId": "CHAOS",
+    "Tier": "D",
+    "Score": 35.0,
+    "Commentary": ""
+  },
+  "STRIKE_DEFECT": {
+    "CardId": "STRIKE_DEFECT",
+    "Tier": "F",
+    "Score": 15.0,
+    "Commentary": ""
+  },
+  "ADRENALINE": {
+    "CardId": "ADRENALINE",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "CALCULATED_GAMBLE": {
+    "CardId": "CALCULATED_GAMBLE",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "CORROSIVE_WAVE": {
+    "CardId": "CORROSIVE_WAVE",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "SHADOWMELD": {
+    "CardId": "SHADOWMELD",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "ACROBATICS": {
+    "CardId": "ACROBATICS",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "PREPARED": {
+    "CardId": "PREPARED",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "BURST": {
+    "CardId": "BURST",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "TOOLS_OF_THE_TRADE": {
+    "CardId": "TOOLS_OF_THE_TRADE",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "TACTICIAN": {
+    "CardId": "TACTICIAN",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "PIERCING_WAIL": {
+    "CardId": "PIERCING_WAIL",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "HAND_TRICK": {
+    "CardId": "HAND_TRICK",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "FLANKING": {
+    "CardId": "FLANKING",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "WELL_LAID_PLANS": {
+    "CardId": "WELL_LAID_PLANS",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "TRACKING": {
+    "CardId": "TRACKING",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "SUPPRESS": {
+    "CardId": "SUPPRESS",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "WRAITH_FORM": {
+    "CardId": "WRAITH_FORM",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "AFTERIMAGE": {
+    "CardId": "AFTERIMAGE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "ACCELERANT": {
+    "CardId": "ACCELERANT",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "MALAISE": {
+    "CardId": "MALAISE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "UNTOUCHABLE": {
+    "CardId": "UNTOUCHABLE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "REFLEX": {
+    "CardId": "REFLEX",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "ABRASIVE": {
+    "CardId": "ABRASIVE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "FOOTWORK": {
+    "CardId": "FOOTWORK",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "BLADE_OF_INK": {
+    "CardId": "BLADE_OF_INK",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "BACKFLIP": {
+    "CardId": "BACKFLIP",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "LEG_SWEEP": {
+    "CardId": "LEG_SWEEP",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "BLUR": {
+    "CardId": "BLUR",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "PINPOINT": {
+    "CardId": "PINPOINT",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "FLECHETTES": {
+    "CardId": "FLECHETTES",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "BOUNCING_FLASK": {
+    "CardId": "BOUNCING_FLASK",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "NOXIOUS_FUMES": {
+    "CardId": "NOXIOUS_FUMES",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "BUBBLE_BUBBLE": {
+    "CardId": "BUBBLE_BUBBLE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "HIDDEN_DAGGERS": {
+    "CardId": "HIDDEN_DAGGERS",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "SPEEDSTER": {
+    "CardId": "SPEEDSTER",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "OUTBREAK": {
+    "CardId": "OUTBREAK",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "ESCAPE_PLAN": {
+    "CardId": "ESCAPE_PLAN",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "NIGHTMARE": {
+    "CardId": "NIGHTMARE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "SHADOW_STEP": {
+    "CardId": "SHADOW_STEP",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "BULLET_TIME": {
+    "CardId": "BULLET_TIME",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "SNEAKY": {
+    "CardId": "SNEAKY",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "NEUTRALIZE": {
+    "CardId": "NEUTRALIZE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "CALTROPS": {
+    "CardId": "CALTROPS",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "EXPOSE": {
+    "CardId": "EXPOSE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "MEMENTO_MORI": {
+    "CardId": "MEMENTO_MORI",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "MURDER": {
+    "CardId": "MURDER",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "THE_HUNT": {
+    "CardId": "THE_HUNT",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "KNIFE_TRAP": {
+    "CardId": "KNIFE_TRAP",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "ACCURACY": {
+    "CardId": "ACCURACY",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "PHANTOM_BLADES": {
+    "CardId": "PHANTOM_BLADES",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "FAN_OF_KNIVES": {
+    "CardId": "FAN_OF_KNIVES",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "ANTICIPATE": {
+    "CardId": "ANTICIPATE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "ASSASSINATE": {
+    "CardId": "ASSASSINATE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "BACKSTAB": {
+    "CardId": "BACKSTAB",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "DASH": {
+    "CardId": "DASH",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "MASTER_PLANNER": {
+    "CardId": "MASTER_PLANNER",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "STORM_OF_STEEL": {
+    "CardId": "STORM_OF_STEEL",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "POUNCE": {
+    "CardId": "POUNCE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "HAZE": {
+    "CardId": "HAZE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "EXPERTISE": {
+    "CardId": "EXPERTISE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "MIRAGE": {
+    "CardId": "MIRAGE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "DEFLECT": {
+    "CardId": "DEFLECT",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "LEADING_STRIKE": {
+    "CardId": "LEADING_STRIKE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "DAGGER_THROW": {
+    "CardId": "DAGGER_THROW",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "SNAKEBITE": {
+    "CardId": "SNAKEBITE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "PREDATOR": {
+    "CardId": "PREDATOR",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "SKEWER": {
+    "CardId": "SKEWER",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "ECHOING_SLASH": {
+    "CardId": "ECHOING_SLASH",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "FLICK_FLACK": {
+    "CardId": "FLICK_FLACK",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "FINISHER": {
+    "CardId": "FINISHER",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "SCARE": {
+    "CardId": "SCARE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "DODGE_AND_ROLL": {
+    "CardId": "DODGE_AND_ROLL",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "SURVIVOR": {
+    "CardId": "SURVIVOR",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "DEFEND_SILENT": {
+    "CardId": "DEFEND_SILENT",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "OUTMANEUVER": {
+    "CardId": "OUTMANEUVER",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "DEADLY_POISON": {
+    "CardId": "DEADLY_POISON",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "ENVENOM": {
+    "CardId": "ENVENOM",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "SERPENT_FORM": {
+    "CardId": "SERPENT_FORM",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "GRAND_FINALE": {
+    "CardId": "GRAND_FINALE",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "PRECISE_CUT": {
+    "CardId": "PRECISE_CUT",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "POISONED_STAB": {
+    "CardId": "POISONED_STAB",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "CLOAK_AND_DAGGER": {
+    "CardId": "CLOAK_AND_DAGGER",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "UP_MY_SLEEVE": {
+    "CardId": "UP_MY_SLEEVE",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "FOLLOW_THROUGH": {
+    "CardId": "FOLLOW_THROUGH",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "SUCKER_PUNCH": {
+    "CardId": "SUCKER_PUNCH",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "BLADE_DANCE": {
+    "CardId": "BLADE_DANCE",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "DAGGER_SPRAY": {
+    "CardId": "DAGGER_SPRAY",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "RICOCHET": {
+    "CardId": "RICOCHET",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "INFINITE_BLADES": {
+    "CardId": "INFINITE_BLADES",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "SLICE": {
+    "CardId": "SLICE",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "DISTRACTION": {
+    "CardId": "DISTRACTION",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "STRIKE_SILENT": {
+    "CardId": "STRIKE_SILENT",
+    "Tier": "D",
+    "Score": 35.0,
+    "Commentary": ""
+  },
+  "SLEIGHT_OF_FLESH": {
+    "CardId": "SLEIGHT_OF_FLESH",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "DEMESNE": {
+    "CardId": "DEMESNE",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "NEUROSURGE": {
+    "CardId": "NEUROSURGE",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "CALL_OF_THE_VOID": {
+    "CardId": "CALL_OF_THE_VOID",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "BANSHEES_CRY": {
+    "CardId": "BANSHEES_CRY",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "DEATHS_DOOR": {
+    "CardId": "DEATHS_DOOR",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "BORROWED_TIME": {
+    "CardId": "BORROWED_TIME",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "DELAY": {
+    "CardId": "DELAY",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "END_OF_DAYS": {
+    "CardId": "END_OF_DAYS",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "OBLIVION": {
+    "CardId": "OBLIVION",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "SQUEEZE": {
+    "CardId": "SQUEEZE",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "ERADICATE": {
+    "CardId": "ERADICATE",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "SHARED_FATE": {
+    "CardId": "SHARED_FATE",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "ENFEEBLING_TOUCH": {
+    "CardId": "ENFEEBLING_TOUCH",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "FORBIDDEN_GRIMOIRE": {
+    "CardId": "FORBIDDEN_GRIMOIRE",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "PROTECTOR": {
+    "CardId": "PROTECTOR",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "REANIMATE": {
+    "CardId": "REANIMATE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "TRANSFIGURE": {
+    "CardId": "TRANSFIGURE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "DEATHBRINGER": {
+    "CardId": "DEATHBRINGER",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "FRIENDSHIP": {
+    "CardId": "FRIENDSHIP",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "LETHALITY": {
+    "CardId": "LETHALITY",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "SPIRIT_OF_ASH": {
+    "CardId": "SPIRIT_OF_ASH",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "DEFY": {
+    "CardId": "DEFY",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "DEBILITATE": {
+    "CardId": "DEBILITATE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "PUTREFY": {
+    "CardId": "PUTREFY",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "UNDEATH": {
+    "CardId": "UNDEATH",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "DREDGE": {
+    "CardId": "DREDGE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "BONE_SHARDS": {
+    "CardId": "BONE_SHARDS",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "DANSE_MACABRE": {
+    "CardId": "DANSE_MACABRE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "GRAVE_WARDEN": {
+    "CardId": "GRAVE_WARDEN",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "SPUR": {
+    "CardId": "SPUR",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "MELANCHOLY": {
+    "CardId": "MELANCHOLY",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "SNAP": {
+    "CardId": "SNAP",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "FETCH": {
+    "CardId": "FETCH",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "SEANCE": {
+    "CardId": "SEANCE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "DIRGE": {
+    "CardId": "DIRGE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "CAPTURE_SPIRIT": {
+    "CardId": "CAPTURE_SPIRIT",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "THE_SCYTHE": {
+    "CardId": "THE_SCYTHE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "HANG": {
+    "CardId": "HANG",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "NECRO_MASTERY": {
+    "CardId": "NECRO_MASTERY",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "COUNTDOWN": {
+    "CardId": "COUNTDOWN",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "UNLEASH": {
+    "CardId": "UNLEASH",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "BODYGUARD": {
+    "CardId": "BODYGUARD",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "GLIMPSE_BEYOND": {
+    "CardId": "GLIMPSE_BEYOND",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "EIDOLON": {
+    "CardId": "EIDOLON",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "TIMES_UP": {
+    "CardId": "TIMES_UP",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "REAPER_FORM": {
+    "CardId": "REAPER_FORM",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "NO_ESCAPE": {
+    "CardId": "NO_ESCAPE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "NEGATIVE_PULSE": {
+    "CardId": "NEGATIVE_PULSE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "REAP": {
+    "CardId": "REAP",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "SHROUD": {
+    "CardId": "SHROUD",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "CALCIFY": {
+    "CardId": "CALCIFY",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "CLEANSE": {
+    "CardId": "CLEANSE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "AFTERLIFE": {
+    "CardId": "AFTERLIFE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "RATTLE": {
+    "CardId": "RATTLE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "HIGH_FIVE": {
+    "CardId": "HIGH_FIVE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "DEATH_MARCH": {
+    "CardId": "DEATH_MARCH",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "POKE": {
+    "CardId": "POKE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "FLATTEN": {
+    "CardId": "FLATTEN",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "SIC_EM": {
+    "CardId": "SIC_EM",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "SEVERANCE": {
+    "CardId": "SEVERANCE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "DEFILE": {
+    "CardId": "DEFILE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "REAVE": {
+    "CardId": "REAVE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "INVOKE": {
+    "CardId": "INVOKE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "SOW": {
+    "CardId": "SOW",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "DRAIN_POWER": {
+    "CardId": "DRAIN_POWER",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "MISERY": {
+    "CardId": "MISERY",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "SENTRY_MODE": {
+    "CardId": "SENTRY_MODE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "PULL_AGGRO": {
+    "CardId": "PULL_AGGRO",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "PAGESTORM": {
+    "CardId": "PAGESTORM",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "LEGION_OF_BONE": {
+    "CardId": "LEGION_OF_BONE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "DEVOUR_LIFE": {
+    "CardId": "DEVOUR_LIFE",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "SOUL_STORM": {
+    "CardId": "SOUL_STORM",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "HAUNT": {
+    "CardId": "HAUNT",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "SACRIFICE": {
+    "CardId": "SACRIFICE",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "PULL_FROM_BELOW": {
+    "CardId": "PULL_FROM_BELOW",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "RIGHT_HAND_HAND": {
+    "CardId": "RIGHT_HAND_HAND",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "SCOURGE": {
+    "CardId": "SCOURGE",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "SCULPTING_STRIKE": {
+    "CardId": "SCULPTING_STRIKE",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "VEILPIERCER": {
+    "CardId": "VEILPIERCER",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "FEAR": {
+    "CardId": "FEAR",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "BLIGHT_STRIKE": {
+    "CardId": "BLIGHT_STRIKE",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "WISP": {
+    "CardId": "WISP",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "PARSE": {
+    "CardId": "PARSE",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "DEFEND_NECROBINDER": {
+    "CardId": "DEFEND_NECROBINDER",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "BURY": {
+    "CardId": "BURY",
+    "Tier": "D",
+    "Score": 35.0,
+    "Commentary": ""
+  },
+  "GRAVEBLAST": {
+    "CardId": "GRAVEBLAST",
+    "Tier": "D",
+    "Score": 35.0,
+    "Commentary": ""
+  },
+  "STRIKE_NECROBINDER": {
+    "CardId": "STRIKE_NECROBINDER",
+    "Tier": "F",
+    "Score": 15.0,
+    "Commentary": ""
+  },
+  "THE_SEALED_THRONE": {
+    "CardId": "THE_SEALED_THRONE",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "REFLECT": {
+    "CardId": "REFLECT",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "VOID_FORM": {
+    "CardId": "VOID_FORM",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "BULWARK": {
+    "CardId": "BULWARK",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "GUARDS": {
+    "CardId": "GUARDS",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "BIG_BANG": {
+    "CardId": "BIG_BANG",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "TYRANNY": {
+    "CardId": "TYRANNY",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "CHARGE": {
+    "CardId": "CHARGE",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "PARTICLE_WALL": {
+    "CardId": "PARTICLE_WALL",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "BOMBARDMENT": {
+    "CardId": "BOMBARDMENT",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "ARSENAL": {
+    "CardId": "ARSENAL",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "COMET": {
+    "CardId": "COMET",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "DECISIONS_DECISIONS": {
+    "CardId": "DECISIONS_DECISIONS",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "METEOR_SHOWER": {
+    "CardId": "METEOR_SHOWER",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "CRASH_LANDING": {
+    "CardId": "CRASH_LANDING",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "ASTRAL_PULSE": {
+    "CardId": "ASTRAL_PULSE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "ROYAL_GAMBLE": {
+    "CardId": "ROYAL_GAMBLE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "HIDDEN_CACHE": {
+    "CardId": "HIDDEN_CACHE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "GAMMA_BLAST": {
+    "CardId": "GAMMA_BLAST",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "ORBIT": {
+    "CardId": "ORBIT",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "PALE_BLUE_DOT": {
+    "CardId": "PALE_BLUE_DOT",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "THE_SMITH": {
+    "CardId": "THE_SMITH",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "KINGLY_KICK": {
+    "CardId": "KINGLY_KICK",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "KINGLY_PUNCH": {
+    "CardId": "KINGLY_PUNCH",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "SPECTRUM_SHIFT": {
+    "CardId": "SPECTRUM_SHIFT",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "PILLAR_OF_CREATION": {
+    "CardId": "PILLAR_OF_CREATION",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "CHILD_OF_THE_STARS": {
+    "CardId": "CHILD_OF_THE_STARS",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "BEGONE": {
+    "CardId": "BEGONE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "GLITTERSTREAM": {
+    "CardId": "GLITTERSTREAM",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "QUASAR": {
+    "CardId": "QUASAR",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "MANIFEST_AUTHORITY": {
+    "CardId": "MANIFEST_AUTHORITY",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "CONVERGENCE": {
+    "CardId": "CONVERGENCE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "GLOW": {
+    "CardId": "GLOW",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "KNOW_THY_PLACE": {
+    "CardId": "KNOW_THY_PLACE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "SUPERMASSIVE": {
+    "CardId": "SUPERMASSIVE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "FOREGONE_CONCLUSION": {
+    "CardId": "FOREGONE_CONCLUSION",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "HEAVENLY_DRILL": {
+    "CardId": "HEAVENLY_DRILL",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "GUIDING_STAR": {
+    "CardId": "GUIDING_STAR",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "LARGESSE": {
+    "CardId": "LARGESSE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "BLACK_HOLE": {
+    "CardId": "BLACK_HOLE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "ROYALTIES": {
+    "CardId": "ROYALTIES",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "SWORD_SAGE": {
+    "CardId": "SWORD_SAGE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "HAMMER_TIME": {
+    "CardId": "HAMMER_TIME",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "DYING_STAR": {
+    "CardId": "DYING_STAR",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "I_AM_INVINCIBLE": {
+    "CardId": "I_AM_INVINCIBLE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "MAKE_IT_SO": {
+    "CardId": "MAKE_IT_SO",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "BUNDLE_OF_JOY": {
+    "CardId": "BUNDLE_OF_JOY",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "COLLISION_COURSE": {
+    "CardId": "COLLISION_COURSE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "SHINING_STRIKE": {
+    "CardId": "SHINING_STRIKE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "SUMMON_FORTH": {
+    "CardId": "SUMMON_FORTH",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "PHOTON_CUT": {
+    "CardId": "PHOTON_CUT",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "GATHER_LIGHT": {
+    "CardId": "GATHER_LIGHT",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "CLOAK_OF_STARS": {
+    "CardId": "CLOAK_OF_STARS",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "PATTER": {
+    "CardId": "PATTER",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "RADIATE": {
+    "CardId": "RADIATE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "ALIGNMENT": {
+    "CardId": "ALIGNMENT",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "STARDUST": {
+    "CardId": "STARDUST",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "REFINE_BLADE": {
+    "CardId": "REFINE_BLADE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "CELESTIAL_MIGHT": {
+    "CardId": "CELESTIAL_MIGHT",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "CONQUEROR": {
+    "CardId": "CONQUEROR",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "FURNACE": {
+    "CardId": "FURNACE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "PARRY": {
+    "CardId": "PARRY",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "HEIRLOOM_HAMMER": {
+    "CardId": "HEIRLOOM_HAMMER",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "MONARCHS_GAZE": {
+    "CardId": "MONARCHS_GAZE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "CRUSH_UNDER": {
+    "CardId": "CRUSH_UNDER",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "HEGEMONY": {
+    "CardId": "HEGEMONY",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "PROPHESIZE": {
+    "CardId": "PROPHESIZE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "TERRAFORMING": {
+    "CardId": "TERRAFORMING",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "FALLING_STAR": {
+    "CardId": "FALLING_STAR",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "GENESIS": {
+    "CardId": "GENESIS",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "SEEKING_EDGE": {
+    "CardId": "SEEKING_EDGE",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "COSMIC_INDIFFERENCE": {
+    "CardId": "COSMIC_INDIFFERENCE",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "KNOCKOUT_BLOW": {
+    "CardId": "KNOCKOUT_BLOW",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "WROUGHT_IN_WAR": {
+    "CardId": "WROUGHT_IN_WAR",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "SOLAR_STRIKE": {
+    "CardId": "SOLAR_STRIKE",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "GLIMMER": {
+    "CardId": "GLIMMER",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "MONOLOGUE": {
+    "CardId": "MONOLOGUE",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "SPOILS_OF_BATTLE": {
+    "CardId": "SPOILS_OF_BATTLE",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "BEAT_INTO_SHAPE": {
+    "CardId": "BEAT_INTO_SHAPE",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "CRESCENT_SPEAR": {
+    "CardId": "CRESCENT_SPEAR",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "VENERATE": {
+    "CardId": "VENERATE",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "DEFEND_REGENT": {
+    "CardId": "DEFEND_REGENT",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "NEUTRON_AEGIS": {
+    "CardId": "NEUTRON_AEGIS",
+    "Tier": "D",
+    "Score": 35.0,
+    "Commentary": ""
+  },
+  "SEVEN_STARS": {
+    "CardId": "SEVEN_STARS",
+    "Tier": "D",
+    "Score": 35.0,
+    "Commentary": ""
+  },
+  "DEVASTATE": {
+    "CardId": "DEVASTATE",
+    "Tier": "D",
+    "Score": 35.0,
+    "Commentary": ""
+  },
+  "LUNAR_BLAST": {
+    "CardId": "LUNAR_BLAST",
+    "Tier": "D",
+    "Score": 35.0,
+    "Commentary": ""
+  },
+  "STRIKE_REGENT": {
+    "CardId": "STRIKE_REGENT",
+    "Tier": "F",
+    "Score": 15.0,
+    "Commentary": ""
+  },
+  "RESONANCE": {
+    "CardId": "RESONANCE",
+    "Tier": "F",
+    "Score": 15.0,
+    "Commentary": ""
+  },
+  "OFFERING": {
+    "CardId": "OFFERING",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "UNMOVABLE": {
+    "CardId": "UNMOVABLE",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "BREAK": {
+    "CardId": "BREAK",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "COLOSSUS": {
+    "CardId": "COLOSSUS",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "EVIL_EYE": {
+    "CardId": "EVIL_EYE",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "DOMINATE": {
+    "CardId": "DOMINATE",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "DARK_EMBRACE": {
+    "CardId": "DARK_EMBRACE",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "VICIOUS": {
+    "CardId": "VICIOUS",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "BLOODLETTING": {
+    "CardId": "BLOODLETTING",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "FIEND_FIRE": {
+    "CardId": "FIEND_FIRE",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "STOKE": {
+    "CardId": "STOKE",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "THRASH": {
+    "CardId": "THRASH",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "PILLAGE": {
+    "CardId": "PILLAGE",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "CRUELTY": {
+    "CardId": "CRUELTY",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "POMMEL_STRIKE": {
+    "CardId": "POMMEL_STRIKE",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "IMPERVIOUS": {
+    "CardId": "IMPERVIOUS",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "RAGE": {
+    "CardId": "RAGE",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "AGGRESSION": {
+    "CardId": "AGGRESSION",
+    "Tier": "S",
+    "Score": 95.0,
+    "Commentary": ""
+  },
+  "CRIMSON_MANTLE": {
+    "CardId": "CRIMSON_MANTLE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "CORRUPTION": {
+    "CardId": "CORRUPTION",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "JUGGERNAUT": {
+    "CardId": "JUGGERNAUT",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "NOT_YET": {
+    "CardId": "NOT_YET",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "PACTS_END": {
+    "CardId": "PACTS_END",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "PYRE": {
+    "CardId": "PYRE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "BATTLE_TRANCE": {
+    "CardId": "BATTLE_TRANCE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "FEED": {
+    "CardId": "FEED",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "ONE_TWO_PUNCH": {
+    "CardId": "ONE_TWO_PUNCH",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "ANGER": {
+    "CardId": "ANGER",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "STOMP": {
+    "CardId": "STOMP",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "UPPERCUT": {
+    "CardId": "UPPERCUT",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "ASHEN_STRIKE": {
+    "CardId": "ASHEN_STRIKE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "BULLY": {
+    "CardId": "BULLY",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "CASCADE": {
+    "CardId": "CASCADE",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "FLAME_BARRIER": {
+    "CardId": "FLAME_BARRIER",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "TAUNT": {
+    "CardId": "TAUNT",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "SHRUG_IT_OFF": {
+    "CardId": "SHRUG_IT_OFF",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "FEEL_NO_PAIN": {
+    "CardId": "FEEL_NO_PAIN",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "FIGHT_ME": {
+    "CardId": "FIGHT_ME",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "BLUDGEON": {
+    "CardId": "BLUDGEON",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "EXPECT_A_FIGHT": {
+    "CardId": "EXPECT_A_FIGHT",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "BURNING_PACT": {
+    "CardId": "BURNING_PACT",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "HEADBUTT": {
+    "CardId": "HEADBUTT",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "BODY_SLAM": {
+    "CardId": "BODY_SLAM",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "HEMOKINESIS": {
+    "CardId": "HEMOKINESIS",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "WHIRLWIND": {
+    "CardId": "WHIRLWIND",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "DEMONIC_SHIELD": {
+    "CardId": "DEMONIC_SHIELD",
+    "Tier": "A",
+    "Score": 80.0,
+    "Commentary": ""
+  },
+  "BRAND": {
+    "CardId": "BRAND",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "CONFLAGRATION": {
+    "CardId": "CONFLAGRATION",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "DISMANTLE": {
+    "CardId": "DISMANTLE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "TEAR_ASUNDER": {
+    "CardId": "TEAR_ASUNDER",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "PRIMAL_FORCE": {
+    "CardId": "PRIMAL_FORCE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "FORGOTTEN_RITUAL": {
+    "CardId": "FORGOTTEN_RITUAL",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "SPITE": {
+    "CardId": "SPITE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "INFERNAL_BLADE": {
+    "CardId": "INFERNAL_BLADE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "SECOND_WIND": {
+    "CardId": "SECOND_WIND",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "RUPTURE": {
+    "CardId": "RUPTURE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "BREAKTHROUGH": {
+    "CardId": "BREAKTHROUGH",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "ARMAMENTS": {
+    "CardId": "ARMAMENTS",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "BLOOD_WALL": {
+    "CardId": "BLOOD_WALL",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "TRUE_GRIT": {
+    "CardId": "TRUE_GRIT",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "STONE_ARMOR": {
+    "CardId": "STONE_ARMOR",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "BARRICADE": {
+    "CardId": "BARRICADE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "STAMPEDE": {
+    "CardId": "STAMPEDE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "JUGGLING": {
+    "CardId": "JUGGLING",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "UNRELENTING": {
+    "CardId": "UNRELENTING",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "IRON_WAVE": {
+    "CardId": "IRON_WAVE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "TREMBLE": {
+    "CardId": "TREMBLE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "MOLTEN_FIST": {
+    "CardId": "MOLTEN_FIST",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "PERFECTED_STRIKE": {
+    "CardId": "PERFECTED_STRIKE",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "HOWL_FROM_BEYOND": {
+    "CardId": "HOWL_FROM_BEYOND",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "DUAL_WIELD": {
+    "CardId": "DUAL_WIELD",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "ENTRENCH": {
+    "CardId": "ENTRENCH",
+    "Tier": "B",
+    "Score": 65.0,
+    "Commentary": ""
+  },
+  "HELLRAISER": {
+    "CardId": "HELLRAISER",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "INFERNO": {
+    "CardId": "INFERNO",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "INFLAME": {
+    "CardId": "INFLAME",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "CINDER": {
+    "CardId": "CINDER",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "TWIN_STRIKE": {
+    "CardId": "TWIN_STRIKE",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "RAMPAGE": {
+    "CardId": "RAMPAGE",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "THUNDERCLAP": {
+    "CardId": "THUNDERCLAP",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "SETUP_STRIKE": {
+    "CardId": "SETUP_STRIKE",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "SWORD_BOOMERANG": {
+    "CardId": "SWORD_BOOMERANG",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "MANGLE": {
+    "CardId": "MANGLE",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "DRUM_OF_BATTLE": {
+    "CardId": "DRUM_OF_BATTLE",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "STRIKE_IRONCLAD": {
+    "CardId": "STRIKE_IRONCLAD",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "DEFEND_IRONCLAD": {
+    "CardId": "DEFEND_IRONCLAD",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "BASH": {
+    "CardId": "BASH",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "CLASH": {
+    "CardId": "CLASH",
+    "Tier": "C",
+    "Score": 50.0,
+    "Commentary": ""
+  },
+  "HAVOC": {
+    "CardId": "HAVOC",
+    "Tier": "D",
+    "Score": 35.0,
+    "Commentary": ""
+  },
+  "TANK": {
+    "CardId": "TANK",
+    "Tier": "D",
+    "Score": 35.0,
+    "Commentary": ""
+  },
+  "DEMON_FORM": {
+    "CardId": "DEMON_FORM",
+    "Tier": "D",
+    "Score": 35.0,
+    "Commentary": ""
+  }
+}
