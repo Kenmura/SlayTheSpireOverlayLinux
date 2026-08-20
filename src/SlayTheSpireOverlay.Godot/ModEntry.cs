@@ -48,6 +48,33 @@ public partial class ModEntry : Node
             catch { }
         }
 
+        // Seed the cache from the embedded resource if it doesn't exist yet
+        string cachePath = System.IO.Path.Combine(godotUserDir, "tier_list_cache.json");
+        if (!System.IO.File.Exists(cachePath))
+        {
+            try
+            {
+                var assembly = typeof(ModEntry).Assembly;
+                using var stream = assembly.GetManifestResourceStream("SlayTheSpireOverlay.Godot.baalorlord_tiers.json");
+                if (stream != null)
+                {
+                    using var reader = new System.IO.StreamReader(stream);
+                    string json = reader.ReadToEnd();
+                    System.IO.Directory.CreateDirectory(godotUserDir);
+                    System.IO.File.WriteAllText(cachePath, json);
+                    GD.Print("[STS2 Overlay] Seeded tier_list_cache.json from embedded resource successfully.");
+                }
+                else
+                {
+                    GD.PrintErr("[STS2 Overlay] Embedded resource stream for baalorlord_tiers.json was null!");
+                }
+            }
+            catch (Exception ex)
+            {
+                GD.PrintErr($"[STS2 Overlay] Error seeding cache from embedded resource: {ex.Message}");
+            }
+        }
+
         var cacheOptions = new CacheOptions
         {
             CacheDirectory = godotUserDir,
@@ -57,6 +84,7 @@ public partial class ModEntry : Node
         // 3. Instantiate core services directly (zero external DI library dependency)
         var cacheManager = new LocalCacheManager(cacheOptions);
         var httpClient = new System.Net.Http.HttpClient();
+        httpClient.Timeout = TimeSpan.FromSeconds(3); // Prevent hanging under Steam Proton DNS/network initialization
         TierProvider = new HttpTierListProvider(httpClient, cacheManager, config);
 
         // Trigger cache load and background fetch immediately on start
