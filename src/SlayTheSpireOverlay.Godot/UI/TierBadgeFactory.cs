@@ -13,21 +13,49 @@ public static class TierBadgeFactory
         var panel = new PanelContainer();
         panel.Name = "TierBadgePanel";
 
-        var layout = new VBoxContainer();
+        // Create a custom StyleBoxFlat for a sleek glassmorphic pill background
+        var styleBox = new StyleBoxFlat
+        {
+            BgColor = new Color(0.08f, 0.09f, 0.12f, 0.92f),
+            CornerRadiusTopLeft = 6,
+            CornerRadiusTopRight = 6,
+            CornerRadiusBottomLeft = 6,
+            CornerRadiusBottomRight = 6,
+            BorderWidthLeft = 1,
+            BorderWidthTop = 1,
+            BorderWidthRight = 1,
+            BorderWidthBottom = 1,
+            BorderColor = new Color(1.0f, 1.0f, 1.0f, 0.2f),
+            ContentMarginLeft = 8,
+            ContentMarginTop = 3,
+            ContentMarginRight = 8,
+            ContentMarginBottom = 3
+        };
+        panel.AddThemeStyleboxOverride("panel", styleBox);
+
+        // Use horizontal layout for a compact pill badge (Tier | Score)
+        var layout = new HBoxContainer();
+        layout.AddThemeConstantOverride("separation", 5);
+
         var tierLabel = new Label();
+        var dividerLabel = new Label();
         var scoreLabel = new Label();
 
-        tierLabel.HorizontalAlignment = HorizontalAlignment.Center;
-        scoreLabel.HorizontalAlignment = HorizontalAlignment.Center;
+        // Label styling and alignment
+        tierLabel.VerticalAlignment = VerticalAlignment.Center;
+        dividerLabel.VerticalAlignment = VerticalAlignment.Center;
+        scoreLabel.VerticalAlignment = VerticalAlignment.Center;
+
+        dividerLabel.Text = "|";
+        dividerLabel.SelfModulate = new Color(0.5f, 0.5f, 0.6f, 0.6f);
 
         layout.AddChild(tierLabel);
+        layout.AddChild(dividerLabel);
         layout.AddChild(scoreLabel);
         panel.AddChild(layout);
 
-        // Styling badge with dark mode glassmorphism
-        panel.Size = new Vector2(60, 40);
-        panel.Position = new Vector2(10, 10);
-        panel.SelfModulate = new Color(0.12f, 0.12f, 0.16f, 0.9f);
+        // Position pill at top-right of the card header frame
+        panel.Position = new Vector2(70, -145);
 
         // Set initial placeholder text
         tierLabel.Text = "...";
@@ -55,6 +83,7 @@ public static class TierBadgeFactory
                             tierLabel.Text = cardData.Tier;
                             scoreLabel.Text = cardData.Score.ToString("0.0");
                             tierLabel.SelfModulate = GetColorForTier(cardData.Tier);
+                            scoreLabel.SelfModulate = new Color(0.95f, 0.95f, 0.98f);
                             panel.TooltipText = cardData.Commentary ?? "";
                         }
                     }).CallDeferred();
@@ -66,6 +95,7 @@ public static class TierBadgeFactory
                         if (GodotObject.IsInstanceValid(panel) && GodotObject.IsInstanceValid(tierLabel) && GodotObject.IsInstanceValid(scoreLabel))
                         {
                             tierLabel.Text = "N/A";
+                            dividerLabel.Visible = false;
                             scoreLabel.Text = "";
                             tierLabel.SelfModulate = new Color(0.6f, 0.6f, 0.6f);
                             panel.TooltipText = "No evaluation data found for this card.";
@@ -81,6 +111,7 @@ public static class TierBadgeFactory
                     if (GodotObject.IsInstanceValid(panel) && GodotObject.IsInstanceValid(tierLabel) && GodotObject.IsInstanceValid(scoreLabel))
                     {
                         tierLabel.Text = "N/A";
+                        dividerLabel.Visible = false;
                         scoreLabel.Text = "";
                         tierLabel.SelfModulate = new Color(0.6f, 0.6f, 0.6f);
                         panel.TooltipText = "Error loading evaluation data.";
@@ -108,11 +139,11 @@ public static class TierBadgeFactory
 
     private static Color GetColorForTier(string tier) => tier switch
     {
-        "S" => new Color(1.0f, 0.3f, 0.3f), // Soft Red
-        "A" => new Color(1.0f, 0.6f, 0.2f), // Orange
-        "B" => new Color(0.9f, 0.9f, 0.2f), // Golden Yellow
-        "C" => new Color(0.4f, 0.8f, 1.0f), // Sky Blue
-        "D" => new Color(0.6f, 0.6f, 0.6f), // Grey
-        _ => new Color(0.8f, 0.8f, 0.8f)
+        "S" => new Color(1.0f, 0.35f, 0.35f), // Crimson Red
+        "A" => new Color(1.0f, 0.65f, 0.25f), // Bright Amber
+        "B" => new Color(0.95f, 0.95f, 0.3f), // Golden Yellow
+        "C" => new Color(0.45f, 0.85f, 1.0f), // Sky Blue
+        "D" => new Color(0.65f, 0.65f, 0.65f), // Grey
+        _ => new Color(0.85f, 0.85f, 0.85f)
     };
 }
