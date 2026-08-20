@@ -127,14 +127,26 @@ public static class TierBadgeFactory
 
         string id = rawId.Trim();
 
-        // Remove namespacing prefixes like "base:Bash" -> "Bash"
+        // Remove namespacing prefixes like "CARD:GoForTheEyes" -> "GoForTheEyes"
         int colonIndex = id.IndexOf(':');
         if (colonIndex >= 0 && colonIndex < id.Length - 1)
         {
             id = id.Substring(colonIndex + 1);
         }
 
-        return id.ToUpperInvariant();
+        // Convert CamelCase (e.g. GoForTheEyes -> GO_FOR_THE_EYES, BulkUp -> BULK_UP)
+        var sb = new System.Text.StringBuilder();
+        for (int i = 0; i < id.Length; i++)
+        {
+            char c = id[i];
+            if (char.IsUpper(c) && i > 0 && (char.IsLower(id[i - 1]) || (i + 1 < id.Length && char.IsLower(id[i + 1]))))
+            {
+                sb.Append('_');
+            }
+            sb.Append(char.ToUpperInvariant(c));
+        }
+
+        return sb.ToString();
     }
 
     private static Color GetColorForTier(string tier) => tier switch

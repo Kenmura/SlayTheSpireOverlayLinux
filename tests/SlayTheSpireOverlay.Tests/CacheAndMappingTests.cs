@@ -115,6 +115,40 @@ public class CacheAndMappingTests
         Assert.AreEqual("Applies Vulnerable", result["Bash"].Commentary);
     }
 
+    [TestMethod]
+    public async Task TestHttpProvider_CamelCaseLookups_ShouldMatchCorrectRatings()
+    {
+        // Arrange: Populate cache with multi-word snake case keys as found in baalorlord_tiers.json
+        var cachedData = new Dictionary<string, CardTierData>
+        {
+            ["GO_FOR_THE_EYES"] = new CardTierData("GO_FOR_THE_EYES", "S", 95.0, "Great weakness dealer"),
+            ["BULK_UP"] = new CardTierData("BULK_UP", "A", 80.0, "Gains strength"),
+            ["LEAP"] = new CardTierData("LEAP", "C", 50.0, "Block card")
+        };
+        await _cacheManager.SaveToCacheAsync(cachedData);
+
+        var mockHandler = new MockHttpMessageHandler(HttpStatusCode.InternalServerError, "Error");
+        using var client = new HttpClient(mockHandler);
+
+        var config = new OverlayConfig { RemoteUrl = "https://example.com/tiers.json" };
+        var provider = new HttpTierListProvider(client, _cacheManager, config);
+
+        // Act
+        var result = await provider.GetTierListAsync(forceRefresh: true);
+
+        // Assert
+        Assert.IsNotNull(result);
+        Assert.IsTrue(result.ContainsKey("GO_FOR_THE_EYES"));
+        Assert.AreEqual("S", result["GO_FOR_THE_EYES"].Tier);
+        Assert.AreEqual(95.0, result["GO_FOR_THE_EYES"].Score);
+
+        Assert.IsTrue(result.ContainsKey("BULK_UP"));
+        Assert.AreEqual("A", result["BULK_UP"].Tier);
+
+        Assert.IsTrue(result.ContainsKey("LEAP"));
+        Assert.AreEqual("C", result["LEAP"].Tier);
+    }
+
     // Simple mock message handler for testing HttpClient without Moq
     private class MockHttpMessageHandler : HttpMessageHandler
     {
