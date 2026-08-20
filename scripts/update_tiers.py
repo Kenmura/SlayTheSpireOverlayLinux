@@ -225,8 +225,14 @@ def main():
 
     print("\n[*] Step 5: Committing and pushing changes to GitHub...")
     run_command("git add workshop/baalorlord_tiers.json src/SlayTheSpireOverlay.Godot/baalorlord_tiers.json workshop/workshop.json")
-    run_command(f"git commit -m '{commit_msg}'")
-    run_command("git push")
+    # Only commit if there is actually something staged (avoids "nothing to commit" error
+    # when --force is used but the tier data was already up to date)
+    staged = subprocess.run("git diff --cached --quiet", shell=True, cwd=REPO_DIR)
+    if staged.returncode != 0:
+        run_command(f"git commit -m '{commit_msg}'")
+        run_command("git push")
+    else:
+        print("[+] No file changes to commit — skipping git commit/push.")
 
     if args.skip_steam:
         print("\n[!] --skip-steam set: skipping Steam Workshop upload.")
