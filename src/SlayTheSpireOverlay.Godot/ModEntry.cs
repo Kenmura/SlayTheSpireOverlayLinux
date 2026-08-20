@@ -1,5 +1,4 @@
 using Godot;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net.Http;
 using SlayTheSpireOverlay.Core.Interfaces;
@@ -10,12 +9,10 @@ namespace SlayTheSpireOverlay.Godot;
 
 public partial class ModEntry : Node
 {
-    private IServiceProvider _serviceProvider = null!;
+    private ITierListProvider _tierProvider = null!;
 
     public override void _Ready()
     {
-        var services = new ServiceCollection();
-
         // 1. Resolve Godot's user path
         string godotUserDir = ProjectSettings.GlobalizePath("user://");
 
@@ -53,23 +50,13 @@ public partial class ModEntry : Node
             CacheExpiryHours = config.CacheExpiryHours
         };
 
-        services.AddSingleton(config);
-        services.AddSingleton(cacheOptions);
-
-        // 3. Register core services
-        services.AddSingleton<LocalCacheManager>();
-        services.AddSingleton<System.Net.Http.HttpClient>();
-        services.AddSingleton<ITierListProvider>(sp => new HttpTierListProvider(
-            sp.GetRequiredService<System.Net.Http.HttpClient>(),
-            sp.GetRequiredService<LocalCacheManager>(),
-            sp.GetRequiredService<OverlayConfig>()
-        ));
-
-        _serviceProvider = services.BuildServiceProvider();
+        // 3. Instantiate core services directly (zero external DI library dependency)
+        var cacheManager = new LocalCacheManager(cacheOptions);
+        var httpClient = new System.Net.Http.HttpClient();
+        _tierProvider = new HttpTierListProvider(httpClient, cacheManager, config);
 
         // Trigger cache load and background fetch immediately on start
-        var provider = _serviceProvider.GetRequiredService<ITierListProvider>();
-        _ = provider.GetTierListAsync();
+        _ = _tierProvider.GetTierListAsync();
 
         // Subscribe to game signals
         SubscribeToGameSignals();
@@ -78,17 +65,14 @@ public partial class ModEntry : Node
     private void SubscribeToGameSignals()
     {
         // Example integration point for game signals:
-        // Here you would hook into the Slay the Spire 2 Modding API.
         // e.g. CardLoader.Connect("CardGenerated", new Callable(this, nameof(OnCardGenerated)));
     }
 
     // This method is called by the mod hook when a card UI node is created
     public void OnCardGenerated(Node cardNode, string cardId)
     {
-        var provider = _serviceProvider.GetRequiredService<ITierListProvider>();
-        
         // Dynamically instantiate the UI overlay badge
-        var badge = new UI.TierBadge(provider, cardId);
+        var badge = new UI.TierBadge(_tierProvider, cardId);
         cardNode.AddChild(badge);
     }
 }

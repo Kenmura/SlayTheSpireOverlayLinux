@@ -12,6 +12,8 @@ public class DependencyTests
     public void Core_Should_Not_Reference_Godot_Assemblies()
     {
         var result = Types.InAssembly(typeof(ITierListProvider).Assembly)
+            .That()
+            .ResideInNamespace("SlayTheSpireOverlay.Core")
             .ShouldNot()
             .HaveDependencyOn("GodotSharp")
             .GetResult();

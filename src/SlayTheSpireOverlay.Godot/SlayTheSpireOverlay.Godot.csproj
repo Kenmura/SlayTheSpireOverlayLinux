@@ -1,12 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\SlayTheSpireOverlay.Core\SlayTheSpireOverlay.Core.csproj" />
+    <Compile Include="..\SlayTheSpireOverlay.Core\**\*.cs" Exclude="..\SlayTheSpireOverlay.Core\obj\**;..\SlayTheSpireOverlay.Core\bin\**" Link="Core\%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="GodotSharp" Version="4.7.2" ExcludeAssets="Runtime" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.11" />
   </ItemGroup>
 
   <PropertyGroup>
