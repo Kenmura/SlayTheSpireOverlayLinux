@@ -2,7 +2,7 @@
   "title": "Overlay for Tier List",
   "description": "A clean, performant in-game overlay for Slay the Spire 2 displaying card, relic, and Ancient choice tier badges, scores, and evaluations.",
   "visibility": "private",
-  "changeNote": "Misc bug fixes and maintenance updates.",
+  "changeNote": "Tier List Update [2026-10-16]:\n[ADDED] ABRASIVE: Tier='A'\n[ADDED] ACCELERANT: Tier='A'\n[ADDED] AKABEKO: Tier='B'\n[ADDED] ALCHEMIZE: Tier='S'\n[ADDED] ANGER: Tier='A'\n[ADDED] ANOINTED: Tier='C'\n[ADDED] ARMAMENTS: Tier='B'\n[ADDED] ART_OF_WAR: Tier='A'\n[ADDED] ASHEN_STRIKE: Tier='A'\n[ADDED] ASSASSINATE: Tier='B'\n... and 250 more tier list updates.",
   "tags": [
     "Mod",
     "Overlay",
