@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\SlayTheSpireOverlay.Core\SlayTheSpireOverlay.Core.csproj" />
+    <ProjectReference Include="..\..\src\SlayTheSpireMapFog.Core\SlayTheSpireMapFog.Core.csproj" />
   </ItemGroup>
 
 </Project>

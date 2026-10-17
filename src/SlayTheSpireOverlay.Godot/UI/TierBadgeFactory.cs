@@ -1,76 +1,120 @@
 using Godot;
 using System;
 using SlayTheSpireOverlay.Core.Interfaces;
-using SlayTheSpireOverlay.Core.Models;
+using SlayTheSpireOverlay.Core.Services;
 
 namespace SlayTheSpireOverlay.Godot.UI;
 
 public static class TierBadgeFactory
 {
-    public static void CreateOrUpdateBadge(Node cardNode, ITierListProvider tierProvider, string cardId)
-    {
-        if (cardNode == null || !GodotObject.IsInstanceValid(cardNode)) return;
+    public static void CreateOrUpdateBadge(
+        Node cardNode,
+        ITierListProvider tierProvider,
+        string cardId,
+        string author = "Baalorlord",
+        Func<Node, bool>? isSuppressed = null,
+        bool showHoverCommentary = true) =>
+        AttachBadge(
+            cardNode,
+            "TierBadgePanel",
+            new Vector2(70, -145),
+            tierProvider,
+            cardId,
+            author,
+            stripOptionSuffix: false,
+            alignRightOnControl: false,
+            cornerRadius: 6,
+            marginH: 8,
+            marginV: 3,
+            separation: 5,
+            isSuppressed: isSuppressed,
+            showHoverCommentary: showHoverCommentary);
 
-        // Check if badge panel already exists on this card node
-        PanelContainer panel = cardNode.GetNodeOrNull<PanelContainer>("TierBadgePanel");
-        Label tierLabel;
-        Label dividerLabel;
-        Label scoreLabel;
+    public static void HideBadge(Node? targetNode, string panelName)
+    {
+        if (targetNode == null || !GodotObject.IsInstanceValid(targetNode)) return;
+        var existing = targetNode.GetNodeOrNull<Control>(panelName);
+        if (existing != null && GodotObject.IsInstanceValid(existing))
+        {
+            existing.SetMeta("TargetId", string.Empty);
+            existing.Visible = false;
+        }
+    }
+
+    internal static void AttachBadge(
+        Node? targetNode,
+        string panelName,
+        Vector2 position,
+        ITierListProvider tierProvider,
+        string rawId,
+        string author,
+        bool stripOptionSuffix,
+        bool alignRightOnControl,
+        int cornerRadius,
+        int marginH,
+        int marginV,
+        int separation,
+        Func<Node, bool>? isSuppressed = null,
+        bool showHoverCommentary = true)
+    {
+        if (targetNode == null || !GodotObject.IsInstanceValid(targetNode)) return;
+
+        string lookupKey = OverlayCalculators.NormalizeId(rawId, stripOptionSuffix);
+        if (string.IsNullOrEmpty(lookupKey))
+        {
+            HideBadge(targetNode, panelName);
+            return;
+        }
+
+        PanelContainer? panel = targetNode.GetNodeOrNull<PanelContainer>(panelName);
+        Label? tierLabel;
+        Label? dividerLabel;
+        Label? scoreLabel;
 
         if (panel == null || !GodotObject.IsInstanceValid(panel))
         {
-            panel = new PanelContainer();
-            panel.Name = "TierBadgePanel";
+            // MouseFilter.Pass allows hover commentary popups to detect mouse enter/exit
+            // while propagating all clicks and hovers through to the underlying game control.
+            panel = new PanelContainer { Name = panelName, MouseFilter = Control.MouseFilterEnum.Pass };
 
             var styleBox = new StyleBoxFlat
             {
                 BgColor = new Color(0.08f, 0.09f, 0.12f, 0.92f),
-                CornerRadiusTopLeft = 6,
-                CornerRadiusTopRight = 6,
-                CornerRadiusBottomLeft = 6,
-                CornerRadiusBottomRight = 6,
+                CornerRadiusTopLeft = cornerRadius,
+                CornerRadiusTopRight = cornerRadius,
+                CornerRadiusBottomLeft = cornerRadius,
+                CornerRadiusBottomRight = cornerRadius,
                 BorderWidthLeft = 1,
                 BorderWidthTop = 1,
                 BorderWidthRight = 1,
                 BorderWidthBottom = 1,
                 BorderColor = new Color(1.0f, 1.0f, 1.0f, 0.2f),
-                ContentMarginLeft = 8,
-                ContentMarginTop = 3,
-                ContentMarginRight = 8,
-                ContentMarginBottom = 3
+                ContentMarginLeft = marginH,
+                ContentMarginTop = marginV,
+                ContentMarginRight = marginH,
+                ContentMarginBottom = marginV
             };
             panel.AddThemeStyleboxOverride("panel", styleBox);
 
-            var layout = new HBoxContainer();
-            layout.Name = "BadgeLayout";
-            layout.AddThemeConstantOverride("separation", 5);
+            var layout = new HBoxContainer { Name = "BadgeLayout", MouseFilter = Control.MouseFilterEnum.Ignore };
+            layout.AddThemeConstantOverride("separation", separation);
 
-            tierLabel = new Label();
-            tierLabel.Name = "TierLabel";
-            dividerLabel = new Label();
-            dividerLabel.Name = "DividerLabel";
-            scoreLabel = new Label();
-            scoreLabel.Name = "ScoreLabel";
-
-            tierLabel.VerticalAlignment = VerticalAlignment.Center;
-            dividerLabel.VerticalAlignment = VerticalAlignment.Center;
-            scoreLabel.VerticalAlignment = VerticalAlignment.Center;
-
-            dividerLabel.Text = "|";
-            dividerLabel.SelfModulate = new Color(0.5f, 0.5f, 0.6f, 0.6f);
+            tierLabel = new Label { Name = "TierLabel", VerticalAlignment = VerticalAlignment.Center, MouseFilter = Control.MouseFilterEnum.Ignore };
+            dividerLabel = new Label { Name = "DividerLabel", VerticalAlignment = VerticalAlignment.Center, Text = "|", SelfModulate = new Color(0.5f, 0.5f, 0.6f, 0.6f), MouseFilter = Control.MouseFilterEnum.Ignore };
+            scoreLabel = new Label { Name = "ScoreLabel", VerticalAlignment = VerticalAlignment.Center, MouseFilter = Control.MouseFilterEnum.Ignore };
 
             layout.AddChild(tierLabel);
             layout.AddChild(dividerLabel);
             layout.AddChild(scoreLabel);
             panel.AddChild(layout);
 
-            // Position pill at top-right of the card header frame
-            panel.Position = new Vector2(70, -145);
-
-            tierLabel.Text = "...";
+            panel.Position = position;
+            panel.Visible = false;
+            tierLabel.Text = "";
             scoreLabel.Text = "";
+            RoomOverlayFactory.AttachHoverCommentaryPopup(panel);
 
-            cardNode.AddChild(panel);
+            targetNode.AddChild(panel);
         }
         else
         {
@@ -82,88 +126,90 @@ public static class TierBadgeFactory
             if (tierLabel == null || dividerLabel == null || scoreLabel == null) return;
         }
 
-        // Load tier data asynchronously off-thread and update labels thread-safely
+        string expectedToken = $"{author}:{lookupKey}";
+        panel.SetMeta("TargetId", expectedToken);
+
         System.Threading.Tasks.Task.Run(async () =>
         {
             try
             {
                 var tierList = await tierProvider.GetTierListAsync().ConfigureAwait(false);
-                string lookupKey = NormalizeCardId(cardId);
-                string strippedKey = lookupKey.Replace("_", "");
+                string strippedKey = lookupKey.Replace("_", "", StringComparison.Ordinal);
 
-                if (tierList.TryGetValue(lookupKey, out var cardData) ||
-                    (strippedKey != lookupKey && tierList.TryGetValue(strippedKey, out cardData)))
+                if (tierList.TryGetValue(lookupKey, out var data) ||
+                    (strippedKey != lookupKey && tierList.TryGetValue(strippedKey, out data)))
                 {
                     Callable.From(() =>
                     {
-                        if (GodotObject.IsInstanceValid(panel) && GodotObject.IsInstanceValid(tierLabel) && GodotObject.IsInstanceValid(scoreLabel))
+                        if (!GodotObject.IsInstanceValid(targetNode) ||
+                            !GodotObject.IsInstanceValid(panel) ||
+                            !GodotObject.IsInstanceValid(tierLabel) ||
+                            !GodotObject.IsInstanceValid(dividerLabel) ||
+                            !GodotObject.IsInstanceValid(scoreLabel))
                         {
-                            dividerLabel.Visible = true;
-                            tierLabel.Text = cardData.Tier;
-                            scoreLabel.Text = cardData.Score.ToString("0.0");
-                            tierLabel.SelfModulate = GetColorForTier(cardData.Tier);
-                            scoreLabel.SelfModulate = new Color(0.95f, 0.95f, 0.98f);
-                            panel.TooltipText = cardData.Commentary ?? "";
+                            return;
                         }
+
+                        if (!panel.HasMeta("TargetId") || panel.GetMeta("TargetId").AsString() != expectedToken)
+                        {
+                            return;
+                        }
+
+                        if (alignRightOnControl && targetNode is Control ctrl && ctrl.Size.X > 220f)
+                        {
+                            panel.Position = new Vector2(Math.Max(position.X, ctrl.Size.X - 95f), position.Y);
+                        }
+
+                        Color tierColor = GetColorForTier(data.Tier);
+                        if (panel.GetThemeStylebox("panel") is StyleBoxFlat sb)
+                        {
+                            sb.BorderColor = new Color(tierColor.R, tierColor.G, tierColor.B, 0.65f);
+                        }
+
+                        bool suppressed = isSuppressed != null && isSuppressed(targetNode);
+                        panel.Visible = !RoomOverlayFactory.IsOverlayHidden && !suppressed;
+
+                        bool hasScore = data.Score > 0;
+                        dividerLabel.Visible = hasScore;
+                        tierLabel.Text = data.Tier;
+                        tierLabel.SelfModulate = tierColor;
+                        scoreLabel.Text = hasScore ? data.Score.ToString("0.0") : "";
+                        scoreLabel.SelfModulate = new Color(0.95f, 0.95f, 0.98f);
+                        panel.TooltipText = string.Empty;
+                        panel.SetMeta("HoverText", showHoverCommentary ? RoomOverlayFactory.FormatHoverCommentary(data.Tier, data.Commentary, author) : string.Empty);
                     }).CallDeferred();
                 }
                 else
                 {
                     Callable.From(() =>
                     {
-                        if (GodotObject.IsInstanceValid(panel) && GodotObject.IsInstanceValid(tierLabel) && GodotObject.IsInstanceValid(scoreLabel))
+                        if (GodotObject.IsInstanceValid(panel) &&
+                            panel.HasMeta("TargetId") &&
+                            panel.GetMeta("TargetId").AsString() == expectedToken)
                         {
-                            tierLabel.Text = "N/A";
-                            dividerLabel.Visible = false;
-                            scoreLabel.Text = "";
-                            tierLabel.SelfModulate = new Color(0.6f, 0.6f, 0.6f);
-                            panel.TooltipText = "No evaluation data found for this card.";
+                            panel.SetMeta("HoverText", string.Empty);
+                            panel.Visible = false;
                         }
                     }).CallDeferred();
                 }
             }
             catch (Exception ex)
             {
-                GD.PrintErr($"[STS2 Overlay] Error loading card rating data: {ex.Message}");
+                GD.PrintErr($"[STS2 Overlay] Error loading badge rating data: {ex.Message}");
             }
         });
     }
 
-    private static string NormalizeCardId(string rawId)
+    public static Color GetColorForTier(string? tier) => (tier?.Trim()) switch
     {
-        if (string.IsNullOrWhiteSpace(rawId)) return string.Empty;
-
-        string id = rawId.Trim();
-
-        // Remove namespacing prefixes like "CARD:GoForTheEyes" -> "GoForTheEyes"
-        int colonIndex = id.IndexOf(':');
-        if (colonIndex >= 0 && colonIndex < id.Length - 1)
-        {
-            id = id.Substring(colonIndex + 1);
-        }
-
-        // Convert CamelCase (e.g. GoForTheEyes -> GO_FOR_THE_EYES, DefendNecrobinder -> DEFEND_NECROBINDER)
-        var sb = new System.Text.StringBuilder();
-        for (int i = 0; i < id.Length; i++)
-        {
-            char c = id[i];
-            if (char.IsUpper(c) && i > 0 && (char.IsLower(id[i - 1]) || (i + 1 < id.Length && char.IsLower(id[i + 1]))))
-            {
-                sb.Append('_');
-            }
-            sb.Append(char.ToUpperInvariant(c));
-        }
-
-        return sb.ToString();
-    }
-
-    private static Color GetColorForTier(string tier) => tier switch
-    {
-        "S" => new Color(1.0f, 0.35f, 0.35f), // Crimson Red
-        "A" => new Color(1.0f, 0.65f, 0.25f), // Bright Amber
-        "B" => new Color(0.95f, 0.95f, 0.3f), // Golden Yellow
-        "C" => new Color(0.45f, 0.85f, 1.0f), // Sky Blue
-        "D" => new Color(0.65f, 0.65f, 0.65f), // Grey
+        "S" or "S Tier" or "Always Amazing" => new Color(1.0f, 0.35f, 0.35f),
+        "A" or "A Tier" or "Always Good" => new Color(1.0f, 0.65f, 0.25f),
+        "B" or "B Tier" or "Great" or "Good" => new Color(0.95f, 0.95f, 0.3f),
+        "C" or "C Tier" or "Needs Synergy" => new Color(0.45f, 0.85f, 1.0f),
+        "D" or "D Tier" or "Inconsistent" => new Color(0.85f, 0.5f, 1.0f),
+        "F" or "F Tier" => new Color(0.78f, 0.42f, 0.38f),
+        "Map Dependent" or "Situational" => new Color(1.0f, 0.7f, 0.3f),
+        "Almost Never" or "Never Take" or "Skip" => new Color(0.65f, 0.65f, 0.65f),
         _ => new Color(0.85f, 0.85f, 0.85f)
     };
 }

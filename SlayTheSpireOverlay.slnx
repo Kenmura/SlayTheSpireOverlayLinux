@@ -2,6 +2,8 @@
   <Folder Name="/src/">
     <Project Path="src/SlayTheSpireOverlay.Core/SlayTheSpireOverlay.Core.csproj" />
     <Project Path="src/SlayTheSpireOverlay.Godot/SlayTheSpireOverlay.Godot.csproj" />
+    <Project Path="src/SlayTheSpireMapFog.Core/SlayTheSpireMapFog.Core.csproj" />
+    <Project Path="src/SlayTheSpireMapFog.Godot/SlayTheSpireMapFog.Godot.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/SlayTheSpireOverlay.ArchitectureTests/SlayTheSpireOverlay.ArchitectureTests.csproj" />

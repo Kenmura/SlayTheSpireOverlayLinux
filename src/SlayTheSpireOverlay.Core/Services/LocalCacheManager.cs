@@ -17,26 +17,42 @@ public class LocalCacheManager
         _options = options;
     }
 
-    public async Task SaveToCacheAsync(IReadOnlyDictionary<string, CardTierData> data)
+    public async Task SaveToCacheAsync(IReadOnlyDictionary<string, CardTierData> data, string? fileNameOverride = null)
     {
         if (string.IsNullOrEmpty(_options.CacheDirectory)) return;
-        
+
         Directory.CreateDirectory(_options.CacheDirectory);
-        var path = Path.Combine(_options.CacheDirectory, _options.CacheFileName);
-        
-        var json = JsonSerializer.Serialize(data);
-        await File.WriteAllTextAsync(path, json).ConfigureAwait(false);
+        string fileName = string.IsNullOrWhiteSpace(fileNameOverride) ? _options.CacheFileName : fileNameOverride;
+        var path = Path.Combine(_options.CacheDirectory, fileName);
+        var tmpPath = $"{path}.{Guid.NewGuid():N}.tmp";
+
+        try
+        {
+            var json = JsonSerializer.Serialize(data);
+            await File.WriteAllTextAsync(tmpPath, json).ConfigureAwait(false);
+            File.Move(tmpPath, path, overwrite: true);
+        }
+        finally
+        {
+            if (File.Exists(tmpPath))
+            {
+                try { File.Delete(tmpPath); } catch { }
+            }
+        }
     }
 
-    public async Task<IReadOnlyDictionary<string, CardTierData>?> LoadFromCacheAsync()
+    public async Task<IReadOnlyDictionary<string, CardTierData>?> LoadFromCacheAsync(bool ignoreExpiry = false, string? fileNameOverride = null)
     {
-        var path = Path.Combine(_options.CacheDirectory, _options.CacheFileName);
+        if (string.IsNullOrEmpty(_options.CacheDirectory)) return null;
+
+        string fileName = string.IsNullOrWhiteSpace(fileNameOverride) ? _options.CacheFileName : fileNameOverride;
+        var path = Path.Combine(_options.CacheDirectory, fileName);
         if (!File.Exists(path)) return null;
 
-        // Check expiry
-        if (File.GetLastWriteTime(path).AddHours(_options.CacheExpiryHours) < DateTime.Now)
+        // Check UTC expiry unless caller explicitly requests stale fallback
+        if (!ignoreExpiry && File.GetLastWriteTimeUtc(path).AddHours(_options.CacheExpiryHours) < DateTime.UtcNow)
         {
-            return null; // Cache expired
+            return null;
         }
 
         try
@@ -46,7 +62,7 @@ public class LocalCacheManager
         }
         catch
         {
-            return null; // Corrupted cache fallback
+            return null;
         }
     }
 }

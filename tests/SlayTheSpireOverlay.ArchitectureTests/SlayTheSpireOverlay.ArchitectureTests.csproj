@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\SlayTheSpireOverlay.Godot\SlayTheSpireOverlay.Godot.csproj" />
+    <ProjectReference Include="..\..\src\SlayTheSpireMapFog.Godot\SlayTheSpireMapFog.Godot.csproj" />
   </ItemGroup>
 
 </Project>

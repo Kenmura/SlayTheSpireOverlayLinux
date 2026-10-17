@@ -93,29 +93,127 @@ def parse_tier_list_page(html, page_title):
 
     return results
 
-def scrape_untapped_tierlists():
-    print("[*] Step 1: Discovering tier lists on Untapped.gg...")
-    index_url = "https://sts2.untapped.gg/en/tier-lists?creator=Baalorlord"
-    index_html = fetch_url(index_url)
+# Official Untapped.gg Companion STS2 Tier List UUIDs (reverse-engineered from Core-Ba2NpoJ9.js)
+DEFAULT_TIER_LIST_UUIDS = {
+    "Baalorlord": [
+        "004de170-026a-4dd4-a280-3b904be0b5d6",  # ironclad
+        "6d61ea21-0552-4c49-8bb5-a5c15530fc00",  # silent
+        "0e6c1e23-bec6-4887-a9e0-dbf49ede974d",  # regent
+        "43d0b41f-7d6d-4ce9-928e-c1310a413983",  # necrobinder
+        "5a512e04-4583-4a16-9271-d46864c6cb4c",  # defect
+        "0a626c22-dc49-433e-ac6e-76cc9abf5684",  # colorless (cards, relics, potions)
+    ],
+    "Jorbs": [
+        "6b3390b7-bcbc-4ebc-ae78-ae9a400c66dc",  # ironclad
+        "2cd72d4b-eeb4-42ab-89ca-4ac682137672",  # silent
+        "c47dbfda-4983-4107-8c9c-c33d5ae32b23",  # regent
+        "3ae661e6-6190-4a45-b00e-63e8400fff94",  # necrobinder
+        "5f8d3e04-1f50-4b56-b51a-d8650b000ce3",  # defect
+        "81684acf-26a7-4e44-a649-84f4c2824ec0",  # colorless
+    ],
+}
 
-    uuids = sorted(list(set(re.findall(r"/en/tier-list/([a-f0-9-]{36})", index_html))))
-    print(f"[+] Found {len(uuids)} tier list pages to scrape.")
+def fetch_tier_list_api(uid, game_version="public"):
+    url = f"https://api.sts2.untapped.gg/api/v1/tier-lists/{uid}/resolve/?game_version={game_version}"
+    raw_json = fetch_url(url)
+    payload = json.loads(raw_json)
+    tier_list = payload.get("tier_list", {})
+    list_name = sanitize_text(tier_list.get("name", "Tier List"))
+    results = {}
 
+    for tier in tier_list.get("tiers", []):
+        tier_name = tier.get("name", "N/A")
+        score = TIER_SCORES.get(tier_name, 0.0)
+
+        for card in tier.get("cards", []):
+            item_id = card.get("card_id")
+            if not item_id:
+                continue
+            commentary = sanitize_text(card.get("commentary") or "")
+            if not commentary:
+                commentary = sanitize_text(f"{item_id.replace('_', ' ').title()} [{list_name}] - Rated '{tier_name}'.")
+            results[item_id] = {
+                "CardId": item_id,
+                "Tier": tier_name,
+                "Score": score,
+                "Commentary": commentary,
+            }
+
+        for group_key in ("relics", "potions"):
+            for item in tier.get(group_key) or []:
+                item_id = item.get("item_id")
+                if not item_id:
+                    continue
+                commentary = sanitize_text(item.get("commentary") or "")
+                if not commentary:
+                    commentary = sanitize_text(f"{item_id.replace('_', ' ').title()} [{list_name}] - Rated '{tier_name}'.")
+                results[item_id] = {
+                    "CardId": item_id,
+                    "Tier": tier_name,
+                    "Score": score,
+                    "Commentary": commentary,
+                }
+
+    return list_name, results
+
+def scrape_untapped_tierlists(author="Baalorlord"):
     raw_data = {}
 
-    for uid in uuids:
-        page_url = f"https://sts2.untapped.gg/en/tier-list/{uid}"
+    print(f"[*] Step 1a: Resolving official Companion API tier lists for {author}...")
+    for uid in DEFAULT_TIER_LIST_UUIDS.get(author, []):
         try:
-            html = fetch_url(page_url)
-            h1_match = re.search(r"<h1>(.*?)</h1>", html)
-            raw_title = h1_match.group(1) if h1_match else "Tier List"
-            page_title = sanitize_text(raw_title)
-
-            items = parse_tier_list_page(html, raw_title)
+            list_name, items = fetch_tier_list_api(uid)
             raw_data.update(items)
-            print(f"    - Scraped '{page_title}': {len(items)} items.")
+            print(f"    - Resolved API '{list_name}' ({uid}): {len(items)} items.")
         except Exception as ex:
-            print(f"[-] Error scraping {page_url}: {ex}")
+            print(f"    [!] API resolve fallback for {uid}: {ex}")
+
+    print("[*] Step 1b: Discovering additional web tier lists on Untapped.gg...")
+    index_url = f"https://sts2.untapped.gg/en/tier-lists?creator={author}"
+    try:
+        index_html = fetch_url(index_url)
+        uuids = sorted(list(set(re.findall(r"/en/tier-list/([a-f0-9-]{36})", index_html))))
+        print(f"[+] Found {len(uuids)} tier list pages to scrape.")
+
+        for uid in uuids:
+            if uid in DEFAULT_TIER_LIST_UUIDS.get(author, []) and raw_data:
+                continue
+            page_url = f"https://sts2.untapped.gg/en/tier-list/{uid}"
+            try:
+                html = fetch_url(page_url)
+                h1_match = re.search(r"<h1>(.*?)</h1>", html)
+                raw_title = h1_match.group(1) if h1_match else "Tier List"
+                page_title = sanitize_text(raw_title)
+
+                items = parse_tier_list_page(html, raw_title)
+                for k, v in items.items():
+                    if k not in raw_data:
+                        raw_data[k] = v
+                print(f"    - Scraped '{page_title}': {len(items)} items.")
+            except Exception as ex:
+                print(f"[-] Error scraping {page_url}: {ex}")
+    except Exception as ex:
+        print(f"[!] Web index discovery skipped/failed: {ex}")
+
+    print("[*] Step 1c: Fetching Event Commentary from Untapped.gg...")
+    try:
+        events_json = json.loads(fetch_url("https://sts2.untapped.gg/api/v1/commentary/events"))
+        author_events = events_json.get(author) or events_json.get("Baalorlord") or {}
+        if isinstance(author_events, dict):
+            ev_count = 0
+            for ev_id, comm in author_events.items():
+                if comm and isinstance(comm, str):
+                    norm_key = f"EVENT_{ev_id.strip().upper()}"
+                    raw_data[norm_key] = {
+                        "CardId": ev_id.strip().upper(),
+                        "Tier": "Guide",
+                        "Score": 0.0,
+                        "Commentary": sanitize_text(comm),
+                    }
+                    ev_count += 1
+            print(f"    - Fetched {ev_count} event commentary entries.")
+    except Exception as ex:
+        print(f"[!] Event commentary fetch skipped/failed: {ex}")
 
     # Return sorted alphabetically for deterministic ordering and clean git diffs
     return {k: raw_data[k] for k in sorted(raw_data.keys())}
@@ -197,6 +295,8 @@ def main():
             with open(WORKSHOP_META_JSON) as f:
                 meta = json.load(f)
 
+            meta["visibility"] = "private"
+
             if args.force and not changes:
                 meta["changeNote"] = "Misc bug fixes and maintenance updates."
                 commit_msg = f"Misc bug fixes [{datetime.now().strftime('%Y-%m-%d %H:%M')}]"
@@ -209,7 +309,7 @@ def main():
 
             with open(WORKSHOP_META_JSON, "w") as f:
                 json.dump(meta, f, indent=2)
-            print(f"[+] Updated changeNote in workshop.json!")
+            print(f"[+] Updated changeNote in workshop.json (visibility={meta['visibility']})!")
         except Exception as ex:
             print(f"[!] Warning: Could not update workshop.json changeNote: {ex}")
 

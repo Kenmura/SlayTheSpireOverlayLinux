@@ -10,11 +10,11 @@
 
   <ItemGroup>
     <Reference Include="sts2">
-      <HintPath>/var/home/nickmarc/.local/share/Steam/steamapps/common/Slay the Spire 2/data_sts2_windows_x86_64/sts2.dll</HintPath>
+      <HintPath>$(Sts2DataDir)/sts2.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="0Harmony">
-      <HintPath>/var/home/nickmarc/.local/share/Steam/steamapps/common/Slay the Spire 2/data_sts2_windows_x86_64/0Harmony.dll</HintPath>
+      <HintPath>$(Sts2DataDir)/0Harmony.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>

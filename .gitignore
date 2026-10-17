@@ -28,3 +28,11 @@ Directory.Build.user.props
 # Workshop build and repository clones
 workshop/content/
 workshop/uploader/
+mod-uploader.log
+steam_appid.txt
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+executables/

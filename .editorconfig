@@ -1,0 +1,40 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+indent_style = space
+indent_size = 4
+trim_trailing_whitespace = true
+
+[*.cs]
+# File-scoped namespaces across all C# files
+csharp_style_namespace_declarations = file_scoped:error
+
+# Visibility & encapsulation rules
+dotnet_style_require_accessibility_modifiers = for_non_interface_members:warning
+csharp_style_var_for_built_in_types = false:none
+csharp_style_var_when_type_is_apparent = true:none
+
+# Prevent unused private members / dead code
+dotnet_diagnostic.IDE0051.severity = error
+dotnet_diagnostic.IDE0052.severity = error
+dotnet_diagnostic.CA1823.severity = error
+
+# Prevent visible mutable instance/static fields
+dotnet_diagnostic.CA2211.severity = error
+dotnet_diagnostic.CA1051.severity = error
+
+# Relax purely stylistic/localization/naming noise that conflicts with Harmony (`__instance`) or Godot APIs
+dotnet_diagnostic.CA1031.severity = none
+dotnet_diagnostic.CA1303.severity = none
+dotnet_diagnostic.CA1305.severity = none
+dotnet_diagnostic.CA1707.severity = none
+dotnet_diagnostic.CA1812.severity = none
+dotnet_diagnostic.CA1848.severity = none
+dotnet_diagnostic.CA1852.severity = none
+dotnet_diagnostic.CA1002.severity = none
+dotnet_diagnostic.CA1062.severity = none
+dotnet_diagnostic.CA1859.severity = none
+dotnet_diagnostic.CA1861.severity = none
