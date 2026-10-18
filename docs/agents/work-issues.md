@@ -3,6 +3,8 @@
 
 The user's trigger is "begin working issues". After that, do NOT ask for permission between steps. This runbook is tool-neutral: it works for Claude Code, Codex, Gemini, Copilot or any agent that can run shell commands and `gh`. Follow it exactly; the only reasons to stop and ask are listed under **Stop and ask**. Project rules in `AGENTS.md` (sections 1b, 3, 4) always apply.
 
+If [Superpowers](superpowers.md) is installed, use its skills at the matching steps: `test-driven-development` (section 4), `systematic-debugging` when a test or CI fails, `verification-before-completion` (before section 8), `using-git-worktrees` (section 3). Their interactive steps (brainstorming approval gates, asking the user to review a plan) do **not** apply during this run: the issue and its acceptance criteria are the approved spec. The runbook wins on any conflict.
+
 `dn() { LD_PRELOAD="" distrobox enter dotnet-dev -- env LD_PRELOAD="" dotnet "$@"; }`
 
 ## 0. Pre-flight (once per run)

@@ -28,6 +28,9 @@ Statuses: `claimed` (reserved, not started), `in-progress`, `blocked`, `handoff`
 
 The protocol is local and voluntary: it only helps agents on this machine that follow it. Never post claims or status to public GitHub issues or PRs. The only agent-authored issue comments allowed are the `work-issues` pipeline's blocking questions and its one closing evidence comment.
 
+### Superpowers skills
+Agents should have [obra/superpowers](https://github.com/obra/superpowers) installed. Claude Code is enabled by `.claude/settings.json`; every other agent installs it per `docs/agents/superpowers.md`. At the start of work, check your skill list for `using-superpowers`; if it is missing, tell the user the install command for your tool from that doc and continue with the runbook (do not install into the user's tool setup without asking). When present, use the skills it provides (brainstorming before new features, test-driven-development, systematic-debugging, verification-before-completion, requesting-code-review).
+
 ### Autonomous issue pipeline
 When the user says **"begin working issues"**, read `docs/agents/work-issues.md` (the tool-neutral runbook; Claude Code also exposes it as the `work-issues` skill) and follow it end to end without asking between steps. This applies to every agent (Claude Code, Codex, Gemini, Copilot, ...). In short, per issue: claim, own worktree + branch, tests first for every acceptance criterion, implement, local gates, **mandatory fresh-context adversarial review (up to 3 rounds)**, PR with `Closes #N`, CI green, squash-merge, evidence comment. Ambiguous issues are labelled `blocked` with a question and skipped. Workshop publishing is never part of it.
 
