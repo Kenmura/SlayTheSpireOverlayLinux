@@ -37,22 +37,49 @@ public static class ModEntry
             SaveConfig();
         }
 
+        int appliedCount = 0;
+        int skippedCount = 0;
         try
         {
             var harmony = new Harmony("SlayTheSpireMapFog.Godot");
-            harmony.PatchAll(Assembly.GetExecutingAssembly());
-            PatchPostfixIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Screens.Map.NMapScreen", new[] { "SetMap", "RecalculateTravelability", "RefreshAllPointVisuals" }, nameof(OnMapScreenUpdated));
-            PatchPostfixIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Screens.Map.NNormalMapPoint", new[] { "UpdateIcon", "RefreshMarkedIconVisibility" }, nameof(OnNormalMapPointIconUpdated));
-            PatchPrefixIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Screens.Map.NNormalMapPoint", "OnHighlightPointType", nameof(OnNormalMapPointHighlightPrefix));
-            PatchPostfixIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Screens.ModdingScreen.NModInfoContainer", new[] { "Fill" }, nameof(OnModInfoFill));
-            PatchPostfixIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Screens.ModdingScreen.NModInfoContainer", new[] { "Clear" }, nameof(OnModInfoClear));
-            PatchPostfixIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Screens.Settings.NSettingsScreen", new[] { "_Ready" }, nameof(OnSettingsScreenReady));
-            PatchRunSubmenuStackIfPresent(harmony);
-            GD.Print("[STS2 MapFog] Harmony patches applied successfully!");
+
+            foreach (var patchClass in Assembly.GetExecutingAssembly().GetTypes())
+            {
+                var patchAttrs = patchClass.GetCustomAttributes(typeof(HarmonyPatch), inherit: true);
+                if (patchAttrs.Length == 0) continue;
+                try
+                {
+                    var processor = harmony.CreateClassProcessor(patchClass);
+                    var patchedMethods = processor.Patch();
+                    if (patchedMethods != null && patchedMethods.Count > 0)
+                    {
+                        appliedCount += patchedMethods.Count;
+                    }
+                    else
+                    {
+                        skippedCount++;
+                        GD.Print($"[STS2 MapFog] patch class {patchClass.Name} skipped: no matching methods found");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    skippedCount++;
+                    GD.PrintErr($"[STS2 MapFog] patch class {patchClass.Name} skipped: {ex.Message}");
+                }
+            }
+
+            PatchPostfixIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Screens.Map.NMapScreen", new[] { "SetMap", "RecalculateTravelability", "RefreshAllPointVisuals" }, nameof(OnMapScreenUpdated), ref appliedCount, ref skippedCount);
+            PatchPostfixIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Screens.Map.NNormalMapPoint", new[] { "UpdateIcon", "RefreshMarkedIconVisibility" }, nameof(OnNormalMapPointIconUpdated), ref appliedCount, ref skippedCount);
+            PatchPrefixIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Screens.Map.NNormalMapPoint", "OnHighlightPointType", nameof(OnNormalMapPointHighlightPrefix), ref appliedCount, ref skippedCount);
+            PatchPostfixIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Screens.ModdingScreen.NModInfoContainer", new[] { "Fill" }, nameof(OnModInfoFill), ref appliedCount, ref skippedCount);
+            PatchPostfixIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Screens.Settings.NSettingsScreen", new[] { "_Ready" }, nameof(OnSettingsScreenReady), ref appliedCount, ref skippedCount);
+            PatchRunSubmenuStackIfPresent(harmony, ref appliedCount, ref skippedCount);
+
+            GD.Print($"[STS2 MapFog] Harmony initialization complete: {appliedCount} applied, {skippedCount} skipped");
         }
         catch (Exception ex)
         {
-            GD.PrintErr($"[STS2 MapFog] Error applying Harmony patches: {ex.Message}");
+            GD.PrintErr($"[STS2 MapFog] Unexpected error initializing Harmony: {ex.Message}");
         }
     }
 
@@ -73,38 +100,109 @@ public static class ModEntry
         }
     }
 
-    private static void PatchPostfixIfPresent(Harmony harmony, string typeName, string[] methods, string postfixName)
+    private static void PatchPostfixIfPresent(Harmony harmony, string typeName, string[] methods, string postfixName, ref int applied, ref int skipped)
     {
         var type = AccessTools.TypeByName(typeName);
+        if (type == null)
+        {
+            skipped += methods.Length;
+            GD.Print($"[STS2 MapFog] patch {typeName} skipped: target type not found");
+            return;
+        }
+
         var postfix = AccessTools.Method(typeof(ModEntry), postfixName);
-        if (type == null || postfix == null) return;
+        if (postfix == null)
+        {
+            skipped += methods.Length;
+            GD.PrintErr($"[STS2 MapFog] patch handler {postfixName} skipped: handler method not found on ModEntry");
+            return;
+        }
 
         foreach (string name in methods)
         {
-            var method = AccessTools.Method(type, name);
-            if (method != null) harmony.Patch(method, postfix: new HarmonyMethod(postfix));
+            try
+            {
+                var method = AccessTools.Method(type, name);
+                if (method != null)
+                {
+                    harmony.Patch(method, postfix: new HarmonyMethod(postfix));
+                    applied++;
+                }
+                else
+                {
+                    skipped++;
+                    GD.Print($"[STS2 MapFog] patch {typeName}.{name} skipped: method not found on {typeName}");
+                }
+            }
+            catch (Exception ex)
+            {
+                skipped++;
+                GD.PrintErr($"[STS2 MapFog] patch {typeName}.{name} skipped: {ex.Message}");
+            }
         }
     }
 
-    private static void PatchPrefixIfPresent(Harmony harmony, string typeName, string methodName, string prefixName)
+    private static void PatchPrefixIfPresent(Harmony harmony, string typeName, string methodName, string prefixName, ref int applied, ref int skipped)
     {
-        var type = AccessTools.TypeByName(typeName);
-        var method = type != null ? AccessTools.Method(type, methodName) : null;
-        var prefix = AccessTools.Method(typeof(ModEntry), prefixName);
-        if (method != null && prefix != null)
+        try
         {
-            harmony.Patch(method, prefix: new HarmonyMethod(prefix));
+            var type = AccessTools.TypeByName(typeName);
+            if (type == null)
+            {
+                skipped++;
+                GD.Print($"[STS2 MapFog] patch {typeName} skipped: target type not found");
+                return;
+            }
+
+            var method = AccessTools.Method(type, methodName);
+            var prefix = AccessTools.Method(typeof(ModEntry), prefixName);
+            if (method != null && prefix != null)
+            {
+                harmony.Patch(method, prefix: new HarmonyMethod(prefix));
+                applied++;
+            }
+            else
+            {
+                skipped++;
+                GD.Print($"[STS2 MapFog] patch {typeName}.{methodName} skipped: method or prefix not found");
+            }
+        }
+        catch (Exception ex)
+        {
+            skipped++;
+            GD.PrintErr($"[STS2 MapFog] patch {typeName}.{methodName} skipped: {ex.Message}");
         }
     }
 
-    private static void PatchRunSubmenuStackIfPresent(Harmony harmony)
+    private static void PatchRunSubmenuStackIfPresent(Harmony harmony, ref int applied, ref int skipped)
     {
-        var type = AccessTools.TypeByName("MegaCrit.Sts2.Core.Nodes.Screens.NRunSubmenuStack");
-        var method = type != null ? AccessTools.Method(type, "GetSubmenuType", new[] { typeof(Type) }) : null;
-        var prefix = AccessTools.Method(typeof(ModEntry), nameof(OnRunSubmenuStackGetSubmenuType));
-        if (method != null && prefix != null)
+        try
         {
-            harmony.Patch(method, prefix: new HarmonyMethod(prefix));
+            var type = AccessTools.TypeByName("MegaCrit.Sts2.Core.Nodes.Screens.NRunSubmenuStack");
+            if (type == null)
+            {
+                skipped++;
+                GD.Print("[STS2 MapFog] patch NRunSubmenuStack skipped: target type not found");
+                return;
+            }
+
+            var method = AccessTools.Method(type, "GetSubmenuType", new[] { typeof(Type) });
+            var prefix = AccessTools.Method(typeof(ModEntry), nameof(OnRunSubmenuStackGetSubmenuType));
+            if (method != null && prefix != null)
+            {
+                harmony.Patch(method, prefix: new HarmonyMethod(prefix));
+                applied++;
+            }
+            else
+            {
+                skipped++;
+                GD.Print("[STS2 MapFog] patch NRunSubmenuStack.GetSubmenuType skipped: method or prefix not found");
+            }
+        }
+        catch (Exception ex)
+        {
+            skipped++;
+            GD.PrintErr($"[STS2 MapFog] patch NRunSubmenuStack.GetSubmenuType skipped: {ex.Message}");
         }
     }
 
@@ -157,14 +255,6 @@ public static class ModEntry
                 });
         }
         else
-        {
-            UI.MapFogSettingsFactory.HideModSettingsPanel(container);
-        }
-    }
-
-    public static void OnModInfoClear(object __instance)
-    {
-        if (__instance is Node container && GodotObject.IsInstanceValid(container))
         {
             UI.MapFogSettingsFactory.HideModSettingsPanel(container);
         }

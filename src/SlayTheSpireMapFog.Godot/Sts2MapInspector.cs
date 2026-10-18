@@ -171,11 +171,14 @@ public static class Sts2MapInspector
         float left = minX - FogExtent / 2f;
         float width = maxX - minX + FogExtent;
 
+        float opacity = MapFogCalculator.ClampFogOpacity(config.FogOpacity);
+        Color fogColor = new Color(DarkFogColor.R, DarkFogColor.G, DarkFogColor.B, opacity);
+
         var overlay = new Control { Name = DarkFogOverlayName, MouseFilter = Control.MouseFilterEnum.Ignore };
 
         var gradient = new Gradient();
         gradient.SetColor(0, new Color(DarkFogColor.R, DarkFogColor.G, DarkFogColor.B, 0f));
-        gradient.SetColor(1, DarkFogColor);
+        gradient.SetColor(1, fogColor);
         var fadeTexture = new GradientTexture2D
         {
             Gradient = gradient,
@@ -201,7 +204,7 @@ public static class Sts2MapInspector
         overlay.AddChild(new ColorRect
         {
             Name = "FogSolid",
-            Color = DarkFogColor,
+            Color = fogColor,
             Position = new Vector2(left, solidTop),
             Size = new Vector2(width, FogExtent),
             MouseFilter = Control.MouseFilterEnum.Ignore

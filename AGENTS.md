@@ -45,6 +45,12 @@ distrobox enter dotnet-dev -- env LD_PRELOAD="" dotnet publish src/SlayTheSpireO
 ./scripts/update_tiers.sh
 ```
 
+### Check STS2 Game-Version Compatibility
+Verifies all compile-time references and dynamic Harmony patch targets against a target `sts2.dll` to prevent silent breakage across game patches.
+```bash
+./scripts/check_sts2_compat.sh [path-to-sts2.dll]
+```
+
 ### Publish to Steam Workshop
 ```bash
 ./scripts/upload_to_workshop.sh "Release notes"
@@ -70,6 +76,8 @@ Any agent modifying `src/SlayTheSpireOverlay.Godot` **MUST** adhere to these eng
    - Interactive overlay drawers/buttons must explicitly set `MouseFilter = Control.MouseFilterEnum.Stop` only on the interactive button/header.
 5. **Cross-Platform / Proton Path Resolution**
    - Always use `Godot.ProjectSettings.GlobalizePath("user://...")` for configuration and cache paths. Under Steam Proton, `user://` automatically resolves inside the Wine prefix (`compatdata/2868840/pfx/drive_c/users/steamuser/AppData/Roaming/SlayTheSpire2/`).
+6. **Per-Patch Resilience & Game Version Compatibility**
+   - Mod manifests declare `"min_game_version": "0.107.0"`. On older or mismatched game versions where internal types or methods may change, patches must be applied independently (never let one failing patch abort initialization). Each skipped patch must be logged individually, and a startup summary logged (`applied N, skipped M`). Run `./scripts/check_sts2_compat.sh` to statically verify all compile-time and dynamic string targets against any target `sts2.dll`.
 
 ---
 

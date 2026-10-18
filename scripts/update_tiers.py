@@ -15,6 +15,8 @@ EMBEDDED_JSON = os.path.join(REPO_DIR, "src", "SlayTheSpireOverlay.Godot", "baal
 WORKSHOP_META_JSON = os.path.join(REPO_DIR, "workshop", "workshop.json")
 WORKSHOP_CONTENT_DIR = os.path.join(REPO_DIR, "workshop", "content")
 WORKSHOP_UPLOADER_DIR = os.path.join(REPO_DIR, "workshop", "uploader")
+MANIFEST_PATH = os.path.join(REPO_DIR, "src", "SlayTheSpireOverlay.Godot", "SlayTheSpireOverlay.Godot.json")
+CHANGELOG_PATH = os.path.join(REPO_DIR, "CHANGELOG.md")
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, Gecko) Chrome/120.0.0.0 Safari/537.36"
@@ -239,6 +241,69 @@ def run_command(cmd, cwd=REPO_DIR):
         print(f"[-] Command failed with exit code {res.returncode}: {cmd}")
         sys.exit(res.returncode)
 
+def get_manifest_version(manifest_path=MANIFEST_PATH):
+    if os.path.exists(manifest_path):
+        try:
+            with open(manifest_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                return data.get("version", "").strip()
+        except Exception:
+            pass
+    return ""
+
+def extract_changelog_section(changelog_path, version):
+    if not os.path.exists(changelog_path) or not version:
+        return None
+    try:
+        with open(changelog_path, "r", encoding="utf-8") as f:
+            content = f.read()
+
+        v_clean = version.lstrip("v").strip()
+        if not v_clean:
+            return None
+        pattern = rf'##\s*\[v?{re.escape(v_clean)}\][^\n]*\n(.*?)(?=\n##\s*\[|\Z)'
+        match = re.search(pattern, content, re.DOTALL)
+        if not match:
+            return None
+
+        section_text = match.group(1).strip()
+        bullets = []
+        for line in section_text.splitlines():
+            line = line.strip()
+            if line.startswith(("* ", "- ")):
+                bullet = re.sub(r'\*\*(.*?)\*\*', r'\1', line[2:]).strip()
+                bullet = re.sub(r'`(.*?)`', r'\1', bullet).strip()
+                if bullet:
+                    bullets.append(f"• {bullet}")
+
+        return "\n".join(bullets) if bullets else None
+    except Exception:
+        return None
+
+def build_workshop_change_note(manifest_version, changelog_path, changes, is_force=False, max_len=950):
+    changelog_bullets = extract_changelog_section(changelog_path, manifest_version) if manifest_version else None
+    if changelog_bullets:
+        prefix = f"{manifest_version} Release Notes:\n"
+        note = prefix + changelog_bullets
+        if changes:
+            tier_summary = "\n\nTier List Updates:\n" + "\n".join(changes[:5])
+            if len(note) + len(tier_summary) < max_len:
+                note += tier_summary
+        if len(note) > max_len:
+            note = note[:max_len - 3] + "..."
+        return note
+
+    if is_force and not changes:
+        return "Misc bug fixes and maintenance updates."
+
+    summary_lines = changes[:10]
+    if len(changes) > 10:
+        summary_lines.append(f"... and {len(changes) - 10} more tier list updates.")
+    note = f"Tier List Update [{datetime.now().strftime('%Y-%m-%d')}]:\n" + "\n".join(summary_lines)
+    if len(note) > max_len:
+        note = note[:max_len - 3] + "..."
+    return note
+
 def main():
     parser = argparse.ArgumentParser(description="Scrape tier lists, detect changes, and auto-publish updates.")
     parser.add_argument("-f", "--force", action="store_true",
@@ -297,14 +362,14 @@ def main():
 
             meta["visibility"] = "private"
 
-            if args.force and not changes:
-                meta["changeNote"] = "Misc bug fixes and maintenance updates."
+            manifest_v = get_manifest_version(MANIFEST_PATH)
+            meta["changeNote"] = build_workshop_change_note(manifest_v, CHANGELOG_PATH, changes, is_force=args.force)
+
+            if extract_changelog_section(CHANGELOG_PATH, manifest_v):
+                commit_msg = f"Release {manifest_v} [{datetime.now().strftime('%Y-%m-%d %H:%M')}]"
+            elif args.force and not changes:
                 commit_msg = f"Misc bug fixes [{datetime.now().strftime('%Y-%m-%d %H:%M')}]"
             else:
-                summary_lines = changes[:10]
-                if len(changes) > 10:
-                    summary_lines.append(f"... and {len(changes) - 10} more tier list updates.")
-                meta["changeNote"] = f"Tier List Update [{datetime.now().strftime('%Y-%m-%d')}]:\n" + "\n".join(summary_lines)
                 commit_msg = f"Auto-update tier lists [{datetime.now().strftime('%Y-%m-%d %H:%M')}]"
 
             with open(WORKSHOP_META_JSON, "w") as f:

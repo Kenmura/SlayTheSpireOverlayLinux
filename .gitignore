@@ -39,3 +39,6 @@ executables/
 
 # Fog of War workshop build output
 workshop-fog/content/
+
+# Local adversarial-review session artifacts
+.adversarial-review/

@@ -1,0 +1,39 @@
+name: CI Build & Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            9.0.x
+            10.0.x
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Build STS2 Stub Reference Assemblies
+        run: |
+          dotnet build tools/Sts2Stub/Sts2Stub.csproj -c Release -o stubs/
+
+      - name: Run .NET Unit & Architecture Tests
+        run: |
+          dotnet test SlayTheSpireOverlay.slnx -c Release -p:Sts2DataDir=$GITHUB_WORKSPACE/stubs
+
+      - name: Run Python Tier & Workshop Tests
+        run: |
+          python3 -m unittest discover -s tests -p "test_*.py"

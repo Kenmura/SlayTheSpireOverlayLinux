@@ -139,4 +139,13 @@ public static class MapFogCalculator
 
         return new MapFogVisibility(revealed, bosses, config);
     }
+
+    public static float ClampFogOpacity(float opacity)
+    {
+        if (float.IsNaN(opacity) || float.IsInfinity(opacity) || opacity <= 0f)
+        {
+            return 0.90f;
+        }
+        return Math.Clamp(opacity, 0.30f, 1.00f);
+    }
 }

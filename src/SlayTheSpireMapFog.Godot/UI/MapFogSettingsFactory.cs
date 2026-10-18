@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using SlayTheSpireMapFog.Core.Options;
+using SlayTheSpireMapFog.Core.Services;
 
 namespace SlayTheSpireMapFog.Godot.UI;
 
@@ -107,6 +108,22 @@ public static class MapFogSettingsFactory
         grid.AddChild(CreateSettingsButton($"Vision: {stepWord}", isActive: true, isGoldAccent: true, () =>
         {
             config.VisionDepth = depth >= 3 ? 1 : depth + 1;
+            onConfigSaved();
+            Rebuild();
+        }));
+
+        float opacity = MapFogCalculator.ClampFogOpacity(config.FogOpacity);
+        int opacityPct = (int)Math.Round(opacity * 100f);
+        grid.AddChild(CreateSettingsButton($"Fog Strength: {opacityPct}%", isActive: config.DarkFog, isGoldAccent: false, () =>
+        {
+            float next = opacity switch
+            {
+                >= 0.95f => 0.50f,
+                >= 0.85f => 1.00f,
+                >= 0.65f => 0.90f,
+                _ => 0.70f
+            };
+            config.FogOpacity = next;
             onConfigSaved();
             Rebuild();
         }));

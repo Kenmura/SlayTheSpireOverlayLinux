@@ -38,4 +38,9 @@ public class MapFogConfig
     /// Defaults to true.
     /// </summary>
     public bool DarkFog { get; set; } = true;
+
+    /// <summary>
+    /// Opacity/strength of the dark fog overlay (clamped between 0.3 and 1.0, defaults to 0.9).
+    /// </summary>
+    public float FogOpacity { get; set; } = 0.90f;
 }

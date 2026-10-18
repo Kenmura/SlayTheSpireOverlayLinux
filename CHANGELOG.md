@@ -83,6 +83,10 @@ All notable changes, fixes, and feature additions for the **Overlay for Tier Lis
 
 # Patch Notes & Changelog - Fog of War Map
 
+## [v1.1.0] - 2026-10-18
+
+* **Fog Strength setting:** Tunable dark-fog opacity, cycled from the Mods screen settings panel.
+
 ## [v1.0.0] - 2026-10-17
 
 * **Fog of War on the Act Map:** Only the next step ahead is revealed by default; the Act Boss stays visible.
