@@ -5,7 +5,7 @@ set -e
 export LD_PRELOAD=""
 
 # Base directory
-BASE_DIR="/var/home/nickmarc/repos/SlayTheSpireOverlayLinux"
+BASE_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 
 echo "=============================================="
 echo " Slay the Spire 2 Mod: Steam Workshop Publish "

@@ -39,3 +39,4 @@ executables/
 
 # Fog of War workshop build output
 workshop-fog/content/
+.superpowers/
