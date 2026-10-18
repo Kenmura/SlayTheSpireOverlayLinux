@@ -26,7 +26,10 @@ Several agents (Claude Code, Codex, Gemini, Copilot, humans) edit this repo at t
 
 Statuses: `claimed` (reserved, not started), `in-progress`, `blocked`, `handoff` (paused, someone else may continue), `done`.
 
-The protocol is local and voluntary: it only helps agents on this machine that follow it. Never post claims, status or agent activity to public GitHub issues or PRs.
+The protocol is local and voluntary: it only helps agents on this machine that follow it. Never post claims or status to public GitHub issues or PRs. The only agent-authored issue comments allowed are the `work-issues` pipeline's blocking questions and its one closing evidence comment.
+
+### Autonomous issue pipeline
+When the user says **"begin working issues"**, load `.claude/skills/work-issues/SKILL.md` and follow it end to end without asking between steps (agents without skills: read that file as the runbook). In short, per issue: claim, own worktree + branch, tests first for every acceptance criterion, implement, local gates, **mandatory fresh-context adversarial review (up to 3 rounds)**, PR with `Closes #N`, CI green, squash-merge, evidence comment. Ambiguous issues are labelled `blocked` with a question and skipped. Workshop publishing is never part of it.
 
 ### Automated guards (run in CI; run them locally before you push)
 - `dotnet test tests/SlayTheSpireOverlay.Tests` includes `SourceHygieneTests`: no `src/**/*.cs` file may exceed 500 lines. Three legacy files are allowlisted at their current size; **splitting a file lets you delete its entry, but never raise a number or add an entry**.
