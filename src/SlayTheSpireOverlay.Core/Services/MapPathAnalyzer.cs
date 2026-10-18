@@ -20,6 +20,9 @@ public static class MapPathAnalyzer
         _ => MapNodeType.Unknown
     };
 
+    public static bool IsSummaryVisible(bool enableOverlay, bool enableMapPathSummary, bool isOverlayHidden) =>
+        enableOverlay && enableMapPathSummary && !isOverlayHidden;
+
     private sealed class PathCounts
     {
         public int Elites;

@@ -18,7 +18,11 @@ public static class MapPathCoordinator
 
         try
         {
-            if (ModEntry.Config != null && !ModEntry.Config.EnableMapPathSummary)
+            bool isOverlayEnabled = ModEntry.Config?.EnableOverlay ?? true;
+            bool isPathSummaryEnabled = ModEntry.Config?.EnableMapPathSummary ?? true;
+            bool isHidden = RoomOverlayFactory.IsOverlayHidden;
+
+            if (!MapPathAnalyzer.IsSummaryVisible(isOverlayEnabled, isPathSummaryEnabled, isHidden))
             {
                 MapPathOverlayFactory.HideSummary(mapScreen);
                 return;
@@ -119,7 +123,8 @@ public static class MapPathCoordinator
             graph.AddEdge(from, to);
         }
 
-        if (hasAnyFogMeta)
+        // If MapFog is present or has marked nodes, enforce fog horizon
+        if (hasAnyFogMeta || IsMapFogModActive())
         {
             revealedCoords = fogRevealed;
             bossRevealed = !Sts2RuntimeInspector.IsBossFogged();
@@ -139,6 +144,26 @@ public static class MapPathCoordinator
         }
 
         return graph.Nodes.Count > 0 && travelableCoords.Count > 0;
+    }
+
+    private static bool IsMapFogModActive()
+    {
+        try
+        {
+            var mapFogModType = AccessTools.TypeByName("SlayTheSpireMapFog.Godot.ModEntry");
+            if (mapFogModType != null)
+            {
+                var cfg = AccessTools.Property(mapFogModType, "Config")?.GetValue(null);
+                if (cfg != null && AccessTools.Property(cfg.GetType(), "Enabled")?.GetValue(cfg) is bool e && e)
+                {
+                    return true;
+                }
+            }
+        }
+        catch
+        {
+        }
+        return false;
     }
 
     private static void RegisterBossPointNode(
@@ -183,17 +208,35 @@ public static class MapPathCoordinator
 [HarmonyPatch("MegaCrit.Sts2.Core.Nodes.Screens.Map.NMapScreen", "SetMap")]
 public static class NMapScreenSetMapPatch
 {
-    public static void Postfix(Node __instance) => MapPathCoordinator.UpdateMapPathSummary(__instance);
+    public static void Postfix(Node __instance)
+    {
+        if (__instance != null && GodotObject.IsInstanceValid(__instance))
+        {
+            Callable.From(() => MapPathCoordinator.UpdateMapPathSummary(__instance)).CallDeferred();
+        }
+    }
 }
 
 [HarmonyPatch("MegaCrit.Sts2.Core.Nodes.Screens.Map.NMapScreen", "RecalculateTravelability")]
 public static class NMapScreenRecalculateTravelabilityPatch
 {
-    public static void Postfix(Node __instance) => MapPathCoordinator.UpdateMapPathSummary(__instance);
+    public static void Postfix(Node __instance)
+    {
+        if (__instance != null && GodotObject.IsInstanceValid(__instance))
+        {
+            Callable.From(() => MapPathCoordinator.UpdateMapPathSummary(__instance)).CallDeferred();
+        }
+    }
 }
 
 [HarmonyPatch("MegaCrit.Sts2.Core.Nodes.Screens.Map.NMapScreen", "RefreshAllPointVisuals")]
 public static class NMapScreenRefreshAllPointVisualsPatch
 {
-    public static void Postfix(Node __instance) => MapPathCoordinator.UpdateMapPathSummary(__instance);
+    public static void Postfix(Node __instance)
+    {
+        if (__instance != null && GodotObject.IsInstanceValid(__instance))
+        {
+            Callable.From(() => MapPathCoordinator.UpdateMapPathSummary(__instance)).CallDeferred();
+        }
+    }
 }

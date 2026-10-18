@@ -247,4 +247,38 @@ public class MapPathTests
         Assert.AreEqual(MapNodeType.Ancient, MapPathAnalyzer.ConvertRawPointType(8));
         Assert.AreEqual(MapNodeType.Unknown, MapPathAnalyzer.ConvertRawPointType(999));
     }
+
+    [TestMethod]
+    public void MapPathAnalyzer_IsSummaryVisible_RespectsMasterAndFeatureToggles()
+    {
+        Assert.IsTrue(MapPathAnalyzer.IsSummaryVisible(enableOverlay: true, enableMapPathSummary: true, isOverlayHidden: false));
+        Assert.IsFalse(MapPathAnalyzer.IsSummaryVisible(enableOverlay: false, enableMapPathSummary: true, isOverlayHidden: false));
+        Assert.IsFalse(MapPathAnalyzer.IsSummaryVisible(enableOverlay: true, enableMapPathSummary: false, isOverlayHidden: false));
+        Assert.IsFalse(MapPathAnalyzer.IsSummaryVisible(enableOverlay: true, enableMapPathSummary: true, isOverlayHidden: true));
+        Assert.IsFalse(MapPathAnalyzer.IsSummaryVisible(enableOverlay: false, enableMapPathSummary: false, isOverlayHidden: true));
+    }
+
+    [TestMethod]
+    public void MapPathAnalyzer_FogHorizonRespect_MasksAllWhenFogActiveAndRevealedCoordsEmpty()
+    {
+        var n0 = new MapPathCoord(0, 0);
+        var n1 = new MapPathCoord(0, 1);
+        var boss = new MapPathCoord(0, 2);
+
+        var graph = new MapGraph();
+        graph.AddNode(new MapPathNode(n0, MapNodeType.Monster));
+        graph.AddNode(new MapPathNode(n1, MapNodeType.Elite));
+        graph.AddNode(new MapPathNode(boss, MapNodeType.Boss));
+
+        graph.AddEdge(n0, n1);
+        graph.AddEdge(n1, boss);
+
+        // MapFog active, but no nodes revealed yet except start
+        var revealed = new HashSet<MapPathCoord> { n0 };
+        var summary = MapPathAnalyzer.CalculateReachableSummary(graph, n0, revealedCoords: revealed, bossRevealed: false);
+
+        Assert.AreEqual(new RangeStat(0, 0), summary.Elites, "No elites may leak when unrevealed");
+        Assert.AreEqual(new RangeStat(0, 0), summary.Bosses, "Boss may not leak when unrevealed");
+        Assert.AreEqual(new RangeStat(2, 2), summary.FoggedNodes, "Nodes beyond horizon must be fogged");
+    }
 }

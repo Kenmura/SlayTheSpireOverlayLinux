@@ -69,8 +69,8 @@ public static class MapPathOverlayFactory
         pill.AnchorBottom = 0f;
         pill.OffsetLeft = -290;
         pill.OffsetRight = 290;
-        pill.OffsetTop = 18;
-        pill.OffsetBottom = 54;
+        pill.OffsetTop = 68;
+        pill.OffsetBottom = 104;
 
         var label = new Label
         {
