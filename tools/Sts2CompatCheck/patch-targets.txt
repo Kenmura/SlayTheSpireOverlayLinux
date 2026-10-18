@@ -1,0 +1,34 @@
+# Type member: string-based Harmony targets used by the mods (see each ModEntry.cs)
+
+MegaCrit.Sts2.Core.Nodes.Cards.NCard UpdateVisuals
+MegaCrit.Sts2.Core.Nodes.Relics.NRelic Reload
+MegaCrit.Sts2.Core.Nodes.Potions.NPotion Reload
+MegaCrit.Sts2.Core.Nodes.Rewards.NRewardButton Reload
+MegaCrit.Sts2.Core.Nodes.Rewards.NRewardButton SetReward
+MegaCrit.Sts2.Core.Nodes.Cards.Holders.NCardHolder OnFocus
+MegaCrit.Sts2.Core.Nodes.Cards.Holders.NCardHolder OnUnfocus
+MegaCrit.Sts2.Core.Nodes.Screens.Shops.NMerchantSlot OnFocus
+MegaCrit.Sts2.Core.Nodes.Events.NEventOptionButton OnFocus
+MegaCrit.Sts2.Core.Nodes.Relics.NRelicBasicHolder OnFocus
+MegaCrit.Sts2.Core.Nodes.Screens.TreasureRoomRelic.NTreasureRoomRelicHolder OnFocus
+MegaCrit.Sts2.Core.Nodes.Rooms.NCombatRoom _Ready
+MegaCrit.Sts2.Core.Nodes.Rooms.NMerchantRoom _Ready
+MegaCrit.Sts2.Core.Nodes.Rooms.NEventRoom _Ready
+MegaCrit.Sts2.Core.Nodes.Rooms.NTreasureRoom _Ready
+MegaCrit.Sts2.Core.Nodes.Rooms.NRestSiteRoom _Ready
+MegaCrit.Sts2.Core.Nodes.Rooms.NMapRoom _Ready
+MegaCrit.Sts2.Core.Nodes.NRun _Ready
+MegaCrit.Sts2.Core.Nodes.NGame _Ready
+MegaCrit.Sts2.Core.Nodes.Screens.ModdingScreen.NModInfoContainer Fill
+MegaCrit.Sts2.Core.Nodes.Screens.Settings.NSettingsScreen _Ready
+MegaCrit.Sts2.Core.Nodes.Screens.NRunSubmenuStack GetSubmenuType
+MegaCrit.Sts2.Core.Nodes.Screens.ModdingScreen.NModdingScreen Create
+MegaCrit.Sts2.Core.Nodes.Screens.Map.NMapScreen SetMap
+MegaCrit.Sts2.Core.Nodes.Screens.Map.NMapScreen RecalculateTravelability
+MegaCrit.Sts2.Core.Nodes.Screens.Map.NMapScreen RefreshAllPointVisuals
+MegaCrit.Sts2.Core.Nodes.Screens.Map.NNormalMapPoint UpdateIcon
+MegaCrit.Sts2.Core.Nodes.Screens.Map.NNormalMapPoint RefreshMarkedIconVisibility
+MegaCrit.Sts2.Core.Nodes.Screens.Map.NNormalMapPoint OnHighlightPointType
+MegaCrit.Sts2.Core.Nodes.Screens.Map.NNormalMapPoint IconPath
+MegaCrit.Sts2.Core.Nodes.Screens.Map.NNormalMapPoint OutlinePath
+
