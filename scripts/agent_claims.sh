@@ -1,10 +1,19 @@
 #!/usr/bin/env bash
 # Show who is working on what. Run this BEFORE starting any work.
+# Reads the local status files written by agent_claim.sh (shared by all worktrees of this clone).
 set -euo pipefail
-echo "=== Issues marked in-progress (latest AGENT-STATUS comment each) ==="
-for n in $(gh issue list --label in-progress --state open --json number -q '.[].number'); do
-  echo "--- #$n $(gh issue view "$n" --json title -q .title)"
-  gh issue view "$n" --json comments -q '[.comments[] | select(.body | contains("<!-- AGENT-STATUS -->"))] | last | .body // "(no status comment)"' | grep -v '^<!--'
-done
-echo; echo "=== Git worktrees ==="; git worktree list
+dir="$(cd "$(git rev-parse --git-common-dir)" && pwd)/agent-status"
+echo "=== Active claims ($dir) ==="
+found=0
+if [ -d "$dir" ]; then
+  for f in "$dir"/*.md; do
+    [ -e "$f" ] || continue
+    grep -q '^\*\*Status:\*\* done' "$f" && continue
+    found=1
+    stale=""; [ -n "$(find "$f" -mmin +1440 2>/dev/null)" ] && stale="   [STALE: no update for 24h+ - comment/ask before taking over]"
+    cat "$f"; echo "$stale"; echo
+  done
+fi
+[ "$found" = 1 ] || echo "(none)"
+echo "=== Git worktrees ==="; git worktree list
 echo; echo "=== Uncommitted changes in this checkout (someone may own them) ==="; git status --short
