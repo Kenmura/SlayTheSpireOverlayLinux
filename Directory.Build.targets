@@ -1,0 +1,5 @@
+<Project>
+  <Target Name="RequireSts2Dlls" BeforeTargets="ResolveAssemblyReferences" Condition="'$(UsesSts2)' == 'true' And !Exists('$(Sts2DataDir)/sts2.dll')">
+    <Error Text="sts2.dll not found in '$(Sts2DataDir)'. Install Slay the Spire 2 via Steam or pass -p:Sts2DataDir=&lt;path to the data_sts2_* folder&gt;. Without game files only tests/SlayTheSpireOverlay.Tests can be built." />
+  </Target>
+</Project>
