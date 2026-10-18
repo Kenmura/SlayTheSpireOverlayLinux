@@ -1,0 +1,19 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            9.0.x
+            10.0.x
+      # Godot projects and architecture tests reference sts2.dll from a Steam install, so they cannot build here.
+      - run: dotnet test tests/SlayTheSpireOverlay.Tests/SlayTheSpireOverlay.Tests.csproj --configuration Release
