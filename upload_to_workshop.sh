@@ -15,7 +15,12 @@ echo "=============================================="
 cd "$BASE_DIR"
 
 echo "=== 1. Building and Publishing Mod Assemblies ==="
+rm -rf "$BASE_DIR/workshop/content"
 LD_PRELOAD="" distrobox enter dotnet-dev -- env LD_PRELOAD="" dotnet publish src/SlayTheSpireOverlay.Godot/SlayTheSpireOverlay.Godot.csproj -c Release -o "$BASE_DIR/workshop/content/"
+# Game ships GodotSharp; never upload our copy
+rm -f "$BASE_DIR/workshop/content/GodotSharp.dll"
+# deps.json is read by the game as a mod manifest and logs a bogus error; the mod does not need it
+rm -f "$BASE_DIR/workshop/content"/*.deps.json
 
 echo "=== 2. Clonging official megacrit/sts2-mod-uploader ==="
 if [ ! -d "$BASE_DIR/workshop/uploader" ]; then
@@ -25,10 +30,12 @@ else
 fi
 
 echo "=== 3. Building Mod Uploader Tool ==="
-LD_PRELOAD="" distrobox enter dotnet-dev -- env LD_PRELOAD="" dotnet build "$BASE_DIR/workshop/uploader/ModUploader.sln" -c Release
-
-# Find compiled DLL in the bin directory
-UPLOADER_DLL=$(find "$BASE_DIR/workshop/uploader/bin" -name "ModUploader.dll" | head -n 1)
+UPLOADER_DLL=$(find "$BASE_DIR/workshop/uploader/bin" -name "ModUploader.dll" 2>/dev/null | head -n 1)
+if [ -z "$UPLOADER_DLL" ]; then
+    # Repo-level Directory.Build.props enforces analyzers; relax them for the third-party uploader
+    LD_PRELOAD="" distrobox enter dotnet-dev -- env LD_PRELOAD="" dotnet build "$BASE_DIR/workshop/uploader/ModUploader.sln" -c Release -p:TreatWarningsAsErrors=false -p:EnforceCodeStyleInBuild=false
+    UPLOADER_DLL=$(find "$BASE_DIR/workshop/uploader/bin" -name "ModUploader.dll" | head -n 1)
+fi
 
 if [ -z "$UPLOADER_DLL" ]; then
     echo "[-] Error: Could not find compiled ModUploader.dll."

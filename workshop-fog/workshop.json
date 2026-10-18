@@ -1,0 +1,11 @@
+{
+  "title": "Fog of War Map",
+  "description": "Adds Fog of War to the Act Map. By default only the next step ahead is revealed, while the Act Boss always stays visible. Settings are adjustable in-game. This mod changes gameplay (reduced map information), so it is not intended for use alongside runs where you want full map knowledge.",
+  "visibility": "private",
+  "changeNote": "v1.0.0: Fog of War for the Act Map. Passed nodes stay exposed, dark fog over unexplored areas, in-game settings (fog mode, boss visibility, vision depth, passed nodes, dark fog). Packaging cleanup: removed deps.json, which the game logged as an invalid manifest on 0.107.",
+  "tags": [
+    "Mod",
+    "Gameplay"
+  ],
+  "dependencies": []
+}
