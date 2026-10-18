@@ -1314,12 +1314,7 @@ public static class RoomOverlayFactory
             Rebuild();
         }));
 
-        grid.AddChild(CreateSettingsButton($"Act Boss Reminder: {(config.EnableBossPrepBanner ? "ON" : "OFF")}", config.EnableBossPrepBanner, false, () =>
-        {
-            config.EnableBossPrepBanner = !config.EnableBossPrepBanner;
-            onConfigSaved();
-            Rebuild();
-        }));
+        grid.AddChild(CreateSettingsButton($"Act Boss Reminder: {(config.EnableBossPrepBanner ? "ON" : "OFF")}", config.EnableBossPrepBanner, false, () => { config.EnableBossPrepBanner = !config.EnableBossPrepBanner; onConfigSaved(); Rebuild(); }));
 
         grid.AddChild(CreateSettingsButton($"Incoming Damage: {(config.EnableAttackSummary ? "ON" : "OFF")}", config.EnableAttackSummary, false, () =>
         {
@@ -1337,6 +1332,7 @@ public static class RoomOverlayFactory
         }));
 
         grid.AddChild(CreateSettingsButton($"Outgoing Damage: {(config.EnableOutgoingDamageSummary ? "ON" : "OFF")}", config.EnableOutgoingDamageSummary, false, () => { config.EnableOutgoingDamageSummary = !config.EnableOutgoingDamageSummary; onConfigSaved(); Rebuild(); }));
+        grid.AddChild(CreateSettingsButton($"Potion Chance: {(config.EnablePotionDropChance ? "ON" : "OFF")}", config.EnablePotionDropChance, false, () => { config.EnablePotionDropChance = !config.EnablePotionDropChance; onConfigSaved(); Rebuild(); }));
         grid.AddChild(CreateSettingsButton($"Relic Counters: {(config.EnableRelicProcCounters ? "ON" : "OFF")}", config.EnableRelicProcCounters, false, () => { config.EnableRelicProcCounters = !config.EnableRelicProcCounters; RelicCounterBadgeFactory.RefreshForModel(null, config.EnableRelicProcCounters); onConfigSaved(); Rebuild(); }));
 
         grid.AddChild(CreateSettingsButton($"Shop Gold Left:{(config.EnableMerchantGoldLeft ? "ON" : "OFF")}", config.EnableMerchantGoldLeft, false, () =>

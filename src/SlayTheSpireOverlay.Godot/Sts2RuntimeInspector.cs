@@ -1054,7 +1054,7 @@ public static class Sts2RuntimeInspector
         return list;
     }
 
-    private static object? GetLocalPlayer()
+    internal static object? GetLocalPlayer()
     {
         var runMgrType = GetCachedType("MegaCrit.Sts2.Core.Runs.RunManager");
         var runMgr = runMgrType != null ? GetStaticMember(runMgrType, "Instance", "_instance") : null;

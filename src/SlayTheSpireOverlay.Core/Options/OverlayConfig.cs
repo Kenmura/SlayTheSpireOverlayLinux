@@ -30,6 +30,7 @@ public class OverlayConfig
     public bool EnableOutgoingDamageSummary { get; set; } = true;
     public bool EnableDeckTrackerCardHover { get; set; } = true;
     public bool EnableRelicProcCounters { get; set; } = true;
+    public bool EnablePotionDropChance { get; set; } = true;
     public string ToggleAuthorKey { get; set; } = "F6";
     public string CollapseDeckTrackerKey { get; set; } = "F7";
     public string ToggleOverlayKey { get; set; } = "F8";
