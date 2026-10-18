@@ -15,7 +15,7 @@ public class SourceHygieneTests
     // landed alongside this guard. These files are the next candidates to split; only ever lower these numbers.
     private static readonly Dictionary<string, int> Allowlist = new()
     {
-        ["src/SlayTheSpireOverlay.Godot/UI/RoomOverlayFactory.cs"] = 1600,
+        ["src/SlayTheSpireOverlay.Godot/UI/RoomOverlayFactory.cs"] = 1596,
         ["src/SlayTheSpireOverlay.Godot/ModEntry.cs"] = 815,
         ["src/SlayTheSpireOverlay.Godot/Sts2RuntimeInspector.cs"] = 1148,
         ["src/SlayTheSpireOverlay.Core/Services/OverlayCalculators.cs"] = 1017,

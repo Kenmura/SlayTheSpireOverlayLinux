@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <Compile Include="..\SlayTheSpireOverlay.Core\**\*.cs" Exclude="..\SlayTheSpireOverlay.Core\obj\**;..\SlayTheSpireOverlay.Core\bin\**" Link="Core\%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="..\SlayTheSpireMod.Common\ReflectionAccess.cs" Link="Common\ReflectionAccess.cs" />
   </ItemGroup>
 
   <ItemGroup>
