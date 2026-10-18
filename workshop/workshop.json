@@ -2,7 +2,7 @@
   "title": "Overlay for Tier List",
   "description": "A clean, performant in-game overlay for Slay the Spire 2 displaying card, relic, and Ancient choice tier badges, scores, and evaluations.",
   "visibility": "private",
-  "changeNote": "Misc bug fixes and maintenance updates.",
+  "changeNote": "v1.1.0: In-game settings panel in the Mods screen (author switch, force refresh, per-feature toggles). New: potion badges, hover commentary, combat attack summary, live deck tracker, merchant gold-left, event commentary, reward badges. Refreshed tier data. Smaller package. Packaging cleanup: removed deps.json, which the game logged as an invalid manifest on 0.107.",
   "tags": [
     "Mod",
     "Overlay",

@@ -4,6 +4,30 @@ All notable changes, fixes, and feature additions for the **Overlay for Tier Lis
 
 ---
 
+## [v1.1.0] - 2026-10-17
+
+### ⚙️ In-Game Settings
+* **Settings panel in the Mods screen:** Select the mod in the Mods list (main menu, or Settings during a run) to toggle features without editing files. Changes save to `overlay_config.json` and apply immediately.
+* **Tier list author switch:** Choose which tier list author's ratings are shown, with a one-click **Force Refresh** to re-download tier data.
+* **Per-feature toggles:** Master overlay, card badges, relic badges, potion badges, hover commentary, attack summary, deck tracker, merchant gold-left, and event commentary.
+
+### 🆕 New Overlays
+* **Potion badges** on potions in rewards, shops, and events.
+* **Hover commentary** on cards, relics, and potions.
+* **Combat attack summary:** Total incoming damage and hit count from enemy intents.
+* **Live combat deck tracker:** Draw, discard, and exhaust pile contents during combat.
+* **Merchant "gold left":** Shows remaining gold after shop purchases.
+* **Event commentary** panel in event rooms.
+* **Reward screen badges** on card/relic reward buttons.
+
+### 🔧 Fixes & Maintenance
+* Tier data refreshed from the latest ratings.
+* Removed `deps.json` from the Workshop package (the game logged it as an invalid mod manifest on 0.107).
+* Workshop package trimmed to the mod DLL only (no longer bundles redundant GodotSharp / dependency DLLs).
+* Compatible alongside the Fog of War Map mod (separate settings panels, shared in-run Mods screen).
+
+---
+
 ## [v1.0.0] - 2026-08-19
 
 ### 🎨 Visual & Branding Improvements
@@ -54,3 +78,16 @@ All notable changes, fixes, and feature additions for the **Overlay for Tier Lis
 * **Fixed Node Pooling / Rating Mismatches:** Fixed recycled node rating shifts by patching `set_Model` and `set_Option` setters across `NCard`, `NRelic`, and `NEventOptionButton`.
 * **Fixed Steam Proton Disk Cache Stale Data:** Discovered Proton stores `user://` at `AppData/Roaming/SlayTheSpire2/`. Updated `ModEntry.cs` to automatically update the disk cache on launch whenever the embedded resource has newer/more items.
 * **CamelCase ID Normalizer:** Added CamelCase to `UPPER_SNAKE_CASE` converter and `_OPTION` suffix stripper in ID normalization logic.
+
+---
+
+# Patch Notes & Changelog - Fog of War Map
+
+## [v1.0.0] - 2026-10-17
+
+* **Fog of War on the Act Map:** Only the next step ahead is revealed by default; the Act Boss stays visible.
+* **Passed nodes stay exposed:** Every node on your current floor or below remains visible so you can see the paths you didn't take (toggleable).
+* **Dark fog:** Unexplored map area is covered by a dark fog instead of a bare background (toggleable).
+* **In-game settings** (Mods screen): Fog on/off, Full Fog vs Hidden Icons (`?`) mode, Act Boss visibility, vision depth (1-3 steps), Passed Nodes, Dark Fog. Saved to `map_fog_config.json`.
+* Marked as affecting gameplay (reduced map information).
+* Removed `deps.json` from the Workshop package (the game logged it as an invalid mod manifest on 0.107).
