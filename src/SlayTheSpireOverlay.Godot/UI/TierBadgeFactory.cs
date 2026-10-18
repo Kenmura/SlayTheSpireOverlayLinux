@@ -13,7 +13,9 @@ public static class TierBadgeFactory
         string cardId,
         string author = "Baalorlord",
         Func<Node, bool>? isSuppressed = null,
-        bool showHoverCommentary = true) =>
+        bool showHoverCommentary = true,
+        int upgradeLevel = 0,
+        string? enchantmentId = null) =>
         AttachBadge(
             cardNode,
             "TierBadgePanel",
@@ -28,7 +30,9 @@ public static class TierBadgeFactory
             marginV: 3,
             separation: 5,
             isSuppressed: isSuppressed,
-            showHoverCommentary: showHoverCommentary);
+            showHoverCommentary: showHoverCommentary,
+            upgradeLevel: upgradeLevel,
+            enchantmentId: enchantmentId);
 
     public static void HideBadge(Node? targetNode, string panelName)
     {
@@ -55,7 +59,9 @@ public static class TierBadgeFactory
         int marginV,
         int separation,
         Func<Node, bool>? isSuppressed = null,
-        bool showHoverCommentary = true)
+        bool showHoverCommentary = true,
+        int upgradeLevel = 0,
+        string? enchantmentId = null)
     {
         if (targetNode == null || !GodotObject.IsInstanceValid(targetNode)) return;
 
@@ -126,7 +132,7 @@ public static class TierBadgeFactory
             if (tierLabel == null || dividerLabel == null || scoreLabel == null) return;
         }
 
-        string expectedToken = $"{author}:{lookupKey}";
+        string expectedToken = $"{author}:{lookupKey}:{upgradeLevel}:{enchantmentId ?? string.Empty}";
         panel.SetMeta("TargetId", expectedToken);
 
         System.Threading.Tasks.Task.Run(async () =>
@@ -134,10 +140,9 @@ public static class TierBadgeFactory
             try
             {
                 var tierList = await tierProvider.GetTierListAsync().ConfigureAwait(false);
-                string strippedKey = lookupKey.Replace("_", "", StringComparison.Ordinal);
+                var data = OverlayCalculators.ResolveCardTierData(tierList, rawId, upgradeLevel, stripOptionSuffix);
 
-                if (tierList.TryGetValue(lookupKey, out var data) ||
-                    (strippedKey != lookupKey && tierList.TryGetValue(strippedKey, out data)))
+                if (data != null)
                 {
                     Callable.From(() =>
                     {
@@ -160,7 +165,7 @@ public static class TierBadgeFactory
                             panel.Position = new Vector2(Math.Max(position.X, ctrl.Size.X - 95f), position.Y);
                         }
 
-                        Color tierColor = GetColorForTier(data.Tier);
+                        Color tierColor = GetColorForTier(data.Tier, data.Score);
                         if (panel.GetThemeStylebox("panel") is StyleBoxFlat sb)
                         {
                             sb.BorderColor = new Color(tierColor.R, tierColor.G, tierColor.B, 0.65f);
@@ -171,12 +176,17 @@ public static class TierBadgeFactory
 
                         bool hasScore = data.Score > 0;
                         dividerLabel.Visible = hasScore;
-                        tierLabel.Text = data.Tier;
+                        tierLabel.Text = OverlayCalculators.FormatBadgeTierLabel(data.Tier, upgradeLevel, enchantmentId);
                         tierLabel.SelfModulate = tierColor;
                         scoreLabel.Text = hasScore ? data.Score.ToString("0.0") : "";
                         scoreLabel.SelfModulate = new Color(0.95f, 0.95f, 0.98f);
                         panel.TooltipText = string.Empty;
-                        panel.SetMeta("HoverText", showHoverCommentary ? RoomOverlayFactory.FormatHoverCommentary(data.Tier, data.Commentary, author) : string.Empty);
+                        panel.SetMeta(
+                            "HoverText",
+                            showHoverCommentary
+                                ? RoomOverlayFactory.FormatHoverCommentary(data.Tier, data.Commentary, author, upgradeLevel, enchantmentId)
+                                : string.Empty);
+                        RoomOverlayFactory.RefreshHoverCommentaryIfVisible(panel);
                     }).CallDeferred();
                 }
                 else
@@ -189,6 +199,7 @@ public static class TierBadgeFactory
                         {
                             panel.SetMeta("HoverText", string.Empty);
                             panel.Visible = false;
+                            RoomOverlayFactory.RefreshHoverCommentaryIfVisible(panel);
                         }
                     }).CallDeferred();
                 }
@@ -200,16 +211,31 @@ public static class TierBadgeFactory
         });
     }
 
-    public static Color GetColorForTier(string? tier) => (tier?.Trim()) switch
+    public static Color GetColorForTier(string? tier, double score = 0)
     {
-        "S" or "S Tier" or "Always Amazing" => new Color(1.0f, 0.35f, 0.35f),
-        "A" or "A Tier" or "Always Good" => new Color(1.0f, 0.65f, 0.25f),
-        "B" or "B Tier" or "Great" or "Good" => new Color(0.95f, 0.95f, 0.3f),
-        "C" or "C Tier" or "Needs Synergy" => new Color(0.45f, 0.85f, 1.0f),
-        "D" or "D Tier" or "Inconsistent" => new Color(0.85f, 0.5f, 1.0f),
-        "F" or "F Tier" => new Color(0.78f, 0.42f, 0.38f),
-        "Map Dependent" or "Situational" => new Color(1.0f, 0.7f, 0.3f),
-        "Almost Never" or "Never Take" or "Skip" => new Color(0.65f, 0.65f, 0.65f),
-        _ => new Color(0.85f, 0.85f, 0.85f)
-    };
+        if (score >= 90.0) return new Color(1.0f, 0.35f, 0.35f); // S
+        if (score >= 75.0) return new Color(1.0f, 0.65f, 0.25f); // A
+        if (score >= 60.0) return new Color(0.95f, 0.95f, 0.3f);  // B
+        if (score >= 45.0) return new Color(0.45f, 0.85f, 1.0f); // C
+        if (score >= 30.0) return new Color(0.85f, 0.5f, 1.0f);  // D
+        if (score > 0.0) return new Color(0.78f, 0.42f, 0.38f);   // F
+
+        string clean = tier?.Trim() ?? "";
+        if (clean.StartsWith("B:", StringComparison.OrdinalIgnoreCase) && clean.Length >= 3)
+        {
+            clean = clean.Substring(2, 1);
+        }
+        return clean switch
+        {
+            "S" or "S Tier" or "Always Amazing" => new Color(1.0f, 0.35f, 0.35f),
+            "A" or "A Tier" or "Always Good" => new Color(1.0f, 0.65f, 0.25f),
+            "B" or "B Tier" or "Great" or "Good" => new Color(0.95f, 0.95f, 0.3f),
+            "C" or "C Tier" or "Needs Synergy" => new Color(0.45f, 0.85f, 1.0f),
+            "D" or "D Tier" or "Inconsistent" => new Color(0.85f, 0.5f, 1.0f),
+            "F" or "F Tier" => new Color(0.78f, 0.42f, 0.38f),
+            "Map Dependent" or "Situational" => new Color(1.0f, 0.7f, 0.3f),
+            "Almost Never" or "Never Take" or "Skip" => new Color(0.65f, 0.65f, 0.65f),
+            _ => new Color(0.85f, 0.85f, 0.85f)
+        };
+    }
 }

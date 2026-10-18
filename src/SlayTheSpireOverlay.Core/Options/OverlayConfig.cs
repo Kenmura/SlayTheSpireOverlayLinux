@@ -23,4 +23,20 @@ public class OverlayConfig
     public bool EnableDeckTracker { get; set; } = true;
     public bool EnableMerchantGoldLeft { get; set; } = true;
     public bool EnableEventCommentary { get; set; } = true;
+    public bool EnableQuickToggleBar { get; set; } = true;
+    public bool EnableControllerChords { get; set; } = true;
+    public bool EnableDeckSynergyBar { get; set; } = true;
+    public bool EnableBossPrepBanner { get; set; } = true;
+    public bool EnableOutgoingDamageSummary { get; set; } = true;
+    public bool EnableDeckTrackerCardHover { get; set; } = true;
+    public string ToggleAuthorKey { get; set; } = "F6";
+    public string CollapseDeckTrackerKey { get; set; } = "F7";
+    public string ToggleOverlayKey { get; set; } = "F8";
+    public string RefreshTiersKey { get; set; } = "F9";
+    public string PinShopItemKey { get; set; } = "F5";
+    public float UiScale { get; set; } = 1.0f;
+    public float DeckTrackerOffsetX { get; set; }
+    public float DeckTrackerOffsetY { get; set; }
+    public float AttackSummaryOffsetX { get; set; }
+    public float AttackSummaryOffsetY { get; set; }
 }

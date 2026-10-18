@@ -4,6 +4,7 @@
   "author": "Kenmura",
   "description": "Displays card, relic, and Ancient choice tier overlay badges in Slay the Spire 2.",
   "version": "v1.1.0",
+  "min_game_version": "0.107.0",
   "has_pck": false,
   "has_dll": true,
   "affects_gameplay": false

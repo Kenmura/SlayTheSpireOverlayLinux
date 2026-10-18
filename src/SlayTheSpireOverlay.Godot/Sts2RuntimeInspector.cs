@@ -145,6 +145,7 @@ public static class Sts2RuntimeInspector
             }
 
             var enemies = new List<(int CurrentHp, IEnumerable<(string? IntentType, string? LabelText)> Intents)>();
+            var enemyWillDie = new List<bool>();
             foreach (Node child in container.GetChildren())
             {
                 if (child == null || !GodotObject.IsInstanceValid(child)) continue;
@@ -167,15 +168,286 @@ public static class Sts2RuntimeInspector
                     }
                 }
                 enemies.Add((hp, intents));
+                enemyWillDie.Add(OverlayCalculators.WillEnemyDieBeforeAttack(hp, InspectCreaturePowers(entity)));
             }
 
             object? player = GetLocalPlayer();
             var (playerHp, playerBlock) = GetLocalPlayerHpAndBlock(combatRoom, player);
-            return OverlayCalculators.CalculateIncomingAttacks(enemies, playerBlock, playerHp);
+            var (passiveBlock, selfDamage) = InspectPlayerEndOfTurnEffects(player, playerBlock);
+
+            var allPlayers = GetAllPlayers();
+            List<AllyAttackStatus>? allyStatuses = null;
+            if (allPlayers.Count > 1)
+            {
+                var allyList = new List<AllyAttackStatus>();
+                int allyIdx = 1;
+                foreach (object p in allPlayers)
+                {
+                    if (ReferenceEquals(p, player)) continue;
+                    string name = GetMember(p, "Name", "_name") as string
+                        ?? ExtractModelEntryId(GetMember(p, "Character", "_character", "Hero"))
+                        ?? $"Ally {allyIdx++}";
+                    object? creature = GetMember(p, "Creature", "_creature") ?? p;
+                    int allyHp = creature != null && GetMember(creature, "CurrentHp", "_currentHp") is int ah ? ah : 0;
+                    int allyBlock = creature != null && GetMember(creature, "Block", "_block") is int ab ? ab : 0;
+                    if (allyHp <= 0) continue;
+
+                    int allyDmg = 0;
+                    int allyHits = 0;
+                    foreach (Node child in container.GetChildren())
+                    {
+                        if (child == null || !GodotObject.IsInstanceValid(child)) continue;
+                        var entity = GetMember(child, "Entity", "_entity");
+                        if (entity == null) continue;
+                        int eHp = GetMember(entity, "CurrentHp", "_currentHp") is int i ? i : 0;
+                        if (eHp <= 0) continue;
+                        if (OverlayCalculators.WillEnemyDieBeforeAttack(eHp, InspectCreaturePowers(entity))) continue;
+
+                        if (GetMember(child, "IntentContainer", "_intentContainer") is Node intentContainer &&
+                            GodotObject.IsInstanceValid(intentContainer))
+                        {
+                            foreach (Node intentNode in intentContainer.GetChildren())
+                            {
+                                if (intentNode is CanvasItem ci && !ci.Visible) continue;
+                                var intentModel = GetMember(intentNode, "_intent", "Intent");
+                                string? type = intentModel?.GetType().Name;
+                                if (string.IsNullOrEmpty(type) || (!type.Contains("AttackIntent", StringComparison.OrdinalIgnoreCase) &&
+                                    !type.EndsWith("DeathBlowIntent", StringComparison.OrdinalIgnoreCase)))
+                                {
+                                    continue;
+                                }
+
+                                var target = (intentModel != null ? GetMember(intentModel, "Target", "_target", "TargetCreature", "_targetCreature") : null)
+                                    ?? GetMember(intentNode, "Target", "_target");
+
+                                bool targetsThisAlly = target != null && (ReferenceEquals(target, creature) || ReferenceEquals(target, p));
+                                if (targetsThisAlly)
+                                {
+                                    var labelNode = GetMember(intentNode, "_valueLabel", "ValueLabel");
+                                    string? text = labelNode is RichTextLabel rtl ? rtl.Text : (labelNode is Label lbl ? lbl.Text : null);
+                                    var (dmg, hits) = OverlayCalculators.ParseAttackIntentValues(text);
+                                    allyDmg += dmg;
+                                    allyHits += hits;
+                                }
+                            }
+                        }
+                    }
+
+                    allyList.Add(OverlayCalculators.CalculateAllyAttackStatus(name, allyHp, allyBlock, allyDmg, allyHits));
+                }
+
+                if (allyList.Count > 0)
+                {
+                    allyStatuses = allyList;
+                }
+            }
+
+            OutgoingDamageSummary? outgoingDamage = null;
+            if (ModEntry.Config.EnableOutgoingDamageSummary)
+            {
+                try
+                {
+                    object? combatState = player != null ? GetMember(player, "PlayerCombatState", "_playerCombatState") : null;
+                    var handPile = combatState != null ? GetMember(combatState, "Hand", "_hand") : null;
+                    object? energyObj = combatState != null ? GetMember(combatState, "Energy", "_energy") : null;
+                    int? availableEnergy = energyObj is int e ? e
+                        : (energyObj != null && GetMember(energyObj, "Energy", "_energy", "Current", "Amount") is int ce ? ce : null);
+                    if (handPile != null && availableEnergy.HasValue && GetMember(handPile, "Cards", "_cards") is IEnumerable handCards)
+                    {
+
+                        var attackCards = new List<PlayableAttackCard>();
+                        foreach (object? card in handCards)
+                        {
+                            if (card == null) continue;
+                            string type = GetMember(card, "Type", "CardType", "_type")?.ToString() ?? "";
+                            if (!string.Equals(type, "Attack", StringComparison.OrdinalIgnoreCase)) continue;
+
+                            string title = GetMember(card, "Title", "_title") as string ?? ExtractModelEntryId(card) ?? "Attack";
+                            if (!CanPlayCard(card)) continue;
+                            int dmg = EvaluateCardDamage(card);
+                            if (dmg <= 0) continue;
+
+                            var energyCostObj = GetMember(card, "EnergyCost", "_energyCost");
+                            bool costsX = energyCostObj != null && GetMember(energyCostObj, "CostsX", "_costsX") is bool x && x;
+                            int? resolvedCost = costsX ? 0 : EvaluateEffectiveCost(energyCostObj);
+                            if (!resolvedCost.HasValue) continue; // unknown cost: never assume playable-for-free
+                            int cost = resolvedCost.Value;
+
+                            string targetStr = GetMember(card, "TargetType", "_targetType", "TargetingType", "Target")?.ToString() ?? "";
+                            bool isAoe = targetStr.Contains("All", StringComparison.OrdinalIgnoreCase);
+                            int hits = EvaluateCardHits(card);
+
+                            attackCards.Add(new PlayableAttackCard(title, cost, dmg, hits, costsX, isAoe));
+                        }
+
+                        var enemyTargets = new List<EnemyTarget>();
+                        foreach (Node child in container.GetChildren())
+                        {
+                            if (child == null || !GodotObject.IsInstanceValid(child)) continue;
+                            var entity = GetMember(child, "Entity", "_entity");
+                            if (entity == null) continue;
+                            int eHp = GetMember(entity, "CurrentHp", "_currentHp") is int i ? i : 0;
+                            int eBlock = GetMember(entity, "Block", "_block") is int b ? b : 0;
+                            if (eHp <= 0) continue;
+                            string eName = GetMember(entity, "Name", "_name") as string ?? ExtractModelEntryId(entity) ?? "Enemy";
+                            enemyTargets.Add(new EnemyTarget(eName, eHp, eBlock));
+                        }
+
+                        if (attackCards.Count > 0)
+                        {
+                            outgoingDamage = OverlayCalculators.CalculateMaxOutgoingHandDamage(availableEnergy.Value, attackCards, enemyTargets);
+                        }
+                    }
+                }
+                catch
+                {
+                }
+            }
+
+            return OverlayCalculators.CalculateIncomingAttacks(
+                enemies,
+                playerBlock,
+                playerHp,
+                passiveBlock,
+                selfDamage,
+                enemyWillDie,
+                allyStatuses,
+                outgoingDamage);
         }
         catch
         {
             return new AttackSummary(0, 0, 0);
+        }
+    }
+
+    private static int ReadDynamicVarInt(object? dynVars, string name)
+    {
+        try
+        {
+            object? v = dynVars != null ? GetMember(dynVars, name) : null;
+            if (v == null) return 0;
+            foreach (string member in new[] { "PreviewValue", "EnchantedValue", "BaseValue" })
+            {
+                object? raw = GetMember(v, member);
+                int n = raw switch { decimal m => (int)decimal.Truncate(m), int i => i, _ => 0 };
+                if (n > 0) return n;
+            }
+            return GetMember(v, "IntValue") is int iv ? iv : 0;
+        }
+        catch
+        {
+            return 0;
+        }
+    }
+
+    // CardModel exposes damage through DynamicVars.Damage (decimal PreviewValue includes Strength/Vulnerable/Weak).
+    private static int EvaluateCardDamage(object? card)
+    {
+        if (card == null) return 0;
+        var vars = GetMember(card, "DynamicVars", "_dynamicVars");
+        foreach (string name in new[] { "Damage", "CalculatedDamage", "OstyDamage", "ExtraDamage" })
+        {
+            int dmg = ReadDynamicVarInt(vars, name);
+            if (dmg > 0) return dmg;
+        }
+        return 0;
+    }
+
+    private static int EvaluateCardHits(object? card)
+    {
+        int repeat = card == null ? 0 : ReadDynamicVarInt(GetMember(card, "DynamicVars", "_dynamicVars"), "Repeat");
+        return Math.Max(1, repeat);
+    }
+
+    private static bool CanPlayCard(object card)
+    {
+        try
+        {
+            var m = card.GetType().GetMethod("CanPlay", Type.EmptyTypes);
+            return m == null || m.Invoke(card, null) is not bool playable || playable;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    private static List<(string? PowerId, int Amount)> InspectCreaturePowers(object? creature)
+    {
+        var powers = new List<(string? PowerId, int Amount)>();
+        if (creature == null) return powers;
+        try
+        {
+            if (GetMember(creature, "Powers", "_powers") is IEnumerable powerList)
+            {
+                foreach (object? power in powerList)
+                {
+                    if (power == null) continue;
+                    string? id = ExtractModelEntryId(power) ?? power.GetType().Name;
+                    int amount = GetMember(power, "Amount", "_amount", "Stacks") is int a ? a : 0;
+                    powers.Add((id, amount));
+                }
+            }
+        }
+        catch
+        {
+        }
+        return powers;
+    }
+
+    private static (int PassiveBlock, int SelfDamage) InspectPlayerEndOfTurnEffects(object? player, int currentPlayerBlock)
+    {
+        if (player == null) return (0, 0);
+        try
+        {
+            object? creature = GetMember(player, "Creature", "_creature") ?? player;
+            var effects = InspectCreaturePowers(creature);
+
+            if (GetMember(player, "Relics", "_relics") is IEnumerable relics)
+            {
+                foreach (object? relic in relics)
+                {
+                    if (relic == null) continue;
+                    string? id = ExtractModelEntryId(relic) ?? relic.GetType().Name;
+                    int amount = GetMember(relic, "Counter", "_counter", "Amount") is int c ? c : 0;
+                    effects.Add((id, amount));
+                }
+            }
+
+            object? combatState = GetMember(player, "PlayerCombatState", "_playerCombatState");
+            if (combatState != null)
+            {
+                object? orbContainer = GetMember(combatState, "OrbQueue", "_orbQueue") ?? combatState;
+                if (GetMember(orbContainer, "Orbs", "_orbs") is IEnumerable orbs)
+                {
+                    foreach (object? orb in orbs)
+                    {
+                        if (orb == null) continue;
+                        string? id = ExtractModelEntryId(orb) ?? orb.GetType().Name;
+                        int passive = GetMember(orb, "PassiveVal", "PassiveAmount", "_passiveAmount", "Amount") is int p ? p : 0;
+                        effects.Add((id, passive));
+                    }
+                }
+            }
+
+            var handCards = new List<(string? CardId, int UpgradeLevel)>();
+            var handPile = combatState != null ? GetMember(combatState, "Hand", "_hand") : null;
+            if (handPile != null && GetMember(handPile, "Cards", "_cards") is IEnumerable cards)
+            {
+                foreach (object? card in cards)
+                {
+                    if (card == null) continue;
+                    string? id = ExtractModelEntryId(card);
+                    int upgrade = GetMember(card, "CurrentUpgradeLevel", "_currentUpgradeLevel") is int u ? u : 0;
+                    handCards.Add((id, upgrade));
+                }
+            }
+
+            return OverlayCalculators.CalculatePlayerEndOfTurnEffects(currentPlayerBlock, effects, handCards);
+        }
+        catch
+        {
+            return (0, 0);
         }
     }
 
@@ -188,15 +460,184 @@ public static class Sts2RuntimeInspector
             if (combatState == null) return null;
 
             int exhaustCount = CountPile(GetMember(combatState, "ExhaustPile", "_exhaustPile"));
+            int nextHandSampleSize = InspectNextTurnDrawCount(player, combatState);
             return OverlayCalculators.CalculateDeckTracker(
                 ReadPile(GetMember(combatState, "DrawPile", "_drawPile")),
                 ReadPile(GetMember(combatState, "DiscardPile", "_discardPile")),
                 ReadPile(GetMember(combatState, "Hand", "_hand")),
-                exhaustCount);
+                exhaustCount,
+                nextHandSampleSize);
         }
         catch
         {
             return null;
+        }
+    }
+
+    public static DeckSynergySummary? InspectMasterDeckSynergy()
+    {
+        try
+        {
+            object? player = GetLocalPlayer();
+            if (player == null) return null;
+            object? deck = GetMember(player, "Deck", "_deck", "MasterDeck");
+            if (deck == null) return null;
+
+            var cards = new List<DeckCardInfo>();
+            if (GetMember(deck, "Cards", "_cards") is IEnumerable cardList)
+            {
+                foreach (object? card in cardList)
+                {
+                    if (card == null) continue;
+                    string? id = ExtractModelEntryId(card);
+                    if (string.IsNullOrEmpty(id)) continue;
+
+                    string title = GetMember(card, "Title", "_title") as string ?? id;
+                    string type = GetMember(card, "Type", "CardType", "_type")?.ToString() ?? "Other";
+                    int upgrade = GetMember(card, "CurrentUpgradeLevel", "_currentUpgradeLevel") is int u ? u : 0;
+                    var energy = GetMember(card, "EnergyCost", "_energyCost");
+                    bool costsX = energy != null && GetMember(energy, "CostsX", "_costsX") is bool x && x;
+                    int? cost = costsX ? null : EvaluateEffectiveCost(energy);
+
+                    string? desc = GetMember(card, "Description", "_description", "RawDescription") as string;
+                    var keywords = new List<string>();
+                    if (GetMember(card, "Keywords", "_keywords") is IEnumerable kwList)
+                    {
+                        foreach (object? kw in kwList)
+                        {
+                            string? kwId = ExtractModelEntryId(kw) ?? kw?.ToString();
+                            if (!string.IsNullOrEmpty(kwId)) keywords.Add(kwId);
+                        }
+                    }
+
+                    cards.Add(new DeckCardInfo(id, title, type, cost, costsX, upgrade, keywords, desc));
+                }
+            }
+
+            return DeckSynergyAnalyzer.AnalyzeDeck(cards);
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    public static bool IsCardRewardScreenActive(Node? contextNode)
+    {
+        if (contextNode == null || !GodotObject.IsInstanceValid(contextNode)) return false;
+        try
+        {
+            var root = contextNode.GetTree()?.CurrentScene ?? contextNode;
+            return CheckNodeForCardRewardRecursive(root, 0, 7);
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    private static bool CheckNodeForCardRewardRecursive(Node node, int depth, int maxDepth)
+    {
+        if (node == null || !GodotObject.IsInstanceValid(node) || depth > maxDepth) return false;
+        if (node is CanvasItem ci && !ci.Visible) return false;
+
+        string type = node.GetType().Name;
+        string name = node.Name.ToString();
+        if (type.Contains("CardReward", StringComparison.OrdinalIgnoreCase) ||
+            name.Contains("CardReward", StringComparison.OrdinalIgnoreCase) ||
+            type.Contains("RewardSelection", StringComparison.OrdinalIgnoreCase) ||
+            name.Contains("RewardSelection", StringComparison.OrdinalIgnoreCase))
+        {
+            return true;
+        }
+
+        foreach (Node child in node.GetChildren())
+        {
+            if (CheckNodeForCardRewardRecursive(child, depth + 1, maxDepth)) return true;
+        }
+        return false;
+    }
+
+    public static BossPrepInfo? InspectCurrentBoss()
+    {
+        try
+        {
+            var runMgrType = GetCachedType("MegaCrit.Sts2.Core.Runs.RunManager");
+            var runMgr = runMgrType != null ? GetStaticMember(runMgrType, "Instance", "_instance") : null;
+            var state = runMgr != null ? GetMember(runMgr, "State", "_state") : null;
+            if (state == null) return null;
+
+            object? act = GetMember(state, "CurrentAct", "Act", "_act");
+            if (act == null && GetMember(state, "Acts", "_acts") is IList actList)
+            {
+                int actIdx = GetMember(state, "CurrentActIndex", "_currentActIndex") is int idx ? idx : 0;
+                if (actIdx >= 0 && actIdx < actList.Count)
+                {
+                    act = actList[actIdx];
+                }
+            }
+            if (act == null) return null;
+
+            object? boss = GetMember(act, "BossEncounter", "_bossEncounter", "Boss", "_boss", "BossId", "_bossId", "Encounter");
+            string? rawId = ExtractModelEntryId(boss) ?? boss?.ToString();
+            string? title = boss != null ? (GetMember(boss, "Title", "_title", "Name", "_name") as string) : null;
+            bool isFogged = IsBossFogged();
+
+            if (string.IsNullOrEmpty(rawId) && !isFogged) return null;
+
+            return OverlayCalculators.ResolveBossPrep(rawId, title, isFogged);
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    public static bool IsBossFogged()
+    {
+        try
+        {
+            var mapFogModType = AccessTools.TypeByName("SlayTheSpireMapFog.Godot.ModEntry");
+            if (mapFogModType != null)
+            {
+                var cfg = AccessTools.Property(mapFogModType, "Config")?.GetValue(null);
+                if (cfg != null)
+                {
+                    bool enabled = AccessTools.Property(cfg.GetType(), "Enabled")?.GetValue(cfg) is bool e && e;
+                    bool showBoss = AccessTools.Property(cfg.GetType(), "ShowBoss")?.GetValue(cfg) is bool sb && sb;
+                    if (enabled && !showBoss)
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+        catch
+        {
+        }
+        return false;
+    }
+
+    private static int InspectNextTurnDrawCount(object? player, object? combatState)
+    {
+        try
+        {
+            int baseDraw = 5;
+            if (combatState != null && GetMember(combatState, "BaseCardDraw", "_baseCardDraw", "CardsPerTurn") is int csDraw && csDraw > 0)
+            {
+                baseDraw = csDraw;
+            }
+            else if (player != null && GetMember(player, "MaxHandDraw", "_maxHandDraw", "BaseCardDraw") is int pDraw && pDraw > 0)
+            {
+                baseDraw = pDraw;
+            }
+
+            object? creature = player != null ? (GetMember(player, "Creature", "_creature") ?? player) : null;
+            return OverlayCalculators.CalculateEffectiveDrawCount(baseDraw, InspectCreaturePowers(creature));
+        }
+        catch
+        {
+            return 5;
         }
     }
 
@@ -221,7 +662,7 @@ public static class Sts2RuntimeInspector
         return (hp, block);
     }
 
-    public static (int RemainingGold, int Cost)? InspectMerchantGoldLeft(Node merchantRoom)
+    public static ShopBudgetSummary? InspectMerchantBudget(Node merchantRoom, bool toggleHoveredPin = false)
     {
         try
         {
@@ -235,23 +676,76 @@ public static class Sts2RuntimeInspector
                 return null;
             }
 
-            var slots = new List<(int Cost, bool IsStocked, bool IsHovered)>();
+            var slotNodes = new List<Node>();
             string[] containers = { "_characterCardContainer", "_colorlessCardContainer", "_relicContainer", "_potionContainer" };
             foreach (string name in containers)
             {
                 if (GetMember(inventory, name) is Node c && GodotObject.IsInstanceValid(c))
                 {
-                    foreach (Node slot in c.GetChildren()) AddSlot(slot, slots);
+                    foreach (Node slot in c.GetChildren())
+                    {
+                        if (slot != null && GodotObject.IsInstanceValid(slot))
+                        {
+                            slotNodes.Add(slot);
+                        }
+                    }
                 }
             }
-            if (GetMember(inventory, "_cardRemovalNode", "CardRemovalNode") is Node rem) AddSlot(rem, slots);
+            if (GetMember(inventory, "_cardRemovalNode", "CardRemovalNode") is Node rem && GodotObject.IsInstanceValid(rem))
+            {
+                slotNodes.Add(rem);
+            }
 
-            return OverlayCalculators.CalculateGoldLeft(gold, slots);
+            bool pinToggled = false;
+            var slots = new List<(int Cost, bool IsStocked, bool IsHovered, bool IsPinned)>();
+
+            foreach (var slot in slotNodes)
+            {
+                bool hovered = GetMember(slot, "_isHovered", "IsHovered") is bool h && h;
+                var entry = GetMember(slot, "Entry", "_entry") ?? slot;
+                int cost = GetMember(entry, "Cost", "_cost") is int c ? c : 0;
+                bool stocked = GetMember(entry, "IsStocked", "_isStocked") is bool s ? s : true;
+
+                bool isPinned = slot.HasMeta("IsPinned") && slot.GetMeta("IsPinned").AsBool();
+
+                // AC3: Auto-clear on purchase if slot is no longer stocked
+                if (!stocked && isPinned)
+                {
+                    isPinned = false;
+                    slot.SetMeta("IsPinned", false);
+                    UI.RoomOverlayFactory.UpdateShopSlotPinBadge(slot, false);
+                }
+
+                // AC2: Toggle hovered slot
+                if (toggleHoveredPin && !pinToggled && hovered && stocked)
+                {
+                    isPinned = !isPinned;
+                    slot.SetMeta("IsPinned", isPinned);
+                    pinToggled = true;
+                }
+
+                // Ensure visual pin badge matches current state
+                UI.RoomOverlayFactory.UpdateShopSlotPinBadge(slot, isPinned && stocked);
+
+                slots.Add((cost, stocked, hovered, isPinned));
+            }
+
+            return OverlayCalculators.CalculateShopBudget(gold, slots);
         }
         catch
         {
             return null;
         }
+    }
+
+    public static (int RemainingGold, int Cost)? InspectMerchantGoldLeft(Node merchantRoom)
+    {
+        var budget = InspectMerchantBudget(merchantRoom, toggleHoveredPin: false);
+        if (budget != null && budget.HoveredCost.HasValue && budget.HoveredRemainingGold.HasValue)
+        {
+            return (budget.HoveredRemainingGold.Value, budget.HoveredCost.Value);
+        }
+        return null;
     }
 
     public static string? InspectEventId(Node eventRoom)
@@ -288,11 +782,48 @@ public static class Sts2RuntimeInspector
         return idObj != null ? GetMember(idObj, "Entry", "_entry") as string : null;
     }
 
-    public static string? ExtractRewardItemId(object? rewardButton, out bool isCard, out bool isRelic, out bool isPotion)
+    public static void InspectCardUpgradeAndEnchantment(object? cardNode, out int upgradeLevel, out string? enchantmentId)
+    {
+        upgradeLevel = 0;
+        enchantmentId = null;
+        if (cardNode == null) return;
+
+        try
+        {
+            var model = GetMember(cardNode, "Model", "_model") ?? cardNode;
+            if (GetMember(model, "CurrentUpgradeLevel", "_currentUpgradeLevel", "UpgradeLevel") is int lvl && lvl > 0)
+            {
+                upgradeLevel = lvl;
+            }
+            else if (GetMember(model, "IsUpgraded", "_isUpgraded") is bool upg && upg)
+            {
+                upgradeLevel = 1;
+            }
+
+            var enchantment = GetMember(model, "Enchantment", "_enchantment");
+            if (enchantment != null)
+            {
+                enchantmentId = ExtractModelEntryId(enchantment);
+            }
+        }
+        catch
+        {
+        }
+    }
+
+    public static string? ExtractRewardItemId(
+        object? rewardButton,
+        out bool isCard,
+        out bool isRelic,
+        out bool isPotion,
+        out int upgradeLevel,
+        out string? enchantmentId)
     {
         isCard = false;
         isRelic = false;
         isPotion = false;
+        upgradeLevel = 0;
+        enchantmentId = null;
         if (rewardButton == null) return null;
 
         try
@@ -314,7 +845,9 @@ public static class Sts2RuntimeInspector
             if (rewardType.Contains("SpecialCard", StringComparison.OrdinalIgnoreCase))
             {
                 isCard = true;
-                return ExtractModelEntryId(GetMember(reward, "Card", "_card"));
+                var card = GetMember(reward, "Card", "_card");
+                InspectCardUpgradeAndEnchantment(card, out upgradeLevel, out enchantmentId);
+                return ExtractModelEntryId(card);
             }
         }
         catch
@@ -393,16 +926,6 @@ public static class Sts2RuntimeInspector
         return null;
     }
 
-    private static void AddSlot(Node? slot, List<(int Cost, bool IsStocked, bool IsHovered)> slots)
-    {
-        if (slot == null || !GodotObject.IsInstanceValid(slot)) return;
-        bool hovered = GetMember(slot, "_isHovered", "IsHovered") is bool h && h;
-        var entry = GetMember(slot, "Entry", "_entry");
-        if (entry == null) return;
-        int cost = GetMember(entry, "Cost", "_cost") is int c ? c : 0;
-        bool stocked = GetMember(entry, "IsStocked", "_isStocked") is bool s && s;
-        slots.Add((cost, stocked, hovered));
-    }
 
     private static int CountPile(object? pile)
     {
@@ -438,9 +961,46 @@ public static class Sts2RuntimeInspector
             bool costsX = energy != null && GetMember(energy, "CostsX", "_costsX") is bool x && x;
             int? cost = costsX ? null : EvaluateEffectiveCost(energy);
 
-            list.Add(new CombatCard(id, title, type, cost, costsX, upgrade, permanent));
+            list.Add(new CombatCard(id, title, type, cost, costsX, upgrade, permanent, ReadCardDescription(card, id, upgrade)));
         }
         return list;
+    }
+
+    private static readonly System.Collections.Concurrent.ConcurrentDictionary<string, string> DescriptionCache = new();
+
+    // CardModel.Description is only the raw LocString template; GetDescriptionForPile injects dynamic vars,
+    // upgrade/keyword/enchantment text and returns the final formatted string.
+    private static string ReadCardDescription(object card, string id, int upgrade)
+    {
+        string key = $"{id}:{upgrade}";
+        if (DescriptionCache.TryGetValue(key, out string? cached)) return cached;
+
+        string result = "";
+        try
+        {
+            var method = card.GetType().GetMethods()
+                .Where(m => m.Name == "GetDescriptionForPile" && m.GetParameters().Length == 2)
+                .FirstOrDefault();
+            if (method != null)
+            {
+                var ps = method.GetParameters();
+                object? pile = ps[0].ParameterType.IsEnum
+                    ? (Enum.TryParse(ps[0].ParameterType, "Draw", true, out object? parsed) ? parsed : Activator.CreateInstance(ps[0].ParameterType))
+                    : null;
+                object? owner = GetMember(card, "Owner", "_owner");
+                object? creature = owner != null ? GetMember(owner, "Creature", "_creature") : null;
+                result = method.Invoke(card, new[] { pile, creature }) as string ?? "";
+            }
+        }
+        catch
+        {
+            result = "";
+        }
+
+        result = OverlayCalculators.StripBbCode(result);
+        if (DescriptionCache.Count > 1024) DescriptionCache.Clear();
+        if (result.Length > 0) DescriptionCache[key] = result; // don't cache failures so a later poll can retry
+        return result;
     }
 
     private static int? EvaluateEffectiveCost(object? energyCost)
@@ -476,6 +1036,22 @@ public static class Sts2RuntimeInspector
         }
 
         return baseCost;
+    }
+
+    private static List<object> GetAllPlayers()
+    {
+        var list = new List<object>();
+        var runMgrType = GetCachedType("MegaCrit.Sts2.Core.Runs.RunManager");
+        var runMgr = runMgrType != null ? GetStaticMember(runMgrType, "Instance", "_instance") : null;
+        var state = runMgr != null ? GetMember(runMgr, "State", "_state") : null;
+        if (state != null && GetMember(state, "Players", "_players") is IEnumerable players)
+        {
+            foreach (object? p in players)
+            {
+                if (p != null) list.Add(p);
+            }
+        }
+        return list;
     }
 
     private static object? GetLocalPlayer()
@@ -545,13 +1121,26 @@ public static class Sts2RuntimeInspector
 
             if (member is PropertyInfo p)
             {
-                var val = p.GetValue(target);
-                if (val != null) return val;
+                try
+                {
+                    var val = p.GetValue(target);
+                    if (val != null) return val;
+                }
+                catch
+                {
+                    // Property threw before value was assigned (e.g. Model was accessed before it was set)
+                }
             }
             else if (member is FieldInfo f)
             {
-                var val = f.GetValue(target);
-                if (val != null) return val;
+                try
+                {
+                    var val = f.GetValue(target);
+                    if (val != null) return val;
+                }
+                catch
+                {
+                }
             }
         }
         return null;

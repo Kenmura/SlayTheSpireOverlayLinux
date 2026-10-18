@@ -57,7 +57,9 @@ public static class RelicBadgeFactory
         ITierListProvider tierProvider,
         string optionId,
         string author = "Baalorlord",
-        bool showHoverCommentary = true) =>
+        bool showHoverCommentary = true,
+        int upgradeLevel = 0,
+        string? enchantmentId = null) =>
         TierBadgeFactory.AttachBadge(
             buttonNode,
             "RelicOptionBadgePanel",
@@ -72,5 +74,7 @@ public static class RelicBadgeFactory
             marginV: 2,
             separation: 4,
             isSuppressed: null,
-            showHoverCommentary: showHoverCommentary);
+            showHoverCommentary: showHoverCommentary,
+            upgradeLevel: upgradeLevel,
+            enchantmentId: enchantmentId);
 }

@@ -40,6 +40,7 @@ public static class ModEntry
             SaveConfig();
         }
         UI.RoomOverlayFactory.IsOverlayHidden = !Config.EnableOverlay;
+        UI.RoomOverlayFactory.SyncLayoutFromConfig(Config);
 
         string cachePath = System.IO.Path.Combine(godotUserDir, "tier_list_cache.json");
         try
@@ -90,37 +91,64 @@ public static class ModEntry
             catch { }
         });
 
+        int appliedCount = 0;
+        int skippedCount = 0;
         try
         {
             var harmony = new Harmony("SlayTheSpireOverlay.Godot");
-            harmony.PatchAll(Assembly.GetExecutingAssembly());
-            PatchIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Cards.NCard", new[] { "UpdateVisuals" }, nameof(OnCardVisualsUpdated));
-            PatchIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Relics.NRelic", new[] { "Reload" }, nameof(OnRelicReloaded));
-            PatchIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Potions.NPotion", new[] { "_Ready", "set_Model", "Reload" }, nameof(OnPotionReady));
-            PatchIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Rewards.NRewardButton", new[] { "_Ready", "Reload", "SetReward" }, nameof(OnRewardButtonReady));
-            PatchHolderFocusIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Cards.Holders.NCardHolder");
-            PatchHolderFocusIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Screens.Shops.NMerchantSlot");
-            PatchHolderFocusIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Events.NEventOptionButton");
-            PatchHolderFocusIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Relics.NRelicBasicHolder");
-            PatchHolderFocusIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Screens.TreasureRoomRelic.NTreasureRoomRelicHolder");
-            PatchHolderFocusIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Rewards.NRewardButton");
-            PatchIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Rooms.NCombatRoom", new[] { "_Ready" }, nameof(OnCombatRoomReady));
-            PatchIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Rooms.NMerchantRoom", new[] { "_Ready" }, nameof(OnMerchantRoomReady));
-            PatchIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Rooms.NEventRoom", new[] { "_Ready" }, nameof(OnEventRoomReady));
-            PatchIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Rooms.NTreasureRoom", new[] { "_Ready" }, nameof(OnGenericRoomReady));
-            PatchIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Rooms.NRestSiteRoom", new[] { "_Ready" }, nameof(OnGenericRoomReady));
-            PatchIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Rooms.NMapRoom", new[] { "_Ready" }, nameof(OnGenericRoomReady));
-            PatchIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.NRun", new[] { "_Ready" }, nameof(OnGenericRoomReady));
-            PatchIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.NGame", new[] { "_Ready" }, nameof(OnGenericRoomReady));
-            PatchIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Screens.ModdingScreen.NModInfoContainer", new[] { "Fill" }, nameof(OnModInfoFill));
-            PatchIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Screens.ModdingScreen.NModInfoContainer", new[] { "Clear" }, nameof(OnModInfoClear));
-            PatchIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Screens.Settings.NSettingsScreen", new[] { "_Ready" }, nameof(OnSettingsScreenReady));
-            PatchRunSubmenuStackIfPresent(harmony);
-            GD.Print("[STS2 Overlay] Harmony patches applied successfully!");
+
+            foreach (var patchClass in Assembly.GetExecutingAssembly().GetTypes())
+            {
+                var patchAttrs = patchClass.GetCustomAttributes(typeof(HarmonyPatch), inherit: true);
+                if (patchAttrs.Length == 0) continue;
+                try
+                {
+                    var processor = harmony.CreateClassProcessor(patchClass);
+                    var patchedMethods = processor.Patch();
+                    if (patchedMethods != null && patchedMethods.Count > 0)
+                    {
+                        appliedCount += patchedMethods.Count;
+                    }
+                    else
+                    {
+                        skippedCount++;
+                        GD.Print($"[STS2 Overlay] patch class {patchClass.Name} skipped: no matching methods found");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    skippedCount++;
+                    GD.PrintErr($"[STS2 Overlay] patch class {patchClass.Name} skipped: {ex.Message}");
+                }
+            }
+
+            PatchIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Cards.NCard", new[] { "UpdateVisuals" }, nameof(OnCardVisualsUpdated), ref appliedCount, ref skippedCount);
+            PatchIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Relics.NRelic", new[] { "Reload" }, nameof(OnRelicReloaded), ref appliedCount, ref skippedCount);
+            PatchIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Potions.NPotion", new[] { "_Ready", "set_Model", "Reload" }, nameof(OnPotionReady), ref appliedCount, ref skippedCount);
+            PatchIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Rewards.NRewardButton", new[] { "_Ready", "Reload", "SetReward" }, nameof(OnRewardButtonReady), ref appliedCount, ref skippedCount);
+            PatchHolderFocusIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Cards.Holders.NCardHolder", ref appliedCount, ref skippedCount);
+            PatchHolderFocusIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Screens.Shops.NMerchantSlot", ref appliedCount, ref skippedCount);
+            PatchHolderFocusIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Events.NEventOptionButton", ref appliedCount, ref skippedCount);
+            PatchHolderFocusIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Relics.NRelicBasicHolder", ref appliedCount, ref skippedCount);
+            PatchHolderFocusIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Screens.TreasureRoomRelic.NTreasureRoomRelicHolder", ref appliedCount, ref skippedCount);
+            PatchHolderFocusIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Rewards.NRewardButton", ref appliedCount, ref skippedCount);
+            PatchIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Rooms.NCombatRoom", new[] { "_Ready" }, nameof(OnCombatRoomReady), ref appliedCount, ref skippedCount);
+            PatchIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Rooms.NMerchantRoom", new[] { "_Ready" }, nameof(OnMerchantRoomReady), ref appliedCount, ref skippedCount);
+            PatchIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Rooms.NEventRoom", new[] { "_Ready" }, nameof(OnEventRoomReady), ref appliedCount, ref skippedCount);
+            PatchIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Rooms.NTreasureRoom", new[] { "_Ready" }, nameof(OnGenericRoomReady), ref appliedCount, ref skippedCount);
+            PatchIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Rooms.NRestSiteRoom", new[] { "_Ready" }, nameof(OnGenericRoomReady), ref appliedCount, ref skippedCount);
+            PatchIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Rooms.NMapRoom", new[] { "_Ready" }, nameof(OnGenericRoomReady), ref appliedCount, ref skippedCount);
+            PatchIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.NRun", new[] { "_Ready" }, nameof(OnGenericRoomReady), ref appliedCount, ref skippedCount);
+            PatchIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.NGame", new[] { "_Ready" }, nameof(OnGenericRoomReady), ref appliedCount, ref skippedCount);
+            PatchIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Screens.ModdingScreen.NModInfoContainer", new[] { "Fill" }, nameof(OnModInfoFill), ref appliedCount, ref skippedCount);
+            PatchIfPresent(harmony, "MegaCrit.Sts2.Core.Nodes.Screens.Settings.NSettingsScreen", new[] { "_Ready" }, nameof(OnSettingsScreenReady), ref appliedCount, ref skippedCount);
+            PatchRunSubmenuStackIfPresent(harmony, ref appliedCount, ref skippedCount);
+
+            GD.Print($"[STS2 Overlay] Harmony initialization complete: {appliedCount} applied, {skippedCount} skipped");
         }
         catch (Exception ex)
         {
-            GD.PrintErr($"[STS2 Overlay] Error applying Harmony patches: {ex.Message}");
+            GD.PrintErr($"[STS2 Overlay] Unexpected error initializing Harmony: {ex.Message}");
         }
     }
 
@@ -143,15 +171,20 @@ public static class ModEntry
 
     public static void ToggleAuthor(Node? contextNode)
     {
-        Config.Author = string.Equals(Config.Author?.Trim(), "Jorbs", StringComparison.OrdinalIgnoreCase)
-            ? "Baalorlord"
-            : "Jorbs";
+        Config.Author = (Config.Author?.Trim().ToLowerInvariant()) switch
+        {
+            "baalorlord" => "Jorbs",
+            "jorbs" => "Both",
+            _ => "Baalorlord"
+        };
         SaveConfig();
 
+        string f6Label = OverlayCalculators.NormalizeKeybindName(Config.ToggleAuthorKey, "F6");
         var root = contextNode != null && GodotObject.IsInstanceValid(contextNode)
             ? contextNode.GetTree()?.CurrentScene
             : null;
-        UI.RoomOverlayFactory.ShowAuthorToast(root, Config.Author);
+        UI.RoomOverlayFactory.ShowAuthorToast(root, $"Tier List: {Config.Author} [{f6Label}]");
+        RefreshSceneFromContext(contextNode);
 
         System.Threading.Tasks.Task.Run(async () =>
         {
@@ -169,10 +202,11 @@ public static class ModEntry
     public static void ForceRefreshTiers(Node? contextNode)
     {
         string author = Config.Author ?? "Baalorlord";
+        string f9Label = OverlayCalculators.NormalizeKeybindName(Config.RefreshTiersKey, "F9");
         var root = contextNode != null && GodotObject.IsInstanceValid(contextNode)
             ? contextNode.GetTree()?.CurrentScene
             : null;
-        UI.RoomOverlayFactory.ShowAuthorToast(root, $"Refreshing {author}... [F9]");
+        UI.RoomOverlayFactory.ShowAuthorToast(root, $"Refreshing {author}... [{f9Label}]");
 
         System.Threading.Tasks.Task.Run(async () =>
         {
@@ -185,7 +219,7 @@ public static class ModEntry
                     var currentRoot = contextNode != null && GodotObject.IsInstanceValid(contextNode)
                         ? contextNode.GetTree()?.CurrentScene
                         : null;
-                    UI.RoomOverlayFactory.ShowAuthorToast(currentRoot, $"Refreshed {author} [F9]");
+                    UI.RoomOverlayFactory.ShowAuthorToast(currentRoot, $"Refreshed {author} [{f9Label}]");
                 }).CallDeferred();
             }
             catch
@@ -199,11 +233,44 @@ public static class ModEntry
         Config.EnableOverlay = !UI.RoomOverlayFactory.IsOverlayHidden;
         SaveConfig();
         RefreshSceneFromContext(contextNode);
+        string f8Label = OverlayCalculators.NormalizeKeybindName(Config.ToggleOverlayKey, "F8");
         var root = contextNode != null && GodotObject.IsInstanceValid(contextNode)
             ? contextNode.GetTree()?.CurrentScene
             : null;
-        string status = UI.RoomOverlayFactory.IsOverlayHidden ? "Overlay Hidden [F8]" : "Overlay Visible [F8]";
+        string status = UI.RoomOverlayFactory.IsOverlayHidden ? $"Overlay Hidden [{f8Label}]" : $"Overlay Visible [{f8Label}]";
         UI.RoomOverlayFactory.ShowAuthorToast(root, status, forceVisible: true);
+    }
+
+    private static void OnCollapseToggled(Node? contextNode)
+    {
+        string f7Label = OverlayCalculators.NormalizeKeybindName(Config.CollapseDeckTrackerKey, "F7");
+        var root = contextNode != null && GodotObject.IsInstanceValid(contextNode)
+            ? contextNode.GetTree()?.CurrentScene
+            : null;
+        string status = UI.RoomOverlayFactory.IsDeckTrackerCollapsed
+            ? $"Deck View: Compact [{f7Label}]"
+            : $"Deck View: Expanded [{f7Label}]";
+        UI.RoomOverlayFactory.ShowAuthorToast(root, status);
+    }
+
+    private static void PollRoomInput(Node room)
+    {
+        UI.RoomOverlayFactory.PollHotkeys(
+            () => ToggleAuthor(room),
+            () => ToggleVisibility(room),
+            () => ForceRefreshTiers(room),
+            Config,
+            () => OnCollapseToggled(room));
+
+        if (room.GetType().Name.EndsWith("Room", StringComparison.Ordinal))
+        {
+            UI.RoomOverlayFactory.UpdateQuickToggleBar(
+                room,
+                Config,
+                () => ToggleAuthor(room),
+                () => ToggleVisibility(room),
+                () => ForceRefreshTiers(room));
+        }
     }
 
     private static void RefreshSceneFromContext(Node? contextNode)
@@ -220,6 +287,17 @@ public static class ModEntry
     private static void RefreshSceneBadges(Node node)
     {
         if (!GodotObject.IsInstanceValid(node)) return;
+        string typeName = node.GetType().Name;
+        if (typeName.EndsWith("Room", StringComparison.Ordinal))
+        {
+            UI.RoomOverlayFactory.UpdateQuickToggleBar(
+                node,
+                Config,
+                () => ToggleAuthor(node),
+                () => ToggleVisibility(node),
+                () => ForceRefreshTiers(node));
+        }
+
         if (node is MegaCrit.Sts2.Core.Nodes.Cards.NCard card)
         {
             NCardReadyPatch.UpdateCardBadge(card);
@@ -232,15 +310,15 @@ public static class ModEntry
         {
             NEventOptionButtonReadyPatch.UpdateOptionBadge(optBtn);
         }
-        else if (node.GetType().Name == "NPotion")
+        else if (typeName == "NPotion")
         {
             OnPotionReady(node);
         }
-        else if (node.GetType().Name == "NRewardButton")
+        else if (typeName == "NRewardButton")
         {
             OnRewardButtonReady(node);
         }
-        else if (node.GetType().Name == "NEventRoom")
+        else if (typeName == "NEventRoom")
         {
             var evPanel = node.GetNodeOrNull<Control>("EventCommentaryPanel");
             if (evPanel != null && GodotObject.IsInstanceValid(evPanel))
@@ -264,33 +342,83 @@ public static class ModEntry
             ? string.Empty
             : (string.IsNullOrEmpty(id.Category) ? id.Entry : $"{id.Category}:{id.Entry}");
 
-    private static void PatchIfPresent(Harmony harmony, string typeName, string[] methods, string postfixName)
+    private static void PatchIfPresent(Harmony harmony, string typeName, string[] methods, string postfixName, ref int applied, ref int skipped)
     {
         var type = AccessTools.TypeByName(typeName);
+        if (type == null)
+        {
+            skipped += methods.Length;
+            GD.Print($"[STS2 Overlay] patch {typeName} skipped: target type not found");
+            return;
+        }
+
         var postfix = AccessTools.Method(typeof(ModEntry), postfixName);
-        if (type == null || postfix == null) return;
+        if (postfix == null)
+        {
+            skipped += methods.Length;
+            GD.PrintErr($"[STS2 Overlay] patch handler {postfixName} skipped: handler method not found on ModEntry");
+            return;
+        }
 
         foreach (string name in methods)
         {
-            var method = AccessTools.Method(type, name);
-            if (method != null) harmony.Patch(method, postfix: new HarmonyMethod(postfix));
+            try
+            {
+                var method = AccessTools.Method(type, name);
+                if (method != null)
+                {
+                    harmony.Patch(method, postfix: new HarmonyMethod(postfix));
+                    applied++;
+                }
+                else
+                {
+                    skipped++;
+                    GD.Print($"[STS2 Overlay] patch {typeName}.{name} skipped: method not found on {typeName}");
+                }
+            }
+            catch (Exception ex)
+            {
+                skipped++;
+                GD.PrintErr($"[STS2 Overlay] patch {typeName}.{name} skipped: {ex.Message}");
+            }
         }
     }
 
-    private static void PatchHolderFocusIfPresent(Harmony harmony, string typeName)
+    private static void PatchHolderFocusIfPresent(Harmony harmony, string typeName, ref int applied, ref int skipped)
     {
-        PatchIfPresent(harmony, typeName, new[] { "OnFocus" }, nameof(OnItemHolderFocused));
-        PatchIfPresent(harmony, typeName, new[] { "OnUnfocus" }, nameof(OnItemHolderUnfocused));
+        PatchIfPresent(harmony, typeName, new[] { "OnFocus" }, nameof(OnItemHolderFocused), ref applied, ref skipped);
+        PatchIfPresent(harmony, typeName, new[] { "OnUnfocus" }, nameof(OnItemHolderUnfocused), ref applied, ref skipped);
     }
 
-    private static void PatchRunSubmenuStackIfPresent(Harmony harmony)
+    private static void PatchRunSubmenuStackIfPresent(Harmony harmony, ref int applied, ref int skipped)
     {
-        var type = AccessTools.TypeByName("MegaCrit.Sts2.Core.Nodes.Screens.NRunSubmenuStack");
-        var method = type != null ? AccessTools.Method(type, "GetSubmenuType", new[] { typeof(Type) }) : null;
-        var prefix = AccessTools.Method(typeof(ModEntry), nameof(OnRunSubmenuStackGetSubmenuType));
-        if (method != null && prefix != null)
+        try
         {
-            harmony.Patch(method, prefix: new HarmonyMethod(prefix));
+            var type = AccessTools.TypeByName("MegaCrit.Sts2.Core.Nodes.Screens.NRunSubmenuStack");
+            if (type == null)
+            {
+                skipped++;
+                GD.Print("[STS2 Overlay] patch NRunSubmenuStack skipped: target type not found");
+                return;
+            }
+
+            var method = AccessTools.Method(type, "GetSubmenuType", new[] { typeof(Type) });
+            var prefix = AccessTools.Method(typeof(ModEntry), nameof(OnRunSubmenuStackGetSubmenuType));
+            if (method != null && prefix != null)
+            {
+                harmony.Patch(method, prefix: new HarmonyMethod(prefix));
+                applied++;
+            }
+            else
+            {
+                skipped++;
+                GD.Print("[STS2 Overlay] patch NRunSubmenuStack.GetSubmenuType skipped: method or prefix not found");
+            }
+        }
+        catch (Exception ex)
+        {
+            skipped++;
+            GD.PrintErr($"[STS2 Overlay] patch NRunSubmenuStack.GetSubmenuType skipped: {ex.Message}");
         }
     }
 
@@ -335,14 +463,6 @@ public static class ModEntry
         }
     }
 
-    public static void OnModInfoClear(object __instance)
-    {
-        if (__instance is Node container && GodotObject.IsInstanceValid(container))
-        {
-            UI.RoomOverlayFactory.HideModSettingsPanel(container);
-        }
-    }
-
     public static void OnCardVisualsUpdated(object __instance)
     {
         if (__instance is MegaCrit.Sts2.Core.Nodes.Cards.NCard card)
@@ -362,7 +482,13 @@ public static class ModEntry
     public static void OnRewardButtonReady(object __instance)
     {
         if (__instance is not Node node || !GodotObject.IsInstanceValid(node)) return;
-        string? itemId = Sts2RuntimeInspector.ExtractRewardItemId(__instance, out bool isCard, out bool isRelic, out bool isPotion);
+        string? itemId = Sts2RuntimeInspector.ExtractRewardItemId(
+            __instance,
+            out bool isCard,
+            out bool isRelic,
+            out bool isPotion,
+            out int upgradeLevel,
+            out string? enchantmentId);
         bool allowed = (isCard && Config.EnableCardBadges) ||
                        (isRelic && Config.EnableRelicBadges) ||
                        (isPotion && Config.EnablePotionBadges);
@@ -372,7 +498,14 @@ public static class ModEntry
             return;
         }
 
-        UI.RelicBadgeFactory.CreateOrUpdateOptionBadge(node, TierProvider, itemId, CurrentAuthor, Config.EnableHoverCommentary);
+        UI.RelicBadgeFactory.CreateOrUpdateOptionBadge(
+            node,
+            TierProvider,
+            itemId,
+            CurrentAuthor,
+            Config.EnableHoverCommentary,
+            upgradeLevel,
+            enchantmentId);
     }
 
     public static void OnItemHolderFocused(object __instance)
@@ -415,12 +548,20 @@ public static class ModEntry
         if (__instance is not Node room || !GodotObject.IsInstanceValid(room)) return;
         AttachRoomPollTimer(room, "OverlayCombatTimer", 0.15, () =>
         {
-            UI.RoomOverlayFactory.PollHotkeys(() => ToggleAuthor(room), () => ToggleVisibility(room), () => ForceRefreshTiers(room));
+            PollRoomInput(room);
             bool visible = !UI.RoomOverlayFactory.IsOverlayHidden && !Sts2RuntimeInspector.IsCombatHudObscured(room);
-            bool showAttack = visible && Config.EnableAttackSummary;
+            bool showIncoming = visible && Config.EnableAttackSummary;
+            bool showAttack = visible && (Config.EnableAttackSummary || Config.EnableOutgoingDamageSummary);
             bool showTracker = visible && Config.EnableDeckTracker;
-            UI.RoomOverlayFactory.UpdateAttackSummary(room, showAttack ? Sts2RuntimeInspector.InspectCombatAttacks(room) : new AttackSummary(0, 0, 0), showAttack);
-            UI.RoomOverlayFactory.UpdateDeckTracker(room, showTracker ? Sts2RuntimeInspector.InspectDeckTracker() : null, showTracker, CurrentAuthor);
+            UI.RoomOverlayFactory.UpdateAttackSummary(room, showAttack ? Sts2RuntimeInspector.InspectCombatAttacks(room) : new AttackSummary(0, 0, 0), showAttack, showIncoming);
+            UI.RoomOverlayFactory.UpdateDeckTracker(room, showTracker ? Sts2RuntimeInspector.InspectDeckTracker() : null, showTracker, CurrentAuthor, Config.CollapseDeckTrackerKey);
+
+            bool cardRewardActive = Sts2RuntimeInspector.IsCardRewardScreenActive(room);
+            bool showSynergy = !UI.RoomOverlayFactory.IsOverlayHidden && Config.EnableDeckSynergyBar && cardRewardActive;
+            UI.RoomOverlayFactory.UpdateDeckSynergyPanel(room, showSynergy ? Sts2RuntimeInspector.InspectMasterDeckSynergy() : null, showSynergy);
+
+            bool showBossPrep = !UI.RoomOverlayFactory.IsOverlayHidden && Config.EnableBossPrepBanner && cardRewardActive;
+            UI.RoomOverlayFactory.UpdateBossPrepBanner(room, showBossPrep ? Sts2RuntimeInspector.InspectCurrentBoss() : null, showBossPrep);
         });
     }
 
@@ -429,9 +570,14 @@ public static class ModEntry
         if (__instance is not Node room || !GodotObject.IsInstanceValid(room)) return;
         AttachRoomPollTimer(room, "OverlayMerchantTimer", 0.10, () =>
         {
-            UI.RoomOverlayFactory.PollHotkeys(() => ToggleAuthor(room), () => ToggleVisibility(room), () => ForceRefreshTiers(room));
+            bool pinTriggered = UI.RoomOverlayFactory.PollPinHotkey(Config);
+            PollRoomInput(room);
             bool showGold = !UI.RoomOverlayFactory.IsOverlayHidden && Config.EnableMerchantGoldLeft;
-            UI.RoomOverlayFactory.UpdateMerchantGoldLeft(room, showGold ? Sts2RuntimeInspector.InspectMerchantGoldLeft(room) : null, showGold);
+            var budget = showGold ? Sts2RuntimeInspector.InspectMerchantBudget(room, pinTriggered) : null;
+            UI.RoomOverlayFactory.UpdateMerchantGoldLeft(room, budget, showGold, Config.PinShopItemKey);
+
+            bool showSynergy = !UI.RoomOverlayFactory.IsOverlayHidden && Config.EnableDeckSynergyBar;
+            UI.RoomOverlayFactory.UpdateDeckSynergyPanel(room, showSynergy ? Sts2RuntimeInspector.InspectMasterDeckSynergy() : null, showSynergy);
         });
     }
 
@@ -445,12 +591,17 @@ public static class ModEntry
         // Also support F6/F8/F9 hotkeys & events that spawn an EmbeddedCombatRoom
         AttachRoomPollTimer(room, "OverlayEventCombatTimer", 0.15, () =>
         {
-            UI.RoomOverlayFactory.PollHotkeys(() => ToggleAuthor(room), () => ToggleVisibility(room), () => ForceRefreshTiers(room));
+            PollRoomInput(room);
             var embeddedCombat = Sts2RuntimeInspector.GetEmbeddedCombatRoom(room);
             bool hasEmbeddedCombat = embeddedCombat != null && GodotObject.IsInstanceValid(embeddedCombat);
             if (hasEmbeddedCombat)
             {
                 OnCombatRoomReady(embeddedCombat!);
+                var evQuickBar = room.GetNodeOrNull<Control>("QuickToggleBarPanel");
+                if (evQuickBar != null && GodotObject.IsInstanceValid(evQuickBar))
+                {
+                    evQuickBar.Visible = false;
+                }
             }
 
             var evPanel = room.GetNodeOrNull<Control>("EventCommentaryPanel");
@@ -460,6 +611,13 @@ public static class ModEntry
                                   !UI.RoomOverlayFactory.IsOverlayHidden &&
                                   !hasEmbeddedCombat;
             }
+
+            bool cardRewardActive = Sts2RuntimeInspector.IsCardRewardScreenActive(room);
+            bool showSynergy = !UI.RoomOverlayFactory.IsOverlayHidden && Config.EnableDeckSynergyBar && cardRewardActive;
+            UI.RoomOverlayFactory.UpdateDeckSynergyPanel(room, showSynergy ? Sts2RuntimeInspector.InspectMasterDeckSynergy() : null, showSynergy);
+
+            bool showBossPrep = !UI.RoomOverlayFactory.IsOverlayHidden && Config.EnableBossPrepBanner && cardRewardActive;
+            UI.RoomOverlayFactory.UpdateBossPrepBanner(room, showBossPrep ? Sts2RuntimeInspector.InspectCurrentBoss() : null, showBossPrep);
         });
     }
 
@@ -468,7 +626,14 @@ public static class ModEntry
         if (__instance is not Node room || !GodotObject.IsInstanceValid(room)) return;
         AttachRoomPollTimer(room, "OverlayGenericRoomTimer", 0.15, () =>
         {
-            UI.RoomOverlayFactory.PollHotkeys(() => ToggleAuthor(room), () => ToggleVisibility(room), () => ForceRefreshTiers(room));
+            PollRoomInput(room);
+            bool isRestSite = room.GetType().Name.Contains("RestSite", StringComparison.OrdinalIgnoreCase);
+            bool cardRewardActive = Sts2RuntimeInspector.IsCardRewardScreenActive(room);
+            bool showSynergy = !UI.RoomOverlayFactory.IsOverlayHidden && Config.EnableDeckSynergyBar && cardRewardActive;
+            UI.RoomOverlayFactory.UpdateDeckSynergyPanel(room, showSynergy ? Sts2RuntimeInspector.InspectMasterDeckSynergy() : null, showSynergy);
+
+            bool showBossPrep = !UI.RoomOverlayFactory.IsOverlayHidden && Config.EnableBossPrepBanner && (cardRewardActive || isRestSite);
+            UI.RoomOverlayFactory.UpdateBossPrepBanner(room, showBossPrep ? Sts2RuntimeInspector.InspectCurrentBoss() : null, showBossPrep);
         });
     }
 
@@ -493,17 +658,36 @@ public static class NCardReadyPatch
         {
             if (cardNode == null || !GodotObject.IsInstanceValid(cardNode)) return;
 
-            string cardId = ModEntry.FormatModelId(cardNode.Model?.Id);
+            string cardId;
+            try
+            {
+                cardId = ModEntry.FormatModelId(cardNode.Model?.Id);
+            }
+            catch (Exception ex) when (ex.Message.Contains("accessed before it was set", StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+
             if (!ModEntry.Config.EnableCardBadges || string.IsNullOrEmpty(cardId) || Sts2RuntimeInspector.IsCardInCombatHand(cardNode))
             {
                 UI.TierBadgeFactory.HideBadge(cardNode, "TierBadgePanel");
                 return;
             }
 
-            UI.TierBadgeFactory.CreateOrUpdateBadge(cardNode, ModEntry.TierProvider, cardId, ModEntry.CurrentAuthor, Sts2RuntimeInspector.IsCardInCombatHand, ModEntry.Config.EnableHoverCommentary);
+            Sts2RuntimeInspector.InspectCardUpgradeAndEnchantment(cardNode, out int upgradeLevel, out string? enchantmentId);
+            UI.TierBadgeFactory.CreateOrUpdateBadge(
+                cardNode,
+                ModEntry.TierProvider,
+                cardId,
+                ModEntry.CurrentAuthor,
+                Sts2RuntimeInspector.IsCardInCombatHand,
+                ModEntry.Config.EnableHoverCommentary,
+                upgradeLevel,
+                enchantmentId);
         }
         catch (Exception ex)
         {
+            if (ex.Message.Contains("accessed before it was set", StringComparison.OrdinalIgnoreCase)) return;
             GD.PrintErr($"[STS2 Overlay] Error in NCard patch: {ex.Message}");
         }
     }
@@ -526,7 +710,16 @@ public static class NRelicReadyPatch
         {
             if (relicNode == null || !GodotObject.IsInstanceValid(relicNode)) return;
 
-            string relicId = ModEntry.FormatModelId(relicNode.Model?.Id);
+            string relicId;
+            try
+            {
+                relicId = ModEntry.FormatModelId(relicNode.Model?.Id);
+            }
+            catch (Exception ex) when (ex.Message.Contains("accessed before it was set", StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+
             if (!ModEntry.Config.EnableRelicBadges || string.IsNullOrEmpty(relicId) || Sts2RuntimeInspector.IsItemInTopBar(relicNode))
             {
                 UI.TierBadgeFactory.HideBadge(relicNode, "RelicBadgePanel");
@@ -537,6 +730,7 @@ public static class NRelicReadyPatch
         }
         catch (Exception ex)
         {
+            if (ex.Message.Contains("accessed before it was set", StringComparison.OrdinalIgnoreCase)) return;
             GD.PrintErr($"[STS2 Overlay] Error in NRelic patch: {ex.Message}");
         }
     }
@@ -557,8 +751,10 @@ public static class NEventOptionButtonReadyPatch
     {
         try
         {
-            var option = buttonNode?.Option;
-            if (buttonNode == null || !GodotObject.IsInstanceValid(buttonNode) || option == null || (!ModEntry.Config.EnableRelicBadges && !ModEntry.Config.EnableCardBadges))
+            if (buttonNode == null || !GodotObject.IsInstanceValid(buttonNode)) return;
+
+            var option = buttonNode.Option;
+            if (option == null || (!ModEntry.Config.EnableRelicBadges && !ModEntry.Config.EnableCardBadges))
             {
                 UI.TierBadgeFactory.HideBadge(buttonNode, "RelicOptionBadgePanel");
                 return;
@@ -566,6 +762,8 @@ public static class NEventOptionButtonReadyPatch
 
             string? relicId = option.Relic?.Id?.Entry;
             string? tipId = null;
+            int upgradeLevel = 0;
+            string? enchantmentId = null;
 
             if (string.IsNullOrEmpty(relicId) && option.HoverTips != null)
             {
@@ -574,6 +772,7 @@ public static class NEventOptionButtonReadyPatch
                     if (tip is MegaCrit.Sts2.Core.HoverTips.CardHoverTip cardTip && cardTip.Card?.Id != null)
                     {
                         tipId = cardTip.Card.Id.Entry;
+                        Sts2RuntimeInspector.InspectCardUpgradeAndEnchantment(cardTip.Card, out upgradeLevel, out enchantmentId);
                         break;
                     }
                     if (tip is MegaCrit.Sts2.Core.HoverTips.HoverTip hoverTip && hoverTip.CanonicalModel?.Id != null)
@@ -587,7 +786,14 @@ public static class NEventOptionButtonReadyPatch
             string targetId = OverlayCalculators.ExtractEventOptionId(relicId, tipId, option.TextKey);
             if (!string.IsNullOrEmpty(targetId))
             {
-                UI.RelicBadgeFactory.CreateOrUpdateOptionBadge(buttonNode, ModEntry.TierProvider, targetId, ModEntry.CurrentAuthor, ModEntry.Config.EnableHoverCommentary);
+                UI.RelicBadgeFactory.CreateOrUpdateOptionBadge(
+                    buttonNode,
+                    ModEntry.TierProvider,
+                    targetId,
+                    ModEntry.CurrentAuthor,
+                    ModEntry.Config.EnableHoverCommentary,
+                    upgradeLevel,
+                    enchantmentId);
             }
             else
             {
@@ -596,6 +802,7 @@ public static class NEventOptionButtonReadyPatch
         }
         catch (Exception ex)
         {
+            if (ex.Message.Contains("accessed before it was set", StringComparison.OrdinalIgnoreCase)) return;
             GD.PrintErr($"[STS2 Overlay] Error in NEventOptionButton patch: {ex.Message}");
         }
     }

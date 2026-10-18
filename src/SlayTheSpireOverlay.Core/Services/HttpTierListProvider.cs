@@ -91,20 +91,39 @@ public class HttpTierListProvider : ITierListProvider
         }
     }
 
-    private async Task<IReadOnlyDictionary<string, CardTierData>> LoadDataInternalAsync(bool forceRefresh, string author)
+    private async Task<IReadOnlyDictionary<string, CardTierData>> LoadSingleAuthorDataAsync(bool forceRefresh, string? author)
     {
-        string? cacheFileOverride = GetCacheFileOverride(author, _config.RemoteUrl);
+        string safeAuthor = string.IsNullOrWhiteSpace(author) ? "Baalorlord" : author.Trim();
+        string? cacheFileOverride = GetCacheFileOverride(safeAuthor, _config.RemoteUrl);
         if (!forceRefresh)
         {
             var cached = await _cacheManager.LoadFromCacheAsync(ignoreExpiry: false, cacheFileOverride).ConfigureAwait(false);
             if (cached != null)
             {
-                _memoryCache = NormalizeDictionary(cached);
-                return _memoryCache;
+                return NormalizeDictionary(cached);
             }
         }
 
-        return await FetchAndCacheRemoteDataAsync(author, cacheFileOverride).ConfigureAwait(false);
+        return await FetchAndCacheRemoteDataAsync(safeAuthor, cacheFileOverride).ConfigureAwait(false);
+    }
+
+    private async Task<IReadOnlyDictionary<string, CardTierData>> LoadDataInternalAsync(bool forceRefresh, string? author)
+    {
+        string safeAuthor = string.IsNullOrWhiteSpace(author) ? "Baalorlord" : author.Trim();
+        if (string.Equals(safeAuthor, "Both", StringComparison.OrdinalIgnoreCase))
+        {
+            var baalorTask = LoadSingleAuthorDataAsync(forceRefresh, "Baalorlord");
+            var jorbsTask = LoadSingleAuthorDataAsync(forceRefresh, "Jorbs");
+            await Task.WhenAll(baalorTask, jorbsTask).ConfigureAwait(false);
+
+            var merged = OverlayCalculators.MergeDualTierLists(baalorTask.Result, jorbsTask.Result);
+            _memoryCache = NormalizeDictionary(merged);
+            return _memoryCache;
+        }
+
+        var singleResult = await LoadSingleAuthorDataAsync(forceRefresh, safeAuthor).ConfigureAwait(false);
+        _memoryCache = singleResult;
+        return _memoryCache;
     }
 
     private async Task<IReadOnlyDictionary<string, CardTierData>> FetchAndCacheRemoteDataAsync(string author, string? cacheFileOverride)
