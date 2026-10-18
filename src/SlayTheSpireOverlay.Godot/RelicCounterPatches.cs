@@ -8,6 +8,9 @@ namespace SlayTheSpireOverlay.Godot;
 [HarmonyPatch(typeof(NRelic), "_Ready")]
 public static class NRelicCounterReadyPatch
 {
+    // Subscribed once per model. The public event is used instead of patching the tiny, inlinable InvokeDisplayAmountChanged.
+    private static readonly System.Runtime.CompilerServices.ConditionalWeakTable<object, object> Subscribed = new();
+
     public static void Postfix(NRelic __instance) => Apply(__instance);
 
     internal static void Apply(NRelic relic)
@@ -15,6 +18,11 @@ public static class NRelicCounterReadyPatch
         try
         {
             if (relic == null || !GodotObject.IsInstanceValid(relic)) return;
+            if (relic.Model is { } model && UI.RelicCounterBadgeFactory.IsSupportedModel(model) && !Subscribed.TryGetValue(model, out _))
+            {
+                Subscribed.Add(model, model);
+                model.DisplayAmountChanged += () => UI.RelicCounterBadgeFactory.RefreshForModel(model, ModEntry.Config.EnableRelicProcCounters);
+            }
             UI.RelicCounterBadgeFactory.Refresh(relic, relic.Model, ModEntry.Config.EnableRelicProcCounters, Sts2RuntimeInspector.IsItemInTopBar(relic));
         }
         catch (System.Exception ex)
@@ -35,11 +43,4 @@ public static class NRelicCounterSetModelPatch
 public static class NRelicCounterReloadPatch
 {
     public static void Postfix(NRelic __instance) => NRelicCounterReadyPatch.Apply(__instance);
-}
-
-[HarmonyPatch(typeof(MegaCrit.Sts2.Core.Models.RelicModel), "InvokeDisplayAmountChanged")]
-public static class RelicDisplayAmountChangedPatch
-{
-    public static void Postfix(object __instance) =>
-        UI.RelicCounterBadgeFactory.RefreshForModel(__instance, ModEntry.Config.EnableRelicProcCounters);
 }

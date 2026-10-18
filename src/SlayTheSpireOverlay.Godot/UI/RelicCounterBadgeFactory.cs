@@ -25,9 +25,8 @@ public static class RelicCounterBadgeFactory
             string? id = ReflectionAccess.GetMember(ReflectionAccess.GetMember(relicModel, "Id"), "Entry") as string;
             if (!RelicProcRules.IsSupported(id)) return null;
             int? current = ReflectionAccess.GetMember(relicModel, "DisplayAmount") as int?;
-            int? max = ReflectionAccess.GetMember(relicModel, "_attacksThreshold", "turnsThreshold", "_turnsThreshold") as int?;
             bool show = ReflectionAccess.GetMember(relicModel, "ShowCounter") as bool? ?? true;
-            return RelicProcRules.TryGetProcInfo(id, current, max, show);
+            return RelicProcRules.TryGetProcInfo(id, current, null, show);
         }
         catch
         {
@@ -38,6 +37,8 @@ public static class RelicCounterBadgeFactory
     public static void Refresh(Node? relicNode, object? relicModel, bool enabled, bool isInTopBar)
     {
         if (relicNode == null || !GodotObject.IsInstanceValid(relicNode)) return;
+        // Track even while disabled so flipping the setting on later can reach nodes created in the meantime.
+        if (isInTopBar && IsSupportedModel(relicModel)) Track(relicNode);
         var info = enabled && isInTopBar ? ReadInfo(relicModel) : null;
         var existing = relicNode.GetNodeOrNull<PanelContainer>(PanelName);
         if (info == null)
@@ -46,7 +47,6 @@ public static class RelicCounterBadgeFactory
             return;
         }
 
-        Track(relicNode);
         Label label;
         if (existing == null || !GodotObject.IsInstanceValid(existing))
         {
@@ -83,11 +83,21 @@ public static class RelicCounterBadgeFactory
             foreach (var w in Tracked.ToArray())
             {
                 if (!w.TryGetTarget(out var node)) continue;
-                object? nodeModel = ReflectionAccess.GetMember(node, "Model");
-                if (model == null || ReferenceEquals(nodeModel, model)) Refresh(node, nodeModel, enabled, isInTopBar: true);
+                try
+                {
+                    object? nodeModel = ReflectionAccess.GetMember(node, "Model");
+                    if (model == null || ReferenceEquals(nodeModel, model)) Refresh(node, nodeModel, enabled, isInTopBar: true);
+                }
+                catch (Exception ex)
+                {
+                    GD.PrintErr($"[STS2 Overlay] relic counter refresh failed: {ex.Message}");
+                }
             }
         }).CallDeferred();
     }
+
+    public static bool IsSupportedModel(object? model) =>
+        model != null && RelicProcRules.IsSupported(ReflectionAccess.GetMember(ReflectionAccess.GetMember(model, "Id"), "Entry") as string);
 
     private static void Track(Node node)
     {
