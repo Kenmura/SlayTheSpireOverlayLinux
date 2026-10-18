@@ -202,52 +202,86 @@ To ensure our engineering effort delivers maximum value to players while respect
   - [ ] **AC4 (Settings Toggle)**: `EnableDeckTrackerCardHover` can be toggled in `overlay_config.json` and `OverlayModSettingsPanel`.
   - [ ] **AC5 (Unit Tests)**: Unit tests verify description propagation and BBCode stripping in `DeckCardGroup`.
 
----
+#### P2-5. Relic Proc Counters & Combat Turn Cycle Badges ([Issue #19](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/19))
+- **User Story**: As a climbing strategist managing complex combat turns, I want small, non-intrusive proc counters attached to active combat relics with multi-turn or multi-action triggers (Pen Nib, Incense Burner, Happy Flower, Kunai/Shuriken) so that I don't have to manually count card plays or hover top-bar relic icons to predict when key procs will trigger.
+- **Target Components**: `SlayTheSpireOverlay.Core`, `RelicBadgeFactory`, `Sts2RuntimeInspector`.
+- **Complexity**: Low–Medium.
 
-### Priority 3 (P3): Run Analytics, Ecosystem Integration & Community Extensibility
-*Goal: Provide long-term progression insights and unify the modding ecosystem.*
-
-#### P3-1. Local Run History & Card Pick Analytics (`user://run_history_stats.json`)
-- **User Need**: Untapped.gg's desktop app tracks win rates and pick rates in the cloud, which Linux/offline players miss out on. Players want to see their own personal win rate by character, most-picked cards, and floor-by-floor HP/Gold graphs locally without requiring an account or cloud telemetry.
-- **Proposed Solution**:
-  - Hook run completion/abandonment and card reward selections to log lightweight local run summaries in `user://overlay_run_stats.json`.
-  - Provide a summary view or exportable Markdown/JSON report showing personal pick rate vs. win rate per card/relic.
-- **Target Components**: `SlayTheSpireOverlay.Core.Services.LocalRunTracker` (new), `ModEntry`.
-- **Complexity**: Medium–High.
-
-#### P3-2. Map Route Optimizer & Path Comparison Overlay (Integrated with `SlayTheSpireMapFog`)
-- **User Need**: When opening `NMapScreen`, players manually trace paths to count how many Elites, Rest Sites (`🔥`), Shops (`$`), and Events (`?`) lie on each branch—and when running `SlayTheSpireMapFog`, any path helper must strictly respect the active `MapFogVisibility` horizon so it never leaks fogged nodes.
-- **Proposed Solution**:
-  - Add a **Path Node Counter** widget on `NMapScreen` that summarizes the min/max Elites, Fires, and Shops reachable from each currently travelable starting node (bounded by `MapFogVisibility` if `SlayTheSpireMapFog` is active).
-- **Target Components**: `SlayTheSpireMapFog.Core`, `SlayTheSpireOverlay.Core`, `NMapScreen` patch.
+#### P2-6. Dynamic Merchant Card Removal Cost & Shop Relic Discounts ([Issue #20](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/20))
+- **User Story**: As a player shopping in `NMerchantRoom` using the Shop Budget Planner ("Pin to Cart"), I want the budget calculation to dynamically factor in the escalating card removal service cost (75g -> 100g -> 125g...) and price discount relics (The Courier, Membership Card) so that the pinned shopping cart and remaining gold math are 100% accurate throughout the run.
+- **Target Components**: `OverlayCalculators`, `Sts2RuntimeInspector`, `RoomOverlayFactory`.
 - **Complexity**: Medium.
 
-#### P3-3. Community Tier List & Localization Manager
-- **User Need**: As the STS2 community grows, more streamers/high-level players will publish Untapped.gg tier list UUIDs or custom community JSON files, and non-English players need localized UI labels.
-- **Proposed Solution**:
-  - Allow registering custom Author profiles (`Name` + per-character `UUID` list or URL) in `overlay_config.json` and cycling through N authors in the Mod Settings UI and via `F6`.
-  - Support localized static data via `https://sts2json.untapped.gg/data/public/latest/{lang}/sts_data.json`.
+#### P2-7. Combat Victory Potion Drop Probability Calculator ([Issue #21](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/21))
+- **User Story**: As a climbing strategist on combat rewards screens, I want to see my current potion drop probability on the victory loot screen (and optionally on the combat HUD) so that I know whether holding or drinking a potion before combat ends was mathematically sound and can anticipate potion availability for upcoming floors.
+- **Target Components**: `OverlayCalculators`, `Sts2RuntimeInspector`, `RoomOverlayFactory`.
+- **Complexity**: Low.
+
+#### P2-8. Fog-Aware Map Route & Path Decision Helper (`NMapScreen`) ([Issue #22](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/22))
+- **User Story**: As a player planning my route across the Act on `NMapScreen`, I want a lightweight summary of reachable encounter nodes (Total Elites, Rest Sites, Shops, Events) from each travelable node branch, strictly respecting Map Fog of War if `SlayTheSpireMapFog` is installed, so that I can evaluate path risk/reward without manually tracing lines across 15 floors while ensuring fogged nodes are never leaked.
+- **Target Components**: `SlayTheSpireOverlay.Core`, `SlayTheSpireMapFog.Core`, `NMapScreen` patch.
+- **Complexity**: Medium.
+
+#### P2-9. Steam Deck 44px+ Touch Target Sizing & Gamepad Focus Navigation ([Issue #23](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/23))
+- **User Story**: As a Steam Deck (1280×800) and gamepad player, I want all interactive overlay buttons (mod settings toggles, author cycle pill, shop pin badge, deck tracker header) to meet Steam Deck minimum 44×44px touch hitbox standards and support native Godot gamepad focus navigation so that I can easily tap controls with my thumbs on touchscreen and navigate settings using the D-Pad without needing a virtual trackpad mouse cursor.
+- **Target Components**: `RoomOverlayFactory`, `TierBadgeFactory`, `QuickToggleBarPanel`.
+- **Complexity**: Medium.
+
+#### P2-10. Custom Community Tier List Profile Registry & Remote URL Support ([Issue #24](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/24))
+- **User Story**: As a player who follows other top streamers or community tier lists (e.g. FrostPrime, Lifecoach, or localized community spreadsheets), I want to register custom tier list profiles (display name, remote JSON URL or Untapped UUID set) in `overlay_config.json` so that I can cycle through my preferred tier lists in-game via `F6` or the settings panel beyond just the built-in Baalorlord and Jorbs options.
 - **Target Components**: `OverlayConfig`, `HttpTierListProvider`, `RoomOverlayFactory`.
-- **Complexity**: Low–Medium.
+- **Complexity**: Medium.
+
+---
+
+### Priority 3 (P3): Run Analytics, Architecture & Code Health
+*Goal: Provide long-term progression insights and eliminate technical debt across the mod solution.*
+
+#### P3-1. Local-Only Privacy-Preserving Run History & Card Pick Analytics ([Issue #25](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/25))
+- **User Story**: As a climbing strategist analyzing my deckbuilding decisions over time, I want the mod to record local-only run summaries (character, win/loss, floor reached, master deck, card choices offered vs picked) in `user://run_history_stats.json` with an in-game or exported summary so that I can see my personal card pick rates and win rates across runs without creating an account or sending telemetry data to third-party cloud servers.
+- **Target Components**: `SlayTheSpireOverlay.Core.Services.LocalRunHistoryManager`, `ModEntry`.
+- **Complexity**: Medium–High.
+
+#### TechDebt-1. Split Monolithic RoomOverlayFactory into Modular UI Component Factories ([Issue #26](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/26))
+- **Problem**: `RoomOverlayFactory.cs` has reached 1,600 lines, mixing layout, theme styles, hotkey debouncing, settings grids, and 5 distinct HUD panels into a single God-class.
+- **Target**: Decompose into `DeckTrackerPanelFactory`, `AttackSummaryPanelFactory`, `ShopBudgetPanelFactory`, `BossPrepBannerFactory`, `DeckSynergyPanelFactory`, `QuickToggleBarFactory`, and `ModSettingsPanelFactory`.
+- **Complexity**: Medium.
+
+#### TechDebt-2. Extract SlayTheSpireMod.Common Shared Foundation & Deduplicate Utilities ([Issue #27](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/27))
+- **Problem**: `SlayTheSpireOverlay` and `SlayTheSpireMapFog` duplicate reflection access, config file I/O, error logging, and patch lifecycle management.
+- **Target**: Consolidate shared utilities into `src/SlayTheSpireMod.Common` (pure reflection access, JSON config store, patch registrar) and reference across both mods.
+- **Complexity**: Medium.
+
+#### TechDebt-3. Domain-Specific Decomposition of Sts2RuntimeInspector ([Issue #28](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/28))
+- **Problem**: `Sts2RuntimeInspector.cs` exceeds 1,140 lines of reflection code across combat, merchant, event, reward, player, and card deck domains.
+- **Target**: Decompose into `CombatRuntimeInspector`, `HandDamageInspector`, `DeckPileInspector`, `MerchantRuntimeInspector`, and `RewardRuntimeInspector` with cached delegates.
+- **Complexity**: Medium.
 
 ---
 
 ## 5. Summary Roadmap Matrix
 
-| ID | GitHub Issue | Feature Name | Priority | Primary Persona | Effort | Architectural Layer |
+| ID | GitHub Issue | Feature / Technical Task | Priority | Category | Effort | Architectural Layer |
 | :--- | :---: | :--- | :---: | :--- | :---: | :--- |
-| **P0-1** | [#1](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/1) | Steam Deck / Controller Quick Toggle Bar & Keybinds | **P0** | Handheld / Controller Player | S | `Core` + `Godot.UI` |
-| **P0-2** | [#2](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/2) | Upgraded Card (`+`) & Enchantment Tier Evaluations | **P0** | Climbing Strategist | M | `Core` + `Godot` |
-| **P0-3** | [#3](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/3) | Dynamic Draw Count in Hypergeometric Odds | **P0** | Climbing Strategist | S | `Core` + `Godot` |
-| **P0-4** | [#4](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/4) | End-of-Turn Passive Block & DoT in Attack Summary | **P0** | Climbing Strategist | M | `Core` + `Godot` |
-| **P0-5** | [#5](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/5) | UI Scale Slider & Anchorable/Draggable Panels | **P0** | Handheld / Ultrawide Player | M | `Core` + `Godot.UI` |
-| **P1-1** | [#6](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/6) | Deck Composition & Synergy Tag Analyzer | **P1** | Deckbuilder & Synergy Seeker | M | `Core` + `Godot.UI` |
-| **P1-2** | [#7](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/7) | Act Boss & Elite Preparation Banner | **P1** | Climbing Strategist | S | `Core` + `Godot.UI` |
-| **P1-3** | [#8](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/8) | Multi-Item Shop Budget Planner ("Pin to Cart") | **P1** | Climbing Strategist | M | `Core` + `Godot.UI` |
-| **P1-4** | [#9](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/9) | Side-by-Side Author Consensus Mode (`Baalorlord + Jorbs`) | **P1** | Climbing Strategist | M | `Core` + `Godot.UI` |
-| **P2-1** | [#10](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/10) | Co-op / Multiplayer Ally Attack Summary | **P2** | Co-op Tactician | L | `Core` + `Godot` |
-| **P2-2** | [#11](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/11) | Outgoing Hand Damage Calculator | **P2** | Climbing Strategist | M | `Core` + `Godot` |
-| **P2-3** | [#12](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/12) | Interactive Draw Pile Hover Previews | **P2** | New / Learning Player | M | `Godot.UI` |
-| **P3-1** | — | Local Run History & Personal Win-Rate Analytics | **P3** | Deckbuilder & Synergy Seeker | L | `Core` + `Godot` |
-| **P3-2** | — | Fog-Aware Map Route & Path Counter | **P3** | Custom / Challenge Runner | M | `Core` + `MapFog` |
-| **P3-3** | — | Custom Community Author Profiles & Localization | **P3** | All Players | S | `Core` + `Godot.UI` |
+| **P0-1** | [#1](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/1) | Steam Deck / Controller Quick Toggle Bar & Keybinds | **P0** | Handheld Ergonomics | S | `Core` + `Godot.UI` |
+| **P0-2** | [#2](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/2) | Upgraded Card (`+`) & Enchantment Tier Evaluations | **P0** | Tactical Evaluation | M | `Core` + `Godot` |
+| **P0-3** | [#3](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/3) | Dynamic Draw Count in Hypergeometric Odds | **P0** | Combat Analytics | S | `Core` + `Godot` |
+| **P0-4** | [#4](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/4) | End-of-Turn Passive Block & DoT in Attack Summary | **P0** | Combat Accuracy | M | `Core` + `Godot` |
+| **P0-5** | [#5](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/5) | UI Scale Slider & Anchorable/Draggable Panels | **P0** | Display Scaling | M | `Core` + `Godot.UI` |
+| **P1-1** | [#6](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/6) | Deck Composition & Synergy Tag Analyzer | **P1** | Deckbuilding | M | `Core` + `Godot.UI` |
+| **P1-2** | [#7](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/7) | Act Boss & Elite Preparation Banner | **P1** | Decision Support | S | `Core` + `Godot.UI` |
+| **P1-3** | [#8](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/8) | Multi-Item Shop Budget Planner ("Pin to Cart") | **P1** | Economy Planning | M | `Core` + `Godot.UI` |
+| **P1-4** | [#9](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/9) | Side-by-Side Author Consensus Mode (`Baalorlord + Jorbs`) | **P1** | Tier Evaluation | M | `Core` + `Godot.UI` |
+| **P2-1** | [#10](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/10) | Co-op / Multiplayer Ally Attack Summary | **P2** | Co-op Tactics | L | `Core` + `Godot` |
+| **P2-2** | [#11](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/11) | Outgoing Hand Damage Calculator | **P2** | Combat Planning | M | `Core` + `Godot` |
+| **P2-3** | [#12](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/12) | Interactive Draw Pile Hover Previews | **P2** | Information Display | M | `Godot.UI` |
+| **P2-5** | [#19](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/19) | Relic Proc Counters & Combat Turn Cycle Badges | **P2** | Combat HUD | S | `Core` + `Godot` |
+| **P2-6** | [#20](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/20) | Dynamic Merchant Card Removal Cost & Shop Relic Discounts | **P2** | Economy Planning | M | `Core` + `Godot` |
+| **P2-7** | [#21](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/21) | Combat Victory Potion Drop Probability Calculator | **P2** | Reward Analytics | S | `Core` + `Godot` |
+| **P2-8** | [#22](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/22) | Fog-Aware Map Route & Path Decision Helper (`NMapScreen`) | **P2** | Map Navigation | M | `Core` + `MapFog` |
+| **P2-9** | [#23](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/23) | Steam Deck 44px+ Touch Target Sizing & Gamepad Focus Navigation | **P2** | Handheld Ergonomics | M | `Godot.UI` |
+| **P2-10** | [#24](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/24) | Custom Community Tier List Profile Registry & Remote URL Support | **P2** | Extensibility | M | `Core` + `Godot.UI` |
+| **P3-1** | [#25](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/25) | Local-Only Privacy-Preserving Run History & Card Pick Analytics | **P3** | Run Analytics | M | `Core` + `Godot` |
+| **TD-1** | [#26](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/26) | Split Monolithic RoomOverlayFactory into Modular UI Component Factories | **P3** | Technical Debt | M | `Godot.UI` |
+| **TD-2** | [#27](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/27) | Extract SlayTheSpireMod.Common Shared Foundation & Deduplicate Utilities | **P3** | Technical Debt | M | `Common` |
+| **TD-3** | [#28](https://github.com/Kenmura/SlayTheSpireOverlayLinux/issues/28) | Domain-Specific Decomposition of Sts2RuntimeInspector | **P3** | Technical Debt | M | `Godot` |
