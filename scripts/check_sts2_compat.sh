@@ -1,71 +1,18 @@
 #!/usr/bin/env bash
+# Verifies every game type/member the mods use exists in the installed sts2.dll.
+# Override the game folder with STS2_DATA_DIR=/path/to/data_sts2_windows_x86_64
 set -euo pipefail
+export LD_PRELOAD=""
+BASE_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+DATA_DIR="${STS2_DATA_DIR:-$HOME/.local/share/Steam/steamapps/common/Slay the Spire 2/data_sts2_windows_x86_64}"
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+dn() { distrobox enter dotnet-dev -- env LD_PRELOAD="" dotnet "$@"; }
 
-STS2_DLL="${1:-}"
+dn build "$BASE_DIR/src/SlayTheSpireOverlay.Godot" -c Release -p:Sts2DataDir="$DATA_DIR" --nologo -v q
+dn build "$BASE_DIR/src/SlayTheSpireMapFog.Godot" -c Release -p:Sts2DataDir="$DATA_DIR" --nologo -v q
 
-if [ -z "$STS2_DLL" ]; then
-    CANDIDATES=(
-        "$HOME/.local/share/Steam/steamapps/common/Slay the Spire 2/data_sts2_windows_x86_64/sts2.dll"
-        "$HOME/.steam/steam/steamapps/common/Slay the Spire 2/data_sts2_windows_x86_64/sts2.dll"
-        "$HOME/.local/share/Steam/steamapps/common/Slay the Spire 2/sts2.dll"
-    )
-    for c in "${CANDIDATES[@]}"; do
-        if [ -f "$c" ]; then
-            STS2_DLL="$c"
-            break
-        fi
-    done
-fi
-
-if [ -z "$STS2_DLL" ] || [ ! -f "$STS2_DLL" ]; then
-    echo "Error: sts2.dll not found." >&2
-    echo "Usage: $0 [path-to-sts2.dll] [optional-mod-dlls...]" >&2
-    exit 1
-fi
-
-shift || true
-
-MOD_DLLS=()
-if [ "$#" -gt 0 ]; then
-    MOD_DLLS=("$@")
-else
-    # Automatically locate built mod DLLs if present
-    OVERLAY_CANDIDATES=(
-        "$REPO_ROOT/src/SlayTheSpireOverlay.Godot/bin/Release/net9.0/SlayTheSpireOverlay.Godot.dll"
-        "$REPO_ROOT/src/SlayTheSpireOverlay.Godot/bin/Debug/net9.0/SlayTheSpireOverlay.Godot.dll"
-        "$REPO_ROOT/workshop/content/SlayTheSpireOverlay.Godot.dll"
-    )
-    for c in "${OVERLAY_CANDIDATES[@]}"; do
-        if [ -f "$c" ]; then
-            MOD_DLLS+=("$c")
-            break
-        fi
-    done
-
-    MAPFOG_CANDIDATES=(
-        "$REPO_ROOT/src/SlayTheSpireMapFog.Godot/bin/Release/net9.0/SlayTheSpireMapFog.Godot.dll"
-        "$REPO_ROOT/src/SlayTheSpireMapFog.Godot/bin/Debug/net9.0/SlayTheSpireMapFog.Godot.dll"
-        "$REPO_ROOT/workshop-fog/content/SlayTheSpireMapFog.Godot.dll"
-    )
-    for c in "${MAPFOG_CANDIDATES[@]}"; do
-        if [ -f "$c" ]; then
-            MOD_DLLS+=("$c")
-            break
-        fi
-    done
-fi
-
-DOTNET_CMD=(dotnet)
-if ! command -v dotnet >/dev/null 2>&1; then
-    if command -v distrobox >/dev/null 2>&1; then
-        DOTNET_CMD=(distrobox enter dotnet-dev -- dotnet)
-    else
-        echo "Error: Neither 'dotnet' nor 'distrobox' command found." >&2
-        exit 1
-    fi
-fi
-
-"${DOTNET_CMD[@]}" run --project "$REPO_ROOT/tools/Sts2CompatChecker" -- "$STS2_DLL" "${MOD_DLLS[@]}"
+dn run --project "$BASE_DIR/tools/Sts2CompatCheck" -c Release -- \
+    "$DATA_DIR/sts2.dll" \
+    "$BASE_DIR/tools/Sts2CompatCheck/patch-targets.txt" \
+    "$BASE_DIR/src/SlayTheSpireOverlay.Godot/bin/Release/net9.0/SlayTheSpireOverlay.Godot.dll" \
+    "$BASE_DIR/src/SlayTheSpireMapFog.Godot/bin/Release/net9.0/SlayTheSpireMapFog.Godot.dll"

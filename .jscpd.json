@@ -1,0 +1,10 @@
+{
+  "path": ["src"],
+  "format": ["csharp"],
+  "ignore": ["**/obj/**", "**/bin/**"],
+  "minLines": 15,
+  "minTokens": 120,
+  "threshold": 3.7,
+  "reporters": ["console"],
+  "gitignore": true
+}

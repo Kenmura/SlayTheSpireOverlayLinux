@@ -37,3 +37,13 @@ jobs:
       - name: Run Python Tier & Workshop Tests
         run: |
           python3 -m unittest discover -s tests -p "test_*.py"
+
+  duplication:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      # Baseline lives in .jscpd.json ("threshold", percent). Only ever lower it.
+      - run: npx --yes jscpd@4.0.5

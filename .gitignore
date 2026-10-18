@@ -42,3 +42,4 @@ workshop-fog/content/
 
 # Local adversarial-review session artifacts
 .adversarial-review/
+.superpowers/

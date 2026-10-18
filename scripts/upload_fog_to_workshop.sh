@@ -4,7 +4,7 @@ set -e
 # Suppress LD_PRELOAD warnings for 32-bit vs 64-bit mismatch on Bazzite/Fedora
 export LD_PRELOAD=""
 
-BASE_DIR="$(cd "$(dirname "$0")" && pwd)"
+BASE_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 WORKSPACE="$BASE_DIR/workshop-fog"
 PROJECT="src/SlayTheSpireMapFog.Godot/SlayTheSpireMapFog.Godot.csproj"
 UPLOADER_DIR_ROOT="$BASE_DIR/workshop/uploader"

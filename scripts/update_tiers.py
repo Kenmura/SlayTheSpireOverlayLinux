@@ -11,7 +11,6 @@ from datetime import datetime
 # Repository & paths
 REPO_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 WORKSHOP_JSON = os.path.join(REPO_DIR, "workshop", "baalorlord_tiers.json")
-EMBEDDED_JSON = os.path.join(REPO_DIR, "src", "SlayTheSpireOverlay.Godot", "baalorlord_tiers.json")
 WORKSHOP_META_JSON = os.path.join(REPO_DIR, "workshop", "workshop.json")
 WORKSHOP_CONTENT_DIR = os.path.join(REPO_DIR, "workshop", "content")
 WORKSHOP_UPLOADER_DIR = os.path.join(REPO_DIR, "workshop", "uploader")
@@ -351,8 +350,6 @@ def main():
     print("\n[*] Step 2: Updating JSON database files & Steam Workshop changeNote...")
     with open(WORKSHOP_JSON, "w") as f:
         json.dump(new_db, f, indent=2, sort_keys=True)
-    with open(EMBEDDED_JSON, "w") as f:
-        json.dump(new_db, f, indent=2, sort_keys=True)
 
     commit_msg = ""
     if os.path.exists(WORKSHOP_META_JSON):
@@ -389,7 +386,7 @@ def main():
     run_command(f"distrobox enter dotnet-dev -- env LD_PRELOAD=\"\" dotnet publish src/SlayTheSpireOverlay.Godot/SlayTheSpireOverlay.Godot.csproj -c Release -o '{WORKSHOP_CONTENT_DIR}'")
 
     print("\n[*] Step 5: Committing and pushing changes to GitHub...")
-    run_command("git add workshop/baalorlord_tiers.json src/SlayTheSpireOverlay.Godot/baalorlord_tiers.json workshop/workshop.json")
+    run_command("git add workshop/baalorlord_tiers.json workshop/workshop.json")
     # Only commit if there is actually something staged (avoids "nothing to commit" error
     # when --force is used but the tier data was already up to date)
     staged = subprocess.run("git diff --cached --quiet", shell=True, cwd=REPO_DIR)

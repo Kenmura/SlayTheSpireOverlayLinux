@@ -2,15 +2,41 @@
 
 ## 1. Project Overview
 
-**SlayTheSpireOverlayLinux** is a Linux-first, Proton-compatible in-game overlay and companion mod for **Slay the Spire 2 (STS2)** built with **.NET 9.0**, **GodotSharp (4.5.1)**, and **Harmony (`0Harmony`)**.
+**SlayTheSpireOverlayLinux** is a Linux-first, Proton-compatible in-game overlay and companion mod for **Slay the Spire 2 (STS2)** built with **.NET 9.0**, **GodotSharp** (compiled against the 4.7.2 bindings; the game itself runs Godot 4.5.1), and **Harmony (`0Harmony`)**. It ships two independent Workshop mods: **Overlay for Tier List** (`SlayTheSpireOverlay.*`) and **Fog of War Map** (`SlayTheSpireMapFog.*`).
 
 Unlike the official **Untapped.gg Companion** desktop application—which relies on an out-of-process Electron window (`untapped-node-native` X11 window tracking) and cross-process memory scraping (`untapped-scry`) that breaks under Wayland, Gamescope, `ptrace_scope` restrictions, and Steam Proton/Wine—this project runs **directly inside the Slay the Spire 2 process** as a native C# mod (`sts2.dll` + `GodotSharp.dll`). Because STS2 loads `.NET 9.0` mod assemblies identically under both Linux Native and Steam Proton builds, an in-game Godot/Harmony mod works on X11, Wayland, Gamescope/Steam Deck, and Proton without external processes or memory scraping.
 
 ---
 
+## 1b. Coordination protocol (MANDATORY for every agent)
+
+Several agents (Claude Code, Codex, Gemini, Copilot, humans) edit this repo at the same time, often in separate worktrees, so uncommitted work is invisible to others. Status is kept in **local files only** (never GitHub, never committed or pushed): one file per piece of work in `<repo>/.git/agent-status/`, which every worktree of this clone shares. Follow this for every task:
+
+1. **Look first.** Run `./scripts/agent_claims.sh`. It prints every active claim (agent, status, time, branch, worktree, files touched; stale ones are flagged), all git worktrees, and uncommitted changes in your checkout. If a file you need is listed, or the work is already claimed by a live agent, do not start: pick other work, or ask the user.
+2. **Claim before you edit.** Choose a key (a GitHub issue number, or a short slug like `fog-opacity`), then:
+   ```bash
+   export AGENT_NAME="<tool>/<model>"      # e.g. claude-code/opus-5, codex/gpt-5; add SESSION_URL if you have one
+   ./scripts/agent_claim.sh <key> claimed "what I will do, and which areas/files I expect to touch"
+   ```
+   This writes `.git/agent-status/<key>.md` with the agent, status, UTC time, branch, worktree and the files you have touched so far.
+3. **Work in your own worktree and branch** (`git worktree add ../<name> -b <branch> origin/main`), never in a checkout that has someone else's uncommitted changes. Add files by explicit path (never `git add -A`).
+4. **Keep the status current.** Re-run `./scripts/agent_claim.sh <key> in-progress|blocked "<note>"` when you start a new area, when your file list grows, or when you are blocked (say on whom or what). A claim not updated for 24 hours is stale: ask the user before taking it over.
+5. **Hand off or finish.** When you stop, run `./scripts/agent_claim.sh <key> handoff "<what is done, what is left, branch name>"`, or `done` when finished (done claims disappear from the listing). Never leave a claim behind.
+6. **Do not touch other agents' files.** If your change needs a file listed in someone else's active claim, coordinate through the user. If you find uncommitted changes you did not make, leave them alone and do not commit them.
+
+Statuses: `claimed` (reserved, not started), `in-progress`, `blocked`, `handoff` (paused, someone else may continue), `done`.
+
+The protocol is local and voluntary: it only helps agents on this machine that follow it. Never post claims, status or agent activity to public GitHub issues or PRs.
+
+### Automated guards (run in CI; run them locally before you push)
+- `dotnet test tests/SlayTheSpireOverlay.Tests` includes `SourceHygieneTests`: no `src/**/*.cs` file may exceed 500 lines. Three legacy files are allowlisted at their current size; **splitting a file lets you delete its entry, but never raise a number or add an entry**.
+- `./scripts/check_duplication.sh` (jscpd) fails if duplicated code exceeds the baseline in `.jscpd.json`. **Only lower the threshold, never raise it.** Before writing a helper, look in `src/SlayTheSpireMod.Common`; if both mods need it, put it there.
+
+---
+
 ## 2. Solution Architecture & Boundaries
 
-The solution (`SlayTheSpireOverlay.slnx`) is strictly divided into four projects, enforced by automated architecture tests (`tests/SlayTheSpireOverlay.ArchitectureTests/DependencyTests.cs`):
+The solution (`SlayTheSpireOverlay.slnx`) is divided into the projects below; the Core/UI boundaries are enforced by automated architecture tests (`tests/SlayTheSpireOverlay.ArchitectureTests/DependencyTests.cs`):
 
 1. **`src/SlayTheSpireOverlay.Core`** (`net9.0`)
    - **Responsibility**: Pure C# domain models, configuration, local caching, tier list & game data resolution, deck/combat/merchant state calculations, and HTTP API providers.
@@ -19,41 +45,52 @@ The solution (`SlayTheSpireOverlay.slnx`) is strictly divided into four projects
    - **Responsibility**: STS2 Mod entry point (`[MegaCrit.Sts2.Core.Modding.ModInitializer("Initialize")]`), Harmony patches against `MegaCrit.Sts2.Core.*`, and programmatic Godot 4.x UI factories (`SlayTheSpireOverlay.Godot.UI`).
    - **Architectural Rule**: Classes in `SlayTheSpireOverlay.Godot.UI` **MUST NOT** depend on `System.Net.Http` (verified by `DependencyTests.UI_ShouldNotDependOn_HttpClient`).
 3. **`tests/SlayTheSpireOverlay.Tests`** (`net9.0`)
-   - **Responsibility**: xUnit + Moq unit and integration tests for `SlayTheSpireOverlay.Core`.
+   - **Responsibility**: MSTest (4.0.1) unit tests for both `*.Core` projects and the shared `SlayTheSpireMod.Common` helpers (tests target `net10.0`; the container has no net9 runtime).
 4. **`tests/SlayTheSpireOverlay.ArchitectureTests`** (`net9.0`)
    - **Responsibility**: NetArchTest rules verifying clean separation between `Core`, `Godot.UI`, and network layers.
+5. **`src/SlayTheSpireMod.Common`** (source-linked, not a separate assembly)
+   - **Responsibility**: Plumbing shared by both mods: `ReflectionAccess`, `JsonConfigStore`, `PatchRegistrar` (pure, unit-tested), and `GameHooks/` (Harmony and Godot helpers). Compiled into each mod DLL via `<Compile Include=... Link=...>`, exactly like `Core`.
+   - **Architectural Rule**: Types directly in namespace `SlayTheSpireMod.Common` must not depend on Godot, Harmony or `sts2.dll`; those live in `SlayTheSpireMod.Common.GameHooks`.
+6. **`tools/Sts2CompatCheck`** — checks that every game type/member the mods reference exists in a given `sts2.dll`.
 
 ---
 
 ## 3. Build, Test, & Tooling Commands
 
-On this host (Fedora Atomic/Silverblue), the .NET 9.0 SDK runs inside the `dotnet-dev` Distrobox container, and `/home` is symlinked to `/var/home`.
+On this host (Fedora Atomic/Silverblue) the .NET SDK runs inside the `dotnet-dev` Distrobox container, which only has the 8.0 and 10.0 runtimes. `/home` is symlinked to `/var/home`. `LD_PRELOAD=""` stops Steam's 32-bit `gameoverlayrenderer.so` polluting child processes:
 
-### Run All Unit & Architecture Tests
 ```bash
-distrobox enter dotnet-dev -- dotnet test SlayTheSpireOverlay.slnx
+dn() { LD_PRELOAD="" distrobox enter dotnet-dev -- env LD_PRELOAD="" dotnet "$@"; }
 ```
 
-### Build & Publish the Mod DLL
-Note: `LD_PRELOAD=""` prevents Steam's 32-bit `gameoverlayrenderer.so` from polluting child processes when building from a terminal launched by Steam.
+**Game files.** The `*.Godot` projects reference `sts2.dll` and `0Harmony.dll` from the property `Sts2DataDir` (default `$(HOME)/.local/share/Steam/steamapps/common/Slay the Spire 2/data_sts2_windows_x86_64`; override with `-p:Sts2DataDir=...`). Without game files only `tests/SlayTheSpireOverlay.Tests` builds; that is what CI runs.
+
+### Fast checks (no game files needed)
 ```bash
-distrobox enter dotnet-dev -- env LD_PRELOAD="" dotnet publish src/SlayTheSpireOverlay.Godot/SlayTheSpireOverlay.Godot.csproj -c Release
+dn test tests/SlayTheSpireOverlay.Tests
 ```
 
-### Refresh Tier Lists & Static Data (`baalorlord_tiers.json`)
+### Full test run (needs game files)
+```bash
+dn test SlayTheSpireOverlay.slnx
+```
+
+### Game-version compatibility
+```bash
+./scripts/check_sts2_compat.sh
+```
+Run after any game update and before publishing. It fails if a game type/member the mods use no longer exists.
+
+### Publish to Steam Workshop (both items are private)
+```bash
+./scripts/upload_to_workshop.sh        # Overlay for Tier List
+./scripts/upload_fog_to_workshop.sh    # Fog of War Map (workspace: workshop-fog/)
+```
+Set the release text in `workshop/workshop.json` / `workshop-fog/workshop.json` (`changeNote`) first; keep it in sync with `CHANGELOG.md`.
+
+### Refresh Tier Lists (`workshop/baalorlord_tiers.json`)
 ```bash
 ./scripts/update_tiers.sh
-```
-
-### Check STS2 Game-Version Compatibility
-Verifies all compile-time references and dynamic Harmony patch targets against a target `sts2.dll` to prevent silent breakage across game patches.
-```bash
-./scripts/check_sts2_compat.sh [path-to-sts2.dll]
-```
-
-### Publish to Steam Workshop
-```bash
-./scripts/upload_to_workshop.sh "Release notes"
 ```
 
 ---
@@ -78,6 +115,16 @@ Any agent modifying `src/SlayTheSpireOverlay.Godot` **MUST** adhere to these eng
    - Always use `Godot.ProjectSettings.GlobalizePath("user://...")` for configuration and cache paths. Under Steam Proton, `user://` automatically resolves inside the Wine prefix (`compatdata/2868840/pfx/drive_c/users/steamuser/AppData/Roaming/SlayTheSpire2/`).
 6. **Per-Patch Resilience & Game Version Compatibility**
    - Mod manifests declare `"min_game_version": "0.107.0"`. On older or mismatched game versions where internal types or methods may change, patches must be applied independently (never let one failing patch abort initialization). Each skipped patch must be logged individually, and a startup summary logged (`applied N, skipped M`). Run `./scripts/check_sts2_compat.sh` to statically verify all compile-time and dynamic string targets against any target `sts2.dll`.
+
+---
+
+## 4b. Working in parallel (agents)
+
+- Use one **git worktree and branch per task** (`git worktree add ../<name> -b <branch> origin/main`). Never share a checkout between agents; check `git status` first and do not edit files you did not change.
+- Add files by explicit path; never `git add -A`.
+- `RoomOverlayFactory`, `ModEntry` and `Sts2RuntimeInspector` are large and shared by many features: keep edits small and rebase often.
+- Game-facing code cannot be unit-tested. Put decisions (math, layout geometry, edge detection) in `*.Core` as pure functions and keep Godot code a thin adapter.
+- Access game internals only through `SlayTheSpireMod.Common.ReflectionAccess` and register patches through `PatchRegistrar`; then run `./scripts/check_sts2_compat.sh`.
 
 ---
 
