@@ -71,6 +71,13 @@ public class RelicProcRulesTests
     }
 
     [TestMethod]
+    public void HiddenCounter_ReturnsNull_AndGameMinusOneMeansNoCounter()
+    {
+        Assert.IsNull(RelicProcRules.TryGetProcInfo("KUNAI", 0, showCounter: false));
+        Assert.IsNull(RelicProcRules.TryGetProcInfo("STONE_CALENDAR", -1));
+    }
+
+    [TestMethod]
     public void CountAtOrBeyondMax_IsNotPreProc()
     {
         Assert.IsFalse(RelicProcRules.TryGetProcInfo("KUNAI", 3)!.IsPreProc);

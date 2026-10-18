@@ -1337,7 +1337,7 @@ public static class RoomOverlayFactory
         }));
 
         grid.AddChild(CreateSettingsButton($"Outgoing Damage: {(config.EnableOutgoingDamageSummary ? "ON" : "OFF")}", config.EnableOutgoingDamageSummary, false, () => { config.EnableOutgoingDamageSummary = !config.EnableOutgoingDamageSummary; onConfigSaved(); Rebuild(); }));
-        grid.AddChild(CreateSettingsButton($"Relic Counters: {(config.EnableRelicProcCounters ? "ON" : "OFF")}", config.EnableRelicProcCounters, false, () => { config.EnableRelicProcCounters = !config.EnableRelicProcCounters; onConfigSaved(); Rebuild(); }));
+        grid.AddChild(CreateSettingsButton($"Relic Counters: {(config.EnableRelicProcCounters ? "ON" : "OFF")}", config.EnableRelicProcCounters, false, () => { config.EnableRelicProcCounters = !config.EnableRelicProcCounters; RelicCounterBadgeFactory.RefreshForModel(null, config.EnableRelicProcCounters); onConfigSaved(); Rebuild(); }));
 
         grid.AddChild(CreateSettingsButton($"Shop Gold Left:{(config.EnableMerchantGoldLeft ? "ON" : "OFF")}", config.EnableMerchantGoldLeft, false, () =>
         {

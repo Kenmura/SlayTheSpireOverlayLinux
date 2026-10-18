@@ -26,7 +26,8 @@ public static class RelicCounterBadgeFactory
             if (!RelicProcRules.IsSupported(id)) return null;
             int? current = ReflectionAccess.GetMember(relicModel, "DisplayAmount") as int?;
             int? max = ReflectionAccess.GetMember(relicModel, "_attacksThreshold", "turnsThreshold", "_turnsThreshold") as int?;
-            return RelicProcRules.TryGetProcInfo(id, current, max);
+            bool show = ReflectionAccess.GetMember(relicModel, "ShowCounter") as bool? ?? true;
+            return RelicProcRules.TryGetProcInfo(id, current, max, show);
         }
         catch
         {
@@ -63,7 +64,8 @@ public static class RelicCounterBadgeFactory
         }
         else
         {
-            label = existing.GetNodeOrNull<Label>("CounterLabel") ?? new Label();
+            label = existing.GetNodeOrNull<Label>("CounterLabel")!;
+            if (label == null) return;
         }
 
         label.Text = info.BadgeText;
@@ -72,8 +74,8 @@ public static class RelicCounterBadgeFactory
         existing.Visible = true;
     }
 
-    /// <summary>Re-reads every tracked relic whose model is <paramref name="model"/> (called when its DisplayAmount changes).</summary>
-    public static void RefreshForModel(object model, bool enabled)
+    /// <summary>Re-reads tracked relics: those whose model is <paramref name="model"/>, or all of them when null (e.g. after a settings toggle).</summary>
+    public static void RefreshForModel(object? model, bool enabled)
     {
         Callable.From(() =>
         {
@@ -81,7 +83,8 @@ public static class RelicCounterBadgeFactory
             foreach (var w in Tracked.ToArray())
             {
                 if (!w.TryGetTarget(out var node)) continue;
-                if (ReferenceEquals(ReflectionAccess.GetMember(node, "Model"), model)) Refresh(node, model, enabled, isInTopBar: true);
+                object? nodeModel = ReflectionAccess.GetMember(node, "Model");
+                if (model == null || ReferenceEquals(nodeModel, model)) Refresh(node, nodeModel, enabled, isInTopBar: true);
             }
         }).CallDeferred();
     }

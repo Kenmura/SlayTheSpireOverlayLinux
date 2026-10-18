@@ -41,12 +41,12 @@ public static class RelicProcRules
     public static bool IsSupported(string? relicId) => Rules.ContainsKey(NormalizeId(relicId));
 
     /// <summary>
-    /// Builds proc info for a supported relic. Returns null for unsupported relics or a negative/unknown count.
+    /// Builds proc info for a supported relic. Returns null for unsupported relics, a negative/unknown count (the game reports -1 for "no counter"), or when the game hides the counter.
     /// <paramref name="maxOverride"/> (read from the game's own threshold) wins over the built-in default when positive.
     /// </summary>
-    public static RelicProcInfo? TryGetProcInfo(string? relicId, int? currentCount, int? maxOverride = null)
+    public static RelicProcInfo? TryGetProcInfo(string? relicId, int? currentCount, int? maxOverride = null, bool showCounter = true)
     {
-        if (currentCount is null or < 0) return null;
+        if (!showCounter || currentCount is null or < 0) return null;
         if (!Rules.TryGetValue(NormalizeId(relicId), out var rule)) return null;
         int max = maxOverride is > 0 ? maxOverride.Value : rule.DefaultMax;
         return new RelicProcInfo(NormalizeId(relicId), currentCount.Value, max, rule.Effect) { CountsTurns = rule.CountsTurns };
