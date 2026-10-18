@@ -80,6 +80,33 @@ public static class MapFogCalculator
             children.Add(to);
         }
 
+        if (config.RevealPassedNodes)
+        {
+            int currentRow = int.MinValue;
+            foreach (var visited in revealed)
+            {
+                currentRow = Math.Max(currentRow, visited.Row);
+            }
+
+            if (currentRow != int.MinValue)
+            {
+                var allCoords = new HashSet<FogCoord>(revealed);
+                foreach (var (from, to) in directedEdges)
+                {
+                    allCoords.Add(from);
+                    allCoords.Add(to);
+                }
+
+                foreach (var coord in allCoords)
+                {
+                    if (coord.Row <= currentRow && !bosses.Contains(coord))
+                    {
+                        revealed.Add(coord);
+                    }
+                }
+            }
+        }
+
         var queue = new Queue<(FogCoord Coord, int Step)>();
         foreach (var travelable in travelableCoords)
         {

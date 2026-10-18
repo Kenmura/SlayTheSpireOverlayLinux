@@ -88,6 +88,20 @@ public static class MapFogSettingsFactory
             Rebuild();
         }));
 
+        grid.AddChild(CreateSettingsButton($"Passed Nodes: {(config.RevealPassedNodes ? "Exposed" : "Hidden")}", config.RevealPassedNodes, false, () =>
+        {
+            config.RevealPassedNodes = !config.RevealPassedNodes;
+            onConfigSaved();
+            Rebuild();
+        }));
+
+        grid.AddChild(CreateSettingsButton($"Dark Fog: {(config.DarkFog ? "ON" : "OFF")}", config.DarkFog, false, () =>
+        {
+            config.DarkFog = !config.DarkFog;
+            onConfigSaved();
+            Rebuild();
+        }));
+
         int depth = Math.Clamp(config.VisionDepth, 1, 3);
         string stepWord = depth == 1 ? "1 Step Ahead" : $"{depth} Steps Ahead";
         grid.AddChild(CreateSettingsButton($"Vision: {stepWord}", isActive: true, isGoldAccent: true, () =>

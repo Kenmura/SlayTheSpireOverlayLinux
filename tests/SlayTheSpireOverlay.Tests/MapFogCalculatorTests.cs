@@ -46,11 +46,12 @@ public class MapFogCalculatorTests
         Assert.IsTrue(vis.IsNodeVisible(Row1Left));
         Assert.IsTrue(vis.IsNodeVisible(BossNode));
 
-        Assert.IsFalse(vis.IsNodeVisible(Row0Right));
+        Assert.IsTrue(vis.IsNodeVisible(Row0Right), "unpicked node on the current floor stays exposed");
         Assert.IsFalse(vis.IsNodeVisible(Row1Right));
         Assert.IsFalse(vis.IsNodeVisible(Row2Mid));
 
         Assert.IsTrue(vis.IsEdgeVisible(StartNode, Row0Left));
+        Assert.IsTrue(vis.IsEdgeVisible(StartNode, Row0Right));
         Assert.IsTrue(vis.IsEdgeVisible(Row0Left, Row1Left));
         Assert.IsFalse(vis.IsEdgeVisible(Row1Left, Row2Mid));
         Assert.IsFalse(vis.IsEdgeVisible(Row2Mid, BossNode));
@@ -118,5 +119,48 @@ public class MapFogCalculatorTests
         Assert.IsTrue(vis.IsNodeVisible(Row2Mid));
         Assert.IsTrue(vis.IsEdgeVisible(Row1Left, Row2Mid));
         Assert.IsFalse(vis.IsNodeVisible(Row1Right));
+    }
+
+    [TestMethod]
+    public void RevealPassedNodes_ExposesCurrentFloorAndBelow_ButNotAbove()
+    {
+        var vis = MapFogCalculator.CalculateVisibility(
+            visitedCoords: [StartNode, Row0Left, Row1Left],
+            travelableCoords: [Row2Mid],
+            bossCoords: [BossNode],
+            directedEdges: SampleEdges,
+            config: new MapFogConfig());
+
+        Assert.IsTrue(vis.IsNodeVisible(Row0Right), "unpicked node below current floor");
+        Assert.IsTrue(vis.IsNodeVisible(Row1Right), "unpicked node on current floor");
+        Assert.IsTrue(vis.IsEdgeVisible(Row0Right, Row1Right));
+        Assert.IsTrue(vis.IsEdgeVisible(Row1Right, Row2Mid));
+    }
+
+    [TestMethod]
+    public void RevealPassedNodesOff_HidesUnpickedNodes()
+    {
+        var vis = MapFogCalculator.CalculateVisibility(
+            visitedCoords: [StartNode, Row0Left],
+            travelableCoords: [Row1Left],
+            bossCoords: [BossNode],
+            directedEdges: SampleEdges,
+            config: new MapFogConfig { RevealPassedNodes = false });
+
+        Assert.IsFalse(vis.IsNodeVisible(Row0Right));
+    }
+
+    [TestMethod]
+    public void RevealPassedNodes_AtActStart_RevealsNothingExtra()
+    {
+        var vis = MapFogCalculator.CalculateVisibility(
+            visitedCoords: [],
+            travelableCoords: [Row0Left, Row0Right],
+            bossCoords: [BossNode],
+            directedEdges: SampleEdges,
+            config: new MapFogConfig());
+
+        Assert.IsFalse(vis.IsNodeVisible(Row1Left));
+        Assert.IsFalse(vis.IsNodeVisible(Row2Mid));
     }
 }

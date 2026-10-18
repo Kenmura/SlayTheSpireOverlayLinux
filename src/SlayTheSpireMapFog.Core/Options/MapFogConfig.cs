@@ -26,4 +26,16 @@ public class MapFogConfig
     /// Number of steps ahead of the current node to reveal (defaults to 1 step ahead).
     /// </summary>
     public int VisionDepth { get; set; } = 1;
+
+    /// <summary>
+    /// Keep every node on the current floor or any floor below it exposed, so unpicked alternatives stay visible.
+    /// Defaults to true.
+    /// </summary>
+    public bool RevealPassedNodes { get; set; } = true;
+
+    /// <summary>
+    /// Draw a dark fog over the unexplored part of the map instead of leaving the bare background.
+    /// Defaults to true.
+    /// </summary>
+    public bool DarkFog { get; set; } = true;
 }

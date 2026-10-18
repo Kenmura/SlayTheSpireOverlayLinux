@@ -99,6 +99,8 @@ public static class Sts2MapInspector
                 }
             }
 
+            ApplyDarkFogOverlay(pointNodes, bossCoords, visibility, config);
+
             foreach (var (fromCoord, toCoord, ticks) in pathEntries)
             {
                 bool edgeVisible = visibility.IsEdgeVisible(fromCoord, toCoord);
@@ -115,6 +117,98 @@ public static class Sts2MapInspector
         {
             GD.PrintErr($"[STS2 MapFog] Error applying map fog: {ex.Message}");
         }
+    }
+
+    private const string DarkFogOverlayName = "MapFogDarkOverlay";
+    private const float FogFadeLength = 260f;
+    private const float FogFrontierPadding = 70f;
+    private const float FogExtent = 6000f;
+    private static readonly Color DarkFogColor = new(0.03f, 0.04f, 0.07f, 0.9f);
+
+    private static void ApplyDarkFogOverlay(
+        List<(FogCoord Coord, Control Node)> pointNodes,
+        List<FogCoord> bossCoords,
+        MapFogVisibility visibility,
+        MapFogConfig config)
+    {
+        Node? parent = pointNodes.Count > 0 ? pointNodes[0].Node.GetParent() : null;
+        if (parent == null || !GodotObject.IsInstanceValid(parent)) return;
+
+        var existing = parent.GetNodeOrNull(DarkFogOverlayName);
+        if (existing != null && GodotObject.IsInstanceValid(existing))
+        {
+            parent.RemoveChild(existing);
+            existing.QueueFree();
+        }
+
+        if (!config.Enabled || !config.DarkFog || config.Mode != FogMode.FullFog) return;
+
+        var bosses = new HashSet<FogCoord>(bossCoords);
+        float minX = float.MaxValue, maxX = float.MinValue;
+        float revealedMinY = float.MaxValue, revealedMaxY = float.MinValue;
+        float bossY = float.NaN;
+        foreach (var (coord, node) in pointNodes)
+        {
+            if (node.GetParent() != parent) continue;
+            minX = Math.Min(minX, node.Position.X);
+            maxX = Math.Max(maxX, node.Position.X);
+            if (bosses.Contains(coord))
+            {
+                bossY = node.Position.Y;
+            }
+            else if (visibility.IsRevealed(coord))
+            {
+                revealedMinY = Math.Min(revealedMinY, node.Position.Y);
+                revealedMaxY = Math.Max(revealedMaxY, node.Position.Y);
+            }
+        }
+
+        if (revealedMinY > revealedMaxY) return;
+
+        // Fog spreads from the explored frontier toward the boss (the map normally climbs upward).
+        bool fogAbove = float.IsNaN(bossY) || bossY <= (revealedMinY + revealedMaxY) / 2f;
+        float frontier = fogAbove ? revealedMinY - FogFrontierPadding : revealedMaxY + FogFrontierPadding;
+        float left = minX - FogExtent / 2f;
+        float width = maxX - minX + FogExtent;
+
+        var overlay = new Control { Name = DarkFogOverlayName, MouseFilter = Control.MouseFilterEnum.Ignore };
+
+        var gradient = new Gradient();
+        gradient.SetColor(0, new Color(DarkFogColor.R, DarkFogColor.G, DarkFogColor.B, 0f));
+        gradient.SetColor(1, DarkFogColor);
+        var fadeTexture = new GradientTexture2D
+        {
+            Gradient = gradient,
+            Width = 4,
+            Height = 256,
+            FillFrom = new Vector2(0f, fogAbove ? 1f : 0f),
+            FillTo = new Vector2(0f, fogAbove ? 0f : 1f)
+        };
+
+        float fadeTop = fogAbove ? frontier - FogFadeLength : frontier;
+        overlay.AddChild(new TextureRect
+        {
+            Name = "FogFade",
+            Texture = fadeTexture,
+            ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
+            StretchMode = TextureRect.StretchModeEnum.Scale,
+            Position = new Vector2(left, fadeTop),
+            Size = new Vector2(width, FogFadeLength),
+            MouseFilter = Control.MouseFilterEnum.Ignore
+        });
+
+        float solidTop = fogAbove ? fadeTop - FogExtent : fadeTop + FogFadeLength;
+        overlay.AddChild(new ColorRect
+        {
+            Name = "FogSolid",
+            Color = DarkFogColor,
+            Position = new Vector2(left, solidTop),
+            Size = new Vector2(width, FogExtent),
+            MouseFilter = Control.MouseFilterEnum.Ignore
+        });
+
+        parent.AddChild(overlay);
+        parent.MoveChild(overlay, 0);
     }
 
     public static void ApplyMaskToNormalPoint(object? normalMapPoint)
