@@ -17,3 +17,13 @@ jobs:
             10.0.x
       # Godot projects and architecture tests reference sts2.dll from a Steam install, so they cannot build here.
       - run: dotnet test tests/SlayTheSpireOverlay.Tests/SlayTheSpireOverlay.Tests.csproj --configuration Release
+
+  duplication:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      # Baseline lives in .jscpd.json ("threshold", percent). Only ever lower it.
+      - run: npx --yes jscpd@4.0.5
