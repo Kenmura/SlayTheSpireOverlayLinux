@@ -8,6 +8,30 @@ Unlike the official **Untapped.gg Companion** desktop application—which relies
 
 ---
 
+## 1b. Coordination protocol (MANDATORY for every agent)
+
+Several agents (Claude Code, Codex, Gemini, Copilot, humans) edit this repo at the same time, often in separate worktrees, so uncommitted work is invisible to others. The **GitHub issue is the shared status board**. Follow this for every task:
+
+1. **Look first.** Run `./scripts/agent_claims.sh`. It lists issues marked `in-progress` (with the owner's latest status and the files they are touching), all git worktrees, and uncommitted changes in your checkout. If a file you need is listed, or the issue is already claimed by another live agent, do not start: pick another issue, or comment on the issue and wait.
+2. **Claim before you edit.** Pick or open a GitHub issue for the work (every change should have one), then:
+   ```bash
+   export AGENT_NAME="<tool>/<model>"      # e.g. claude-code/opus-5, codex/gpt-5; add SESSION_URL if you have one
+   ./scripts/agent_claim.sh <issue#> claimed "what I will do, and which areas/files I expect to touch"
+   ```
+   This posts a structured `AGENT-STATUS` comment (agent, status, UTC time, branch, worktree, files touched) and applies the `in-progress` label.
+3. **Work in your own worktree and branch** (`git worktree add ../<name> -b <branch> origin/main`), never in a checkout that has someone else's uncommitted changes. Add files by explicit path (never `git add -A`).
+4. **Keep the status current.** Re-run `./scripts/agent_claim.sh <issue#> in-progress|blocked "<note>"` when you start a new area, when your file list grows, or when you are blocked (say on whom or what). A claim with no update for 24 hours is stale: another agent may take over after commenting on the issue first.
+5. **Hand off or finish.** When you stop, run `./scripts/agent_claim.sh <issue#> handoff "<what is done, what is left, branch name>"` (or `done` with the PR/commit link). This removes the `in-progress` label. Never leave a claim behind.
+6. **Do not touch other agents' files.** If your change needs a file listed in someone else's active claim, comment on their issue and wait or coordinate. If you find uncommitted changes you did not make, leave them alone and do not commit them.
+
+Statuses: `claimed` (reserved, not started), `in-progress`, `blocked`, `handoff` (paused, someone else may continue), `done`.
+
+### Automated guards (run in CI; run them locally before you push)
+- `dotnet test tests/SlayTheSpireOverlay.Tests` includes `SourceHygieneTests`: no `src/**/*.cs` file may exceed 500 lines. Three legacy files are allowlisted at their current size; **splitting a file lets you delete its entry, but never raise a number or add an entry**.
+- `./scripts/check_duplication.sh` (jscpd) fails if duplicated code exceeds the baseline in `.jscpd.json`. **Only lower the threshold, never raise it.** Before writing a helper, look in `src/SlayTheSpireMod.Common`; if both mods need it, put it there.
+
+---
+
 ## 2. Solution Architecture & Boundaries
 
 The solution (`SlayTheSpireOverlay.slnx`) is divided into the projects below; the Core/UI boundaries are enforced by automated architecture tests (`tests/SlayTheSpireOverlay.ArchitectureTests/DependencyTests.cs`):
