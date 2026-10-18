@@ -49,8 +49,12 @@ public static class NRewardsScreenPotionChanceReadyPatch
                 label.AddThemeFontSizeOverride("font_size", 18);
                 label.SelfModulate = new Color(0.75f, 0.9f, 1.0f, 0.9f);
                 screen.AddChild(label);
-                label.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.CenterTop);
-                label.Position = new Vector2(label.Position.X, 64);
+                // Full-width strip with centred text, so placement does not depend on the text width at layout time.
+                label.SetAnchorsPreset(Control.LayoutPreset.TopWide);
+                label.OffsetLeft = 0;
+                label.OffsetRight = 0;
+                label.OffsetTop = 64;
+                label.OffsetBottom = 96;
             }
             label.Text = text;
             label.Visible = true;
