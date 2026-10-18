@@ -26,7 +26,11 @@ namespace MegaCrit.Sts2.Core.Models
     }
 
     public class CardModel : AbstractModel { }
-    public class RelicModel : AbstractModel { }
+    public class RelicModel : AbstractModel
+    {
+        public event System.Action? DisplayAmountChanged;
+        protected void InvokeDisplayAmountChanged() => DisplayAmountChanged?.Invoke();
+    }
 }
 
 namespace MegaCrit.Sts2.Core.HoverTips

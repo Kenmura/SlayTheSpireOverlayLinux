@@ -4,6 +4,13 @@ All notable changes, fixes, and feature additions for the **Overlay for Tier Lis
 
 ---
 
+## [Unreleased]
+
+### 🆕 New Overlays
+* **Relic proc counters:** Pen Nib, Happy Flower, Kunai, Shuriken and Stone Calendar show a small counter (`[9/10]`, `[T:5/6]`) in the top bar, highlighted gold one tick before the proc. Toggle with `EnableRelicProcCounters` or **Relic Counters** in the in-game settings.
+
+---
+
 ## [v1.1.0] - 2026-10-17
 
 ### ⚙️ In-Game Settings
