@@ -7,6 +7,7 @@ All notable changes, fixes, and feature additions for the **Overlay for Tier Lis
 ## [Unreleased]
 
 ### 🆕 New Overlays
+* **Map route path helper:** The map screen shows a compact summary of reachable encounter nodes (`💀 Elites`, `⛺ Rest`, `💰 Shops`, `? Unknown`) across travelable DAG branches. Strictly respects Fog of War when the Fog mod is active without leaking fogged nodes. Toggle with `EnableMapPathSummary`.
 * **Potion drop chance:** The reward screen shows `🧪 Potion Drop Chance: X%`, the odds for your next normal combat read straight from the game. Toggle with `EnablePotionDropChance` or **Potion Chance** in the in-game settings.
 * **Relic proc counters:** Pen Nib, Happy Flower, Kunai, Shuriken and Stone Calendar show a small counter (`[9/10]`, `[T:5/6]`) in the top bar, highlighted gold one tick before the proc. Toggle with `EnableRelicProcCounters` or **Relic Counters** in the in-game settings.
 
