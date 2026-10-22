@@ -36,7 +36,7 @@ This repository contains two distinct mods:
   * **In-Game Settings**: Configurable directly from the in-game Mods menu and pause screen.
 
 ### 3. Test Subject Vote
-* **Status**: Co-op gameplay mod, not yet published to the Workshop (the workspace is `workshop-vote/`, private).
+* **Status**: Co-op gameplay mod, not yet published to the Workshop (the workspace is `workshop-vote/`, set to public).
 * **Every player needs it installed.** Without it on every client no vote is held and the fight plays as vanilla.
 * **What it does**: In a multiplayer run, a Skill played against the Test Subject's first form is held before energy is spent. Everyone except the card player votes `Let it happen` or `Absolutely not`. If rejections strictly outnumber approvals the card goes back to the hand; a tie allows it. The vote waits for every voter (no timeout); if one gets stuck the host can press `F9` or click **Skip vote** to let the play through for everyone. An approved Skill resolves normally, including the vanilla Strength gain; the mod never changes the numbers.
 * **Scope**: Skills only, first form only. Attacks, Powers, later forms and other enemies are untouched.
