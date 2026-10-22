@@ -25,7 +25,18 @@ namespace MegaCrit.Sts2.Core.Models
         public ModelId? Id { get; set; }
     }
 
-    public class CardModel : AbstractModel { }
+    public class CardModel : AbstractModel
+    {
+        public string Title { get; set; } = string.Empty;
+        public Entities.Cards.CardType Type { get; set; }
+    }
+
+    public abstract class PowerModel : AbstractModel
+    {
+        public int Amount { get; set; }
+    }
+
+    public abstract class MonsterModel : AbstractModel { }
     public class RelicModel : AbstractModel
     {
         public event System.Action? DisplayAmountChanged;
@@ -51,6 +62,10 @@ namespace MegaCrit.Sts2.Core.Nodes.Cards
     public class NCard : Control
     {
         public Models.CardModel? Model { get; set; }
+
+        public static NCard? Create(Models.CardModel model) => null;
+
+        public void UpdateVisuals(Entities.Cards.PileType pile, Entities.Cards.CardPreviewMode mode) { }
     }
 }
 
