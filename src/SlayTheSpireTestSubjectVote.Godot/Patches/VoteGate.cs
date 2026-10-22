@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Actions;
 using MegaCrit.Sts2.Core.GameActions;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Nodes.Cards;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.Runs;
 using SlayTheSpireTestSubjectVote.Core.Voting;
@@ -116,10 +117,24 @@ internal static class VoteGate
         string cardName = held.Card.Title;
         if (held.Voters.Contains(localId))
         {
-            return VotePopupFactory.CreateForVoter(action.Player.Creature.Name, cardName, held.Strength,
+            return VotePopupFactory.CreateForVoter(action.Player.Creature.Name, cardName, CardPreview(held.Card), held.Strength,
                 allow => VoteNetwork.Instance.SendVote(key, localId, allow));
         }
-        return action.Player.NetId == localId ? VotePopupFactory.CreateForWaiting(cardName) : null;
+        return action.Player.NetId == localId ? VotePopupFactory.CreateForWaiting(cardName, CardPreview(held.Card)) : null;
+    }
+
+    /// <summary>The game's own card node, so the preview looks exactly like the card in hand. Null if the game cannot make one.</summary>
+    private static Control? CardPreview(CardModel card)
+    {
+        try
+        {
+            return NCard.Create(card);
+        }
+        catch (Exception ex)
+        {
+            GD.PrintErr($"[STS2 TestSubjectVote] no card preview: {ex.Message}");
+            return null;
+        }
     }
 
     private static void Resolve(PlayCardAction action, CardModel card, bool allowed)
