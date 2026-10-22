@@ -15,7 +15,8 @@ public class DependencyTests
     private static readonly Assembly[] ModAssemblies =
     [
         typeof(ModEntry).Assembly,
-        typeof(SlayTheSpireMapFog.Godot.ModEntry).Assembly
+        typeof(SlayTheSpireMapFog.Godot.ModEntry).Assembly,
+        typeof(SlayTheSpireTestSubjectVote.Godot.ModEntry).Assembly
     ];
 
     [TestMethod]
@@ -24,7 +25,8 @@ public class DependencyTests
         foreach (var (asm, coreNamespace) in new[]
         {
             (typeof(ITierListProvider).Assembly, "SlayTheSpireOverlay.Core"),
-            (typeof(MapFogCalculator).Assembly, "SlayTheSpireMapFog.Core")
+            (typeof(MapFogCalculator).Assembly, "SlayTheSpireMapFog.Core"),
+            (typeof(SlayTheSpireTestSubjectVote.Core.Voting.VoteTally).Assembly, "SlayTheSpireTestSubjectVote.Core")
         })
         {
             var result = Types.InAssembly(asm)
@@ -37,7 +39,8 @@ public class DependencyTests
                     "MegaCrit",
                     "HarmonyLib",
                     "SlayTheSpireOverlay.Godot",
-                    "SlayTheSpireMapFog.Godot")
+                    "SlayTheSpireMapFog.Godot",
+                    "SlayTheSpireTestSubjectVote.Godot")
                 .GetResult();
 
             Assert.IsTrue(
@@ -52,7 +55,8 @@ public class DependencyTests
         foreach (var (asm, uiNamespace) in new[]
         {
             (typeof(ModEntry).Assembly, "SlayTheSpireOverlay.Godot.UI"),
-            (typeof(SlayTheSpireMapFog.Godot.ModEntry).Assembly, "SlayTheSpireMapFog.Godot.UI")
+            (typeof(SlayTheSpireMapFog.Godot.ModEntry).Assembly, "SlayTheSpireMapFog.Godot.UI"),
+            (typeof(SlayTheSpireTestSubjectVote.Godot.ModEntry).Assembly, "SlayTheSpireTestSubjectVote.Godot.UI")
         })
         {
             var result = Types.InAssembly(asm)
@@ -68,7 +72,8 @@ public class DependencyTests
                     "SlayTheSpireOverlay.Godot.ModEntry",
                     "SlayTheSpireOverlay.Godot.Sts2RuntimeInspector",
                     "SlayTheSpireMapFog.Godot.ModEntry",
-                    "SlayTheSpireMapFog.Godot.Sts2MapInspector")
+                    "SlayTheSpireMapFog.Godot.Sts2MapInspector",
+                    "SlayTheSpireTestSubjectVote.Godot.ModEntry")
                 .GetResult();
 
             Assert.IsTrue(

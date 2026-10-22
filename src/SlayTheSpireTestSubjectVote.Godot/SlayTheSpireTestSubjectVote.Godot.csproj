@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <Compile Include="..\SlayTheSpireTestSubjectVote.Core\**\*.cs" Exclude="..\SlayTheSpireTestSubjectVote.Core\obj\**;..\SlayTheSpireTestSubjectVote.Core\bin\**" Link="Core\%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="..\SlayTheSpireMod.Common\ReflectionAccess.cs" Link="Common\ReflectionAccess.cs" />
+    <Compile Include="..\SlayTheSpireMod.Common\PatchRegistrar.cs" Link="Common\PatchRegistrar.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="GodotSharp" Version="4.7.2" ExcludeAssets="Runtime" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="sts2">
+      <HintPath>$(Sts2DataDir)/sts2.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>$(Sts2DataDir)/0Harmony.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <UsesSts2>true</UsesSts2>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="SlayTheSpireTestSubjectVote.Godot.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

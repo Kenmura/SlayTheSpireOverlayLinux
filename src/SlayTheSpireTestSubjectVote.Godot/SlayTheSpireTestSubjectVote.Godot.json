@@ -1,0 +1,11 @@
+{
+  "id": "SlayTheSpireTestSubjectVote.Godot",
+  "name": "Test Subject Vote",
+  "author": "Kenmura",
+  "description": "In co-op, a Skill played against the Test Subject's first form is held for a vote. If your teammates vote no, the card goes back to your hand.",
+  "version": "v1.0.0",
+  "min_game_version": "0.107.0",
+  "has_pck": false,
+  "has_dll": true,
+  "affects_gameplay": true
+}

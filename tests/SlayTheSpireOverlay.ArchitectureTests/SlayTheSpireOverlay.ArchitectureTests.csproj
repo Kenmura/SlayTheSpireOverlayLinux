@@ -20,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\SlayTheSpireOverlay.Godot\SlayTheSpireOverlay.Godot.csproj" />
     <ProjectReference Include="..\..\src\SlayTheSpireMapFog.Godot\SlayTheSpireMapFog.Godot.csproj" />
+    <ProjectReference Include="..\..\src\SlayTheSpireTestSubjectVote.Godot\SlayTheSpireTestSubjectVote.Godot.csproj" />
   </ItemGroup>
 
 </Project>

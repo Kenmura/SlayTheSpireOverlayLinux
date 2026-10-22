@@ -10,9 +10,11 @@ dn() { distrobox enter dotnet-dev -- env LD_PRELOAD="" dotnet "$@"; }
 
 dn build "$BASE_DIR/src/SlayTheSpireOverlay.Godot" -c Release -p:Sts2DataDir="$DATA_DIR" --nologo -v q
 dn build "$BASE_DIR/src/SlayTheSpireMapFog.Godot" -c Release -p:Sts2DataDir="$DATA_DIR" --nologo -v q
+dn build "$BASE_DIR/src/SlayTheSpireTestSubjectVote.Godot" -c Release -p:Sts2DataDir="$DATA_DIR" --nologo -v q
 
 dn run --project "$BASE_DIR/tools/Sts2CompatCheck" -c Release -- \
     "$DATA_DIR/sts2.dll" \
     "$BASE_DIR/tools/Sts2CompatCheck/patch-targets.txt" \
     "$BASE_DIR/src/SlayTheSpireOverlay.Godot/bin/Release/net9.0/SlayTheSpireOverlay.Godot.dll" \
-    "$BASE_DIR/src/SlayTheSpireMapFog.Godot/bin/Release/net9.0/SlayTheSpireMapFog.Godot.dll"
+    "$BASE_DIR/src/SlayTheSpireMapFog.Godot/bin/Release/net9.0/SlayTheSpireMapFog.Godot.dll" \
+    "$BASE_DIR/src/SlayTheSpireTestSubjectVote.Godot/bin/Release/net9.0/SlayTheSpireTestSubjectVote.Godot.dll"
