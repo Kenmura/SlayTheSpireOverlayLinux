@@ -23,4 +23,10 @@
     <ProjectReference Include="..\..\src\SlayTheSpireTestSubjectVote.Godot\SlayTheSpireTestSubjectVote.Godot.csproj" />
   </ItemGroup>
 
+  <!-- Mod types that implement game interfaces (INetMessage) only load when sts2.dll sits beside the tests.
+       The copy goes to bin/ (git-ignored), never into the repo. -->
+  <ItemGroup Condition="Exists('$(Sts2DataDir)/sts2.dll')">
+    <None Include="$(Sts2DataDir)/sts2.dll" Link="sts2.dll" CopyToOutputDirectory="PreserveNewest" Visible="false" />
+  </ItemGroup>
+
 </Project>
