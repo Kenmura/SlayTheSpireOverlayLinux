@@ -6,6 +6,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <!-- Stubs mirror the game's API shapes, so design rules and unused-member warnings (static-able members, public fields, events never raised) do not apply. -->
+    <NoWarn>$(NoWarn);CA1711;CA1051;CA1822;CS0067;CS0649</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
