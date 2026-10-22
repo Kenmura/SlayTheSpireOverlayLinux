@@ -6,6 +6,9 @@ All notable changes, fixes, and feature additions for the **Overlay for Tier Lis
 
 ## [Unreleased]
 
+### 🗳️ New mod: Test Subject Vote
+* **Co-op vote on Skills (first form):** In a multiplayer run, a Skill played against the Test Subject's first form is held before energy is spent and the other players vote. Rejections strictly outnumbering approvals send the card back to the hand; a tie allows it. No timeout. Every player must have the mod. Separate Workshop item (`workshop-vote/`), not yet published.
+
 ### 🆕 New Overlays
 * **Map route path helper:** The map screen shows a compact summary of reachable encounter nodes (`💀 Elites`, `⛺ Rest`, `💰 Shops`, `? Unknown`) across travelable DAG branches. Strictly respects Fog of War when the Fog mod is active without leaking fogged nodes. Toggle with `EnableMapPathSummary`.
 * **Potion drop chance:** The reward screen shows `🧪 Potion Drop Chance: X%`, the odds for your next normal combat read straight from the game. Toggle with `EnablePotionDropChance` or **Potion Chance** in the in-game settings.

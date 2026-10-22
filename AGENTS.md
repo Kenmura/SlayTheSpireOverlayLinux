@@ -2,7 +2,7 @@
 
 ## 1. Project Overview
 
-**SlayTheSpireOverlayLinux** is a Linux-first, Proton-compatible in-game overlay and companion mod for **Slay the Spire 2 (STS2)** built with **.NET 9.0**, **GodotSharp** (compiled against the 4.7.2 bindings; the game itself runs Godot 4.5.1), and **Harmony (`0Harmony`)**. It ships two independent Workshop mods: **Overlay for Tier List** (`SlayTheSpireOverlay.*`) and **Fog of War Map** (`SlayTheSpireMapFog.*`).
+**SlayTheSpireOverlayLinux** is a Linux-first, Proton-compatible in-game overlay and companion mod for **Slay the Spire 2 (STS2)** built with **.NET 9.0**, **GodotSharp** (compiled against the 4.7.2 bindings; the game itself runs Godot 4.5.1), and **Harmony (`0Harmony`)**. It ships three independent Workshop mods: **Overlay for Tier List** (`SlayTheSpireOverlay.*`), **Fog of War Map** (`SlayTheSpireMapFog.*`) and **Test Subject Vote** (`SlayTheSpireTestSubjectVote.*`, co-op: Skill plays against the Test Subject's first form are put to a vote).
 
 Unlike the official **Untapped.gg Companion** desktop application—which relies on an out-of-process Electron window (`untapped-node-native` X11 window tracking) and cross-process memory scraping (`untapped-scry`) that breaks under Wayland, Gamescope, `ptrace_scope` restrictions, and Steam Proton/Wine—this project runs **directly inside the Slay the Spire 2 process** as a native C# mod (`sts2.dll` + `GodotSharp.dll`). Because STS2 loads `.NET 9.0` mod assemblies identically under both Linux Native and Steam Proton builds, an in-game Godot/Harmony mod works on X11, Wayland, Gamescope/Steam Deck, and Proton without external processes or memory scraping.
 
@@ -91,8 +91,9 @@ Run after any game update and before publishing. It fails if a game type/member 
 ```bash
 ./scripts/upload_to_workshop.sh        # Overlay for Tier List
 ./scripts/upload_fog_to_workshop.sh    # Fog of War Map (workspace: workshop-fog/)
+./scripts/upload_vote_to_workshop.sh   # Test Subject Vote (workspace: workshop-vote/)
 ```
-Set the release text in `workshop/workshop.json` / `workshop-fog/workshop.json` (`changeNote`) first; keep it in sync with `CHANGELOG.md`.
+Set the release text in `workshop/workshop.json` / `workshop-fog/workshop.json` / `workshop-vote/workshop.json` (`changeNote`) first; keep it in sync with `CHANGELOG.md`.
 
 ### Refresh Tier Lists (`workshop/baalorlord_tiers.json`)
 ```bash

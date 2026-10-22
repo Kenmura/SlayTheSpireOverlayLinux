@@ -35,6 +35,12 @@ This repository contains two distinct mods:
   * **Act Boss Visibility**: Keep the final Act Boss revealed by default while masking intermediate paths.
   * **In-Game Settings**: Configurable directly from the in-game Mods menu and pause screen.
 
+### 3. Test Subject Vote
+* **Status**: Co-op gameplay mod, not yet published to the Workshop (the workspace is `workshop-vote/`, private).
+* **Every player needs it installed.** Without it on every client no vote is held and the fight plays as vanilla.
+* **What it does**: In a multiplayer run, a Skill played against the Test Subject's first form is held before energy is spent. Everyone except the card player votes `Let it happen` or `Absolutely not`. If rejections strictly outnumber approvals the card goes back to the hand; a tie allows it. The vote waits for every voter (no timeout). An approved Skill resolves normally, including the vanilla Strength gain; the mod never changes the numbers.
+* **Scope**: Skills only, first form only. Attacks, Powers, later forms and other enemies are untouched.
+
 ---
 
 ## Controls & Hotkeys
@@ -73,7 +79,7 @@ If a mod does not appear in-game or does not seem to load on Steam Deck or a sec
 Slay the Spire 2 maintains a per-mod enabled state. Even when a mod is subscribed to and downloaded, it may start disabled:
 1. Launch **Slay the Spire 2**.
 2. Select **Mods** on the main menu.
-3. Verify that **Overlay for Tier List** and **Fog of War Map** have their toggles set to **Enabled** (green).
+3. Verify that **Overlay for Tier List**, **Fog of War Map** and (if installed) **Test Subject Vote** have their toggles set to **Enabled** (green).
 4. If a mod was disabled, the game logs `set to disabled in settings`.
 
 ### 2. Workshop Item Visibility
@@ -94,7 +100,7 @@ Check the game's startup log for diagnostic messages:
 
 Search the log file for:
 ```bash
-grep -E "\[STS2 Overlay\]|\[STS2 MapFog\]|3786603221|3821403222|disabled in settings" godot.log
+grep -E "\[STS2 Overlay\]|\[STS2 MapFog\]|\[STS2 TestSubjectVote\]|3786603221|3821403222|disabled in settings" godot.log
 ```
 Expected healthy startup lines:
 ```text
@@ -102,6 +108,7 @@ Expected healthy startup lines:
 [STS2 Overlay] Harmony initialization complete: 35 applied, 0 skipped
 [STS2 MapFog] ModEntry.Initialize called!
 [STS2 MapFog] Harmony initialization complete: 8 applied, 0 skipped
+[STS2 TestSubjectVote] patches: applied 2, skipped 0
 ```
 
 ---
