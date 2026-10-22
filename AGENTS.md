@@ -93,6 +93,8 @@ Run after any game update and before publishing. It fails if a game type/member 
 ./scripts/upload_fog_to_workshop.sh    # Fog of War Map (workspace: workshop-fog/)
 ./scripts/upload_vote_to_workshop.sh   # Test Subject Vote (workspace: workshop-vote/)
 ```
+`upload_vote_to_workshop.sh` uploads a private item without flags; a public item needs `--allow-public "<exact title from workshop-vote/workshop.json>"` or it aborts before building.
+
 Set the release text in `workshop/workshop.json` / `workshop-fog/workshop.json` / `workshop-vote/workshop.json` (`changeNote`) first; keep it in sync with `CHANGELOG.md`.
 
 ### Refresh Tier Lists (`workshop/baalorlord_tiers.json`)
