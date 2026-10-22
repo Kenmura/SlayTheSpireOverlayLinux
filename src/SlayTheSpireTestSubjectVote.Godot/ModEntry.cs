@@ -24,7 +24,8 @@ public static class ModEntry
                 ?? throw new MissingMethodException("PlayCardAction.ExecuteAction");
             Patch(harmony, typeof(PlayCardGatePatch));
         });
-        registrar.TryApply("RunStart", () => Patch(harmony, typeof(RunStartPatch)));
+        registrar.TryApply("RunLaunch", () => Patch(harmony, typeof(RunLaunchPatch)));
+        registrar.TryApply("RunCleanUp", () => Patch(harmony, typeof(RunCleanUpPatch)));
 
         GD.Print(registrar.Summary());
     }

@@ -15,9 +15,11 @@ public sealed class VotePopupView
     private readonly Control _cardArea;
     private readonly Control? _cardPreview;
     private readonly Button[] _buttons;
+    private readonly Action<Control>? _releaseCard;
     private int _ticks;
+    private bool _skipRequested;
 
-    internal VotePopupView(CanvasLayer layer, Label status, Label subtitle, HBoxContainer pips, Control cardArea, Control? cardPreview, Button[] buttons)
+    internal VotePopupView(CanvasLayer layer, Label status, Label subtitle, HBoxContainer pips, Control cardArea, Control? cardPreview, Button[] buttons, Action<Control>? releaseCard)
     {
         _layer = layer;
         _status = status;
@@ -26,7 +28,18 @@ public sealed class VotePopupView
         _cardArea = cardArea;
         _cardPreview = cardPreview;
         _buttons = buttons;
+        _releaseCard = releaseCard;
     }
+
+    /// <summary>True once if the host clicked Skip since the last call. Read from the vote loop (main thread).</summary>
+    public bool ConsumeSkipRequest()
+    {
+        bool requested = _skipRequested;
+        _skipRequested = false;
+        return requested;
+    }
+
+    internal void RequestSkip() => _skipRequested = true;
 
     /// <summary>Refreshes the tally. Called about ten times a second; also rotates the waiting line for the card player.</summary>
     public void Update(VoteTally tally)
@@ -74,8 +87,12 @@ public sealed class VotePopupView
 
     public void Close() => Deferred(() =>
     {
-        if (_cardPreview != null && GodotObject.IsInstanceValid(_cardPreview) && _cardPreview.GetParent() is { } parent) parent.RemoveChild(_cardPreview);
-        if (_cardPreview != null && GodotObject.IsInstanceValid(_cardPreview)) _cardPreview.QueueFree();
+        if (_cardPreview != null && GodotObject.IsInstanceValid(_cardPreview))
+        {
+            if (_cardPreview.GetParent() is { } parent) parent.RemoveChild(_cardPreview);
+            if (_releaseCard != null) _releaseCard(_cardPreview);
+            else _cardPreview.QueueFree();
+        }
         if (GodotObject.IsInstanceValid(_layer)) _layer.QueueFree();
     });
 

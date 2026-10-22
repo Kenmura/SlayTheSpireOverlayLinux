@@ -1,6 +1,5 @@
 using HarmonyLib;
 using MegaCrit.Sts2.Core.GameActions;
-using MegaCrit.Sts2.Core.Nodes;
 using MegaCrit.Sts2.Core.Runs;
 using SlayTheSpireTestSubjectVote.Godot.Game;
 using SlayTheSpireTestSubjectVote.Godot.Net;
@@ -20,12 +19,24 @@ internal static class PlayCardGatePatch
     }
 }
 
-/// <summary>Registers the vote handlers and announces the mod to the other players when a multiplayer run starts.</summary>
-[HarmonyPatch(typeof(NRun), "_Ready")]
-internal static class RunStartPatch
+/// <summary>
+/// Registers the vote handlers and announces the mod to the other players, BEFORE the run launches.
+/// RunManager.Launch stops message buffering and releases everything received while loading, so a handler
+/// registered later (for example in NRun._Ready) would miss a slower-loading teammate's hello and the
+/// players would disagree about whether to hold a play.
+/// </summary>
+[HarmonyPatch(typeof(RunManager), nameof(RunManager.Launch))]
+internal static class RunLaunchPatch
 {
-    internal static void Postfix()
+    internal static void Prefix()
     {
         if (TestSubjectState.IsMultiplayer()) VoteNetwork.Instance.Attach(RunManager.Instance.NetService);
     }
+}
+
+/// <summary>Drops the handlers when the run is torn down so nothing from this run leaks into the next.</summary>
+[HarmonyPatch(typeof(RunManager), "CleanUp")]
+internal static class RunCleanUpPatch
+{
+    internal static void Prefix() => VoteNetwork.Instance.Detach();
 }

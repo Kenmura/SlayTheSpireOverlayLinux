@@ -29,11 +29,39 @@ public class PeerRosterTests
     }
 
     [TestMethod]
+    public void AllHaveMod_IgnoresPlayersWhoLeft()
+    {
+        var roster = new PeerRoster();
+        roster.MarkHasMod(2);
+        roster.MarkLeft(3);
+        Assert.IsTrue(roster.AllHaveMod([2UL, 3UL]));
+    }
+
+    [TestMethod]
     public void MarkLeft_ReportsPlayerAsGone_AndOthersStayPresent()
     {
         var roster = new PeerRoster();
         roster.MarkLeft(3);
         Assert.IsTrue(roster.HasLeft(3));
         Assert.IsFalse(roster.HasLeft(2));
+    }
+
+    [TestMethod]
+    public void MarkRejoined_UndoesMarkLeft()
+    {
+        var roster = new PeerRoster();
+        roster.MarkLeft(3);
+        roster.MarkRejoined(3);
+        Assert.IsFalse(roster.HasLeft(3));
+    }
+
+    [TestMethod]
+    public void HostId_IsOnlyTrustedOnceAnnounced()
+    {
+        var roster = new PeerRoster();
+        Assert.IsFalse(roster.IsHost(1));
+        roster.MarkHost(1);
+        Assert.IsTrue(roster.IsHost(1));
+        Assert.IsFalse(roster.IsHost(2));
     }
 }

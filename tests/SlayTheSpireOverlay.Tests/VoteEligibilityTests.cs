@@ -5,22 +5,42 @@ namespace SlayTheSpireOverlay.Tests;
 [TestClass]
 public class VoteEligibilityTests
 {
+    private static readonly PlayContext Eligible = new()
+    {
+        IsSkill = true,
+        IsManualPlay = true,
+        IsMultiplayer = true,
+        IsFirstForm = true,
+        AllPeersHaveMod = true,
+        StrengthGain = 3,
+    };
+
     [TestMethod]
     public void NeedsVote_TrueWhenEveryConditionHolds()
     {
-        Assert.IsTrue(VoteEligibility.NeedsVote(true, true, true, true, true));
+        Assert.IsTrue(VoteEligibility.NeedsVote(Eligible));
     }
 
     [TestMethod]
-    [DataRow(false, true, true, true, true)]
-    [DataRow(true, false, true, true, true)]
-    [DataRow(true, true, false, true, true)]
-    [DataRow(true, true, true, false, true)]
-    [DataRow(true, true, true, true, false)]
-    public void NeedsVote_FalseWhenAnyConditionMissing(bool isSkill, bool manual, bool multiplayer, bool firstForm, bool allHaveMod)
-    {
-        Assert.IsFalse(VoteEligibility.NeedsVote(isSkill, manual, multiplayer, firstForm, allHaveMod));
-    }
+    public void NeedsVote_FalseWhenNotASkill() => Assert.IsFalse(VoteEligibility.NeedsVote(Eligible with { IsSkill = false }));
+
+    [TestMethod]
+    public void NeedsVote_FalseWhenNotAManualPlay() => Assert.IsFalse(VoteEligibility.NeedsVote(Eligible with { IsManualPlay = false }));
+
+    [TestMethod]
+    public void NeedsVote_FalseInSinglePlayer() => Assert.IsFalse(VoteEligibility.NeedsVote(Eligible with { IsMultiplayer = false }));
+
+    [TestMethod]
+    public void NeedsVote_FalseOutsideFirstForm() => Assert.IsFalse(VoteEligibility.NeedsVote(Eligible with { IsFirstForm = false }));
+
+    [TestMethod]
+    public void NeedsVote_FalseWhenAPeerLacksTheMod() => Assert.IsFalse(VoteEligibility.NeedsVote(Eligible with { AllPeersHaveMod = false }));
+
+    [TestMethod]
+    [DataRow(0)]
+    [DataRow(-1)]
+    public void NeedsVote_FalseWhenTheSkillCostsNothing(int strength) =>
+        Assert.IsFalse(VoteEligibility.NeedsVote(Eligible with { StrengthGain = strength }));
 
     [TestMethod]
     public void VoterIds_ExcludesCardPlayerAndKeepsOrder()

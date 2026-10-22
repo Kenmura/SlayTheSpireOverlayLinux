@@ -62,4 +62,19 @@ public class VoteCopyTests
         Assert.AreEqual("Absolutely not", VoteCopy.RejectLabel);
         Assert.AreEqual("DENIED", VoteCopy.DeniedStamp);
     }
+
+    [TestMethod]
+    public void NegativeIndexes_WrapFromTheEnd()
+    {
+        Assert.AreEqual(VoteCopy.WaitingLine(2), VoteCopy.WaitingLine(-1));
+        Assert.AreEqual(VoteCopy.ApprovedQuip(2), VoteCopy.ApprovedQuip(-1));
+    }
+
+    [TestMethod]
+    public void SkipCopy_NamesTheHostAndTheKey()
+    {
+        Assert.AreEqual("Skip vote (host)", VoteCopy.SkipLabel);
+        StringAssert.Contains(VoteCopy.SkipHint("F9"), "F9");
+        StringAssert.Contains(VoteCopy.SkipHint("F9"), "host");
+    }
 }

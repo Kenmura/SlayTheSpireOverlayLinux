@@ -14,6 +14,7 @@ public enum VoteOutcome
 public sealed class VoteTally
 {
     private readonly Dictionary<ulong, bool?> _votes;
+    private bool _forced;
 
     public VoteTally(IEnumerable<ulong> voterIds)
     {
@@ -29,7 +30,8 @@ public sealed class VoteTally
     public int Waiting => _votes.Values.Count(v => v == null);
 
     public VoteOutcome Outcome =>
-        Waiting > 0 ? VoteOutcome.Pending
+        _forced ? VoteOutcome.Allowed
+        : Waiting > 0 ? VoteOutcome.Pending
         : Reject > Allow ? VoteOutcome.Rejected
         : VoteOutcome.Allowed;
 
@@ -41,6 +43,19 @@ public sealed class VoteTally
         return true;
     }
 
-    /// <summary>Drops a voter who left or died mid-vote so they no longer block the result.</summary>
-    public void Remove(ulong voterId) => _votes.Remove(voterId);
+    /// <summary>
+    /// Drops a voter who left or died mid-vote so they no longer block the result. A vote that was already
+    /// cast stays counted: clients learn about departures at different moments, and erasing a cast vote
+    /// would let them resolve the same vote differently.
+    /// </summary>
+    public void Remove(ulong voterId)
+    {
+        if (_votes.TryGetValue(voterId, out bool? vote) && vote == null) _votes.Remove(voterId);
+    }
+
+    /// <summary>The host's escape hatch: lets a stuck vote through. Has no effect once the vote has resolved.</summary>
+    public void ForceAllow()
+    {
+        if (Outcome == VoteOutcome.Pending) _forced = true;
+    }
 }

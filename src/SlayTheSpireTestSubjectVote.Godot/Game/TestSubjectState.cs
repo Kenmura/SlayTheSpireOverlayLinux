@@ -28,5 +28,5 @@ public static class TestSubjectState
         Find(combat)?.GetPower<EnragePower>() is { } power ? Convert.ToInt32(power.Amount) : 0;
 
     public static bool IsMultiplayer() =>
-        RunManager.Instance.IsInProgress && RunManager.Instance.NetService.Type != NetGameType.Singleplayer;
+        RunManager.Instance.NetService is { } net && net.Type != NetGameType.Singleplayer;
 }

@@ -23,6 +23,10 @@ public static class VoteCopy
 
     public static string DeniedStamp => "DENIED";
 
+    public static string SkipLabel => "Skip vote (host)";
+
+    public static string SkipHint(string keyName) => $"Stuck? The host can press {keyName} or click Skip to let this play through.";
+
     public static string Headline(string playerName, string cardName) =>
         $"{playerName} wants to play {cardName}. Are we feeling lucky?";
 

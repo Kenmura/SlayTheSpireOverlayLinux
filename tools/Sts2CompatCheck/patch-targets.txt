@@ -34,3 +34,7 @@ MegaCrit.Sts2.Core.Nodes.Screens.Map.NNormalMapPoint OutlinePath
 
 MegaCrit.Sts2.Core.Nodes.Relics.NRelic set_Model
 MegaCrit.Sts2.Core.Nodes.Screens.NRewardsScreen _Ready
+
+MegaCrit.Sts2.Core.Runs.RunManager Launch
+MegaCrit.Sts2.Core.Runs.RunManager CleanUp
+MegaCrit.Sts2.Core.GameActions.PlayCardAction ExecuteAction

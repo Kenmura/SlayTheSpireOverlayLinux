@@ -3,13 +3,19 @@ using SlayTheSpireTestSubjectVote.Core.Voting;
 
 namespace SlayTheSpireTestSubjectVote.Godot.UI;
 
+/// <summary>Per-pop-up settings that depend on game state the UI namespace cannot read itself.</summary>
+/// <param name="CanSkip">True on the host: shows the Skip button and hint (the escape hatch for a stuck vote).</param>
+/// <param name="SkipKeyName">Name of the host's skip hotkey, shown in the hint.</param>
+/// <param name="ReleaseCard">Hands the card preview back to the game (its node pool). Null means just free it.</param>
+public readonly record struct PopupOptions(bool CanSkip, string SkipKeyName, Action<Control>? ReleaseCard);
+
 /// <summary>Builds the vote pop-ups from built-in Godot nodes only (never subclass Control in a mod assembly).</summary>
 public static class VotePopupFactory
 {
     private static readonly Vector2 CardArea = new(300, 420);
 
     /// <param name="cardPreview">The game's own card node for the held card (built by the caller; this namespace cannot touch game types). May be null.</param>
-    public static VotePopupView CreateForVoter(string playerName, string cardName, Control? cardPreview, int strength, Action<bool> onVote)
+    public static VotePopupView CreateForVoter(string playerName, string cardName, Control? cardPreview, int strength, Action<bool> onVote, PopupOptions options)
     {
         var allow = PopupStyle.Action(VoteCopy.AllowLabel, new Color(0.18f, 0.42f, 0.23f), PopupStyle.AllowGreen);
         var reject = PopupStyle.Action(VoteCopy.RejectLabel, new Color(0.48f, 0.17f, 0.17f), PopupStyle.RejectRed);
@@ -18,16 +24,16 @@ public static class VotePopupFactory
         buttons.AddChild(allow);
         buttons.AddChild(reject);
 
-        var view = Assemble(blockInput: true, VoteCopy.Headline(playerName, cardName), cardPreview, VoteCopy.CostLine(strength), buttons, allow, reject);
+        var view = Assemble(blockInput: true, VoteCopy.Headline(playerName, cardName), cardPreview, VoteCopy.CostLine(strength), buttons, options, allow, [allow, reject]);
         allow.Pressed += () => { view.LockButtons(); onVote(true); };
         reject.Pressed += () => { view.LockButtons(); onVote(false); };
         return view;
     }
 
-    public static VotePopupView CreateForWaiting(string cardName, Control? cardPreview) =>
-        Assemble(blockInput: false, $"{cardName} is on hold", cardPreview, VoteCopy.WaitingLine(0), actions: null);
+    public static VotePopupView CreateForWaiting(string cardName, Control? cardPreview, PopupOptions options) =>
+        Assemble(blockInput: false, $"{cardName} is on hold", cardPreview, VoteCopy.WaitingLine(0), actions: null, options, firstFocus: null, lockable: []);
 
-    private static VotePopupView Assemble(bool blockInput, string headline, Control? cardPreview, string subline, Control? actions, params Button[] buttons)
+    private static VotePopupView Assemble(bool blockInput, string headline, Control? cardPreview, string subline, Control? actions, PopupOptions options, Button? firstFocus, Button[] lockable)
     {
         var layer = new CanvasLayer { Layer = 100 };
         var dim = new ColorRect { Color = new Color(0f, 0f, 0f, 0.6f), MouseFilter = blockInput ? Control.MouseFilterEnum.Stop : Control.MouseFilterEnum.Ignore };
@@ -50,16 +56,31 @@ public static class VotePopupFactory
         if (actions != null) column.AddChild(actions);
         column.AddChild(pips);
         column.AddChild(status);
+
+        Button? skip = null;
+        if (options.CanSkip)
+        {
+            skip = PopupStyle.Action(VoteCopy.SkipLabel, new Color(0.30f, 0.26f, 0.18f), PopupStyle.Waiting);
+            column.AddChild(PopupStyle.Text(VoteCopy.SkipHint(options.SkipKeyName), 13, PopupStyle.Waiting));
+            column.AddChild(skip);
+        }
+
         panel.AddChild(column);
         center.AddChild(panel);
         layer.AddChild(dim);
         layer.AddChild(center);
 
+        var focusTarget = firstFocus ?? skip;
         Callable.From(() =>
         {
-            if (Engine.GetMainLoop() is SceneTree tree) tree.Root.AddChild(layer);
+            if (Engine.GetMainLoop() is not SceneTree tree) return;
+            tree.Root.AddChild(layer);
+            if (focusTarget != null && GodotObject.IsInstanceValid(focusTarget)) focusTarget.GrabFocus();
         }).CallDeferred();
-        return new VotePopupView(layer, status, subtitle, pips, cardArea, cardPreview, buttons);
+
+        var view = new VotePopupView(layer, status, subtitle, pips, cardArea, cardPreview, lockable, options.ReleaseCard);
+        if (skip != null) skip.Pressed += view.RequestSkip;
+        return view;
     }
 
     private static Control BuildCardArea(Control? cardPreview)

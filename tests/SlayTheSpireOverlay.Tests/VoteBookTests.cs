@@ -5,55 +5,84 @@ namespace SlayTheSpireOverlay.Tests;
 [TestClass]
 public class VoteBookTests
 {
+    private static readonly PlayKey Key = new(1, 40);
+
     [TestMethod]
-    public void EarlyVote_IsAppliedWhenVoteOpens()
+    public void EarlyVotes_AreAllAppliedWhenVoteOpens()
     {
         var book = new VoteBook();
-        var key = new PlayKey(1, 7, 0);
-        Assert.IsTrue(book.RecordEarlyVote(key, 2, allow: false));
+        Assert.IsTrue(book.RecordEarlyVote(Key, 2, allow: false));
+        Assert.IsTrue(book.RecordEarlyVote(Key, 3, allow: false));
 
-        var tally = book.Open(key, [2UL]);
+        var tally = book.Open(Key, [2UL, 3UL, 4UL]);
 
-        Assert.AreEqual(VoteOutcome.Rejected, tally.Outcome);
+        Assert.AreEqual(2, tally.Reject);
+        Assert.AreEqual(1, tally.Waiting);
     }
 
     [TestMethod]
-    public void ReplayOfSameCard_GetsNewKey_AndOldVotesDoNotLeak()
+    public void Cast_BeforeOpen_IsBufferedLikeAnEarlyVote()
     {
         var book = new VoteBook();
-        var first = book.NextKey(1, 7);
-        var second = book.NextKey(1, 7);
-        Assert.AreEqual(0, first.Attempt);
-        Assert.AreEqual(1, second.Attempt);
+        Assert.IsTrue(book.Cast(Key, 2, allow: true));
 
-        var oldTally = book.Open(first, [2UL]);
-        book.Cast(first, 2, allow: false);
-        book.Close(first);
-        var newTally = book.Open(second, [2UL]);
+        Assert.AreEqual(VoteOutcome.Allowed, book.Open(Key, [2UL]).Outcome);
+    }
 
-        Assert.AreEqual(VoteOutcome.Rejected, oldTally.Outcome);
-        Assert.AreEqual(VoteOutcome.Pending, newTally.Outcome);
+    [TestMethod]
+    public void Close_DiscardsBufferedVotes()
+    {
+        var book = new VoteBook();
+        book.RecordEarlyVote(Key, 2, allow: false);
+        book.Close(Key);
+
+        Assert.AreEqual(VoteOutcome.Pending, book.Open(Key, [2UL]).Outcome);
     }
 
     [TestMethod]
     public void VoteAfterClose_IsIgnored()
     {
         var book = new VoteBook();
-        var key = new PlayKey(1, 7, 0);
-        var tally = book.Open(key, [2UL, 3UL]);
-        book.Close(key);
+        var tally = book.Open(Key, [2UL, 3UL]);
+        book.Close(Key);
 
-        Assert.IsFalse(book.Cast(key, 2, allow: true));
-        Assert.IsFalse(book.RecordEarlyVote(key, 3, allow: true));
+        Assert.IsFalse(book.Cast(Key, 2, allow: true));
+        Assert.IsFalse(book.RecordEarlyVote(Key, 3, allow: true));
         Assert.AreEqual(0, tally.Allow);
     }
 
     [TestMethod]
-    public void TwoPlayersAtOnce_AreIndependent()
+    public void DuplicateAndNonVoterVotes_AreRejectedAfterOpen()
     {
         var book = new VoteBook();
-        var a = book.NextKey(1, 7);
-        var b = book.NextKey(2, 7);
+        book.Open(Key, [2UL]);
+
+        Assert.IsTrue(book.Cast(Key, 2, allow: true));
+        Assert.IsFalse(book.Cast(Key, 2, allow: false));
+        Assert.IsFalse(book.Cast(Key, 99, allow: false));
+    }
+
+    [TestMethod]
+    public void SamePlayerDifferentActions_AreIndependent()
+    {
+        var book = new VoteBook();
+        var first = new PlayKey(1, 40);
+        var second = new PlayKey(1, 41);
+        var tallyFirst = book.Open(first, [2UL]);
+        var tallySecond = book.Open(second, [2UL]);
+
+        book.Cast(second, 2, allow: false);
+
+        Assert.AreEqual(VoteOutcome.Pending, tallyFirst.Outcome);
+        Assert.AreEqual(VoteOutcome.Rejected, tallySecond.Outcome);
+    }
+
+    [TestMethod]
+    public void TwoPlayersWithTheSameActionId_AreIndependent()
+    {
+        var book = new VoteBook();
+        var a = new PlayKey(1, 40);
+        var b = new PlayKey(2, 40);
         var tallyA = book.Open(a, [2UL]);
         var tallyB = book.Open(b, [1UL]);
 
@@ -64,27 +93,46 @@ public class VoteBookTests
     }
 
     [TestMethod]
-    public void Cast_BeforeOpen_IsBufferedLikeAnEarlyVote()
+    public void ForceAllow_ResolvesAnOpenVote()
     {
         var book = new VoteBook();
-        var key = new PlayKey(1, 7, 0);
-        Assert.IsTrue(book.Cast(key, 2, allow: true));
+        var tally = book.Open(Key, [2UL, 3UL]);
 
-        Assert.AreEqual(VoteOutcome.Allowed, book.Open(key, [2UL]).Outcome);
+        Assert.IsTrue(book.ForceAllow(Key));
+
+        Assert.AreEqual(VoteOutcome.Allowed, tally.Outcome);
     }
 
     [TestMethod]
-    public void TwoDifferentCardsFromOnePlayer_AreIndependent()
+    public void ForceAllow_BeforeOpen_AppliesWhenVoteOpens()
     {
         var book = new VoteBook();
-        var first = book.NextKey(1, 7);
-        var second = book.NextKey(1, 8);
-        var tallyFirst = book.Open(first, [2UL]);
-        var tallySecond = book.Open(second, [2UL]);
+        Assert.IsTrue(book.ForceAllow(Key));
 
-        book.Cast(second, 2, allow: false);
+        Assert.AreEqual(VoteOutcome.Allowed, book.Open(Key, [2UL, 3UL]).Outcome);
+    }
 
-        Assert.AreEqual(VoteOutcome.Pending, tallyFirst.Outcome);
-        Assert.AreEqual(VoteOutcome.Rejected, tallySecond.Outcome);
+    [TestMethod]
+    public void ForceAllow_AfterClose_IsIgnored()
+    {
+        var book = new VoteBook();
+        book.Open(Key, [2UL]);
+        book.Close(Key);
+
+        Assert.IsFalse(book.ForceAllow(Key));
+    }
+
+    [TestMethod]
+    public void ClosedKeys_AreForgottenOnceTheBoundIsExceeded_SoMemoryStaysFlat()
+    {
+        var book = new VoteBook();
+        for (uint i = 0; i < 300; i++)
+        {
+            book.Open(new PlayKey(1, i), [2UL]);
+            book.Close(new PlayKey(1, i));
+        }
+
+        Assert.IsTrue(book.Cast(new PlayKey(1, 0), 2, allow: true), "oldest closed key is no longer remembered");
+        Assert.IsFalse(book.Cast(new PlayKey(1, 299), 2, allow: true), "recent closed key is still remembered");
     }
 }

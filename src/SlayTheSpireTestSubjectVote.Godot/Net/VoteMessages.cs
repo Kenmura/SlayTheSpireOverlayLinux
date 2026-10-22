@@ -9,9 +9,8 @@ public class VoteCastMessage : INetMessage
 {
     public ulong PlayerId { get; set; }
 
-    public uint CombatCardIndex { get; set; }
-
-    public int Attempt { get; set; }
+    /// <summary>The game's synchronized action id of the held PlayCardAction.</summary>
+    public uint ActionId { get; set; }
 
     public ulong VoterId { get; set; }
 
@@ -28,8 +27,7 @@ public class VoteCastMessage : INetMessage
     public void Serialize(PacketWriter writer)
     {
         writer.WriteULong(PlayerId);
-        writer.WriteUInt(CombatCardIndex);
-        writer.WriteInt(Attempt);
+        writer.WriteUInt(ActionId);
         writer.WriteULong(VoterId);
         writer.WriteBool(Allow);
     }
@@ -37,17 +35,18 @@ public class VoteCastMessage : INetMessage
     public void Deserialize(PacketReader reader)
     {
         PlayerId = reader.ReadULong();
-        CombatCardIndex = reader.ReadUInt();
-        Attempt = reader.ReadInt();
+        ActionId = reader.ReadUInt();
         VoterId = reader.ReadULong();
         Allow = reader.ReadBool();
     }
 }
 
-/// <summary>Sent once per run by every client so the others know this player has the mod.</summary>
-public class ModHelloMessage : INetMessage
+/// <summary>The host's escape hatch: lets one stuck vote through on every client.</summary>
+public class VoteSkipMessage : INetMessage
 {
     public ulong PlayerId { get; set; }
+
+    public uint ActionId { get; set; }
 
     public bool ShouldBroadcast => true;
 
@@ -57,7 +56,50 @@ public class ModHelloMessage : INetMessage
 
     public bool ShouldBuffer => true;
 
-    public void Serialize(PacketWriter writer) => writer.WriteULong(PlayerId);
+    public void Serialize(PacketWriter writer)
+    {
+        writer.WriteULong(PlayerId);
+        writer.WriteUInt(ActionId);
+    }
 
-    public void Deserialize(PacketReader reader) => PlayerId = reader.ReadULong();
+    public void Deserialize(PacketReader reader)
+    {
+        PlayerId = reader.ReadULong();
+        ActionId = reader.ReadUInt();
+    }
+}
+
+/// <summary>
+/// Announces that this player runs the mod. A hello that is not a reply is answered with a reply, so a player
+/// who loads late or rejoins still learns about everyone (a reply is never answered, so there is no ping-pong).
+/// </summary>
+public class ModHelloMessage : INetMessage
+{
+    public ulong PlayerId { get; set; }
+
+    public bool IsHost { get; set; }
+
+    public bool IsReply { get; set; }
+
+    public bool ShouldBroadcast => true;
+
+    public NetTransferMode Mode => NetTransferMode.Reliable;
+
+    public LogLevel LogLevel => LogLevel.Info;
+
+    public bool ShouldBuffer => true;
+
+    public void Serialize(PacketWriter writer)
+    {
+        writer.WriteULong(PlayerId);
+        writer.WriteBool(IsHost);
+        writer.WriteBool(IsReply);
+    }
+
+    public void Deserialize(PacketReader reader)
+    {
+        PlayerId = reader.ReadULong();
+        IsHost = reader.ReadBool();
+        IsReply = reader.ReadBool();
+    }
 }

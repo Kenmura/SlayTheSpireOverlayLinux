@@ -1,5 +1,7 @@
 using Godot;
+using MegaCrit.Sts2.Core.Entities.Multiplayer;
 using MegaCrit.Sts2.Core.Multiplayer.Game;
+using MegaCrit.Sts2.Core.Multiplayer.Game.Lobby;
 using MegaCrit.Sts2.Core.Runs;
 using SlayTheSpireTestSubjectVote.Core.Voting;
 
@@ -8,20 +10,28 @@ namespace SlayTheSpireTestSubjectVote.Godot.Net;
 /// <summary>
 /// Sends and receives votes over the game's own net service. Every client applies the same broadcast votes
 /// to its own <see cref="VoteBook"/>, so all clients reach the same outcome without a host deciding.
+/// Handlers are registered before the run launches (see RunLaunchPatch), because the game releases buffered
+/// messages during launch and anything without a handler by then is dropped.
 /// </summary>
 public sealed class VoteNetwork
 {
+    private const string LogPrefix = "[STS2 TestSubjectVote]";
+
     private readonly MessageHandlerDelegate<VoteCastMessage> _onVote;
+    private readonly MessageHandlerDelegate<VoteSkipMessage> _onSkip;
     private readonly MessageHandlerDelegate<ModHelloMessage> _onHello;
     private readonly Action<ulong> _onLeft;
+    private readonly Action<RunLobbyPlayer> _onRejoined;
     private INetGameService? _service;
-    private MegaCrit.Sts2.Core.Multiplayer.Game.Lobby.RunLobby? _lobby;
+    private RunLobby? _lobby;
 
     public VoteNetwork()
     {
         _onVote = OnVote;
+        _onSkip = OnSkip;
         _onHello = OnHello;
         _onLeft = playerId => Roster.MarkLeft(playerId);
+        _onRejoined = OnRejoined;
     }
 
     public static VoteNetwork Instance { get; } = new();
@@ -30,8 +40,7 @@ public sealed class VoteNetwork
 
     public VoteBook Book { get; private set; } = new();
 
-    /// <summary>Raised after a vote for an open or buffered play was accepted (key, voter, allow).</summary>
-    public event Action<PlayKey, ulong, bool>? VoteReceived;
+    public bool IsHost => _service?.Type == NetGameType.Host;
 
     /// <summary>Starts a fresh run: new roster and book, handlers registered, hello announced.</summary>
     public void Attach(INetGameService service)
@@ -41,22 +50,30 @@ public sealed class VoteNetwork
         Roster = new PeerRoster();
         Book = new VoteBook();
         Roster.MarkHasMod(service.NetId);
+        if (IsHost) Roster.MarkHost(service.NetId);
         service.RegisterMessageHandler(_onVote);
+        service.RegisterMessageHandler(_onSkip);
         service.RegisterMessageHandler(_onHello);
         if (RunManager.Instance.RunLobby is { } lobby)
         {
             _lobby = lobby;
             lobby.RemotePlayerDisconnected += _onLeft;
+            lobby.PlayerRejoined += _onRejoined;
         }
-        service.SendMessage(new ModHelloMessage { PlayerId = service.NetId });
+        SendHello(isReply: false);
     }
 
     public void Detach()
     {
         if (_service == null) return;
         _service.UnregisterMessageHandler(_onVote);
+        _service.UnregisterMessageHandler(_onSkip);
         _service.UnregisterMessageHandler(_onHello);
-        if (_lobby != null) _lobby.RemotePlayerDisconnected -= _onLeft;
+        if (_lobby != null)
+        {
+            _lobby.RemotePlayerDisconnected -= _onLeft;
+            _lobby.PlayerRejoined -= _onRejoined;
+        }
         _lobby = null;
         _service = null;
     }
@@ -64,26 +81,54 @@ public sealed class VoteNetwork
     /// <summary>Applies the local player's vote at once and tells everyone else.</summary>
     public void SendVote(PlayKey key, ulong voterId, bool allow)
     {
-        if (Book.Cast(key, voterId, allow)) VoteReceived?.Invoke(key, voterId, allow);
-        _service?.SendMessage(new VoteCastMessage
-        {
-            PlayerId = key.PlayerId,
-            CombatCardIndex = key.CombatCardIndex,
-            Attempt = key.Attempt,
-            VoterId = voterId,
-            Allow = allow,
-        });
+        Book.Cast(key, voterId, allow);
+        _service?.SendMessage(new VoteCastMessage { PlayerId = key.PlayerId, ActionId = key.ActionId, VoterId = voterId, Allow = allow });
     }
+
+    /// <summary>Host only: lets the stuck vote through here and on every other client.</summary>
+    public void SendSkip(PlayKey key)
+    {
+        if (!IsHost) return;
+        Book.ForceAllow(key);
+        _service?.SendMessage(new VoteSkipMessage { PlayerId = key.PlayerId, ActionId = key.ActionId });
+    }
+
+    private void SendHello(bool isReply) =>
+        _service?.SendMessage(new ModHelloMessage { PlayerId = _service.NetId, IsHost = IsHost, IsReply = isReply });
 
     private void OnVote(VoteCastMessage message, ulong senderId)
     {
-        var key = new PlayKey(message.PlayerId, message.CombatCardIndex, message.Attempt);
-        if (Book.Cast(key, message.VoterId, message.Allow)) VoteReceived?.Invoke(key, message.VoterId, message.Allow);
+        if (message.VoterId != senderId)
+        {
+            GD.PrintErr($"{LogPrefix} ignored a vote cast for player {message.VoterId} by player {senderId}");
+            return;
+        }
+        Book.Cast(new PlayKey(message.PlayerId, message.ActionId), message.VoterId, message.Allow);
+    }
+
+    private void OnSkip(VoteSkipMessage message, ulong senderId)
+    {
+        if (!Roster.IsHost(senderId))
+        {
+            GD.PrintErr($"{LogPrefix} ignored a vote skip from non-host player {senderId}");
+            return;
+        }
+        Book.ForceAllow(new PlayKey(message.PlayerId, message.ActionId));
     }
 
     private void OnHello(ModHelloMessage message, ulong senderId)
     {
+        if (message.PlayerId != senderId) return;
         Roster.MarkHasMod(message.PlayerId);
-        GD.Print($"[STS2 TestSubjectVote] player {message.PlayerId} has the mod");
+        Roster.MarkRejoined(message.PlayerId);
+        if (message.IsHost) Roster.MarkHost(message.PlayerId);
+        GD.Print($"{LogPrefix} player {message.PlayerId} has the mod");
+        if (!message.IsReply) SendHello(isReply: true);
+    }
+
+    private void OnRejoined(RunLobbyPlayer player)
+    {
+        Roster.MarkRejoined(player.id);
+        SendHello(isReply: false);
     }
 }
