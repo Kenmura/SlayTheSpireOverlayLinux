@@ -27,4 +27,13 @@ public class PeerRosterTests
     {
         Assert.IsTrue(new PeerRoster().AllHaveMod([]));
     }
+
+    [TestMethod]
+    public void MarkLeft_ReportsPlayerAsGone_AndOthersStayPresent()
+    {
+        var roster = new PeerRoster();
+        roster.MarkLeft(3);
+        Assert.IsTrue(roster.HasLeft(3));
+        Assert.IsFalse(roster.HasLeft(2));
+    }
 }

@@ -72,4 +72,19 @@ public class VoteBookTests
 
         Assert.AreEqual(VoteOutcome.Allowed, book.Open(key, [2UL]).Outcome);
     }
+
+    [TestMethod]
+    public void TwoDifferentCardsFromOnePlayer_AreIndependent()
+    {
+        var book = new VoteBook();
+        var first = book.NextKey(1, 7);
+        var second = book.NextKey(1, 8);
+        var tallyFirst = book.Open(first, [2UL]);
+        var tallySecond = book.Open(second, [2UL]);
+
+        book.Cast(second, 2, allow: false);
+
+        Assert.AreEqual(VoteOutcome.Pending, tallyFirst.Outcome);
+        Assert.AreEqual(VoteOutcome.Rejected, tallySecond.Outcome);
+    }
 }

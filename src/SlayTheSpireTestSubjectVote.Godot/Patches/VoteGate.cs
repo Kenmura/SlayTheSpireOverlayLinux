@@ -85,7 +85,7 @@ internal static class VoteGate
                 }
                 foreach (ulong voter in held.Voters)
                 {
-                    if (!held.Combat.Players.Any(p => p.NetId == voter && p.Creature.IsAlive)) tally.Remove(voter);
+                    if (network.Roster.HasLeft(voter) || !held.Combat.Players.Any(p => p.NetId == voter && p.Creature.IsAlive)) tally.Remove(voter);
                 }
                 view?.Update(tally);
                 await Task.Delay(PollMs);
