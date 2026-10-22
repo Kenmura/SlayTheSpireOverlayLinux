@@ -66,13 +66,21 @@ public sealed class VoteNetwork
     public void Detach()
     {
         if (_service == null) return;
-        _service.UnregisterMessageHandler(_onVote);
-        _service.UnregisterMessageHandler(_onSkip);
-        _service.UnregisterMessageHandler(_onHello);
-        if (_lobby != null)
+        try
         {
-            _lobby.RemotePlayerDisconnected -= _onLeft;
-            _lobby.PlayerRejoined -= _onRejoined;
+            _service.UnregisterMessageHandler(_onVote);
+            _service.UnregisterMessageHandler(_onSkip);
+            _service.UnregisterMessageHandler(_onHello);
+            if (_lobby != null)
+            {
+                _lobby.RemotePlayerDisconnected -= _onLeft;
+                _lobby.PlayerRejoined -= _onRejoined;
+            }
+        }
+        catch (Exception ex)
+        {
+            // The service can already be disposed when the run is torn down; nothing is left to unregister from.
+            GD.Print($"{LogPrefix} detach skipped: {ex.Message}");
         }
         _lobby = null;
         _service = null;
@@ -118,7 +126,12 @@ public sealed class VoteNetwork
 
     private void OnHello(ModHelloMessage message, ulong senderId)
     {
-        if (message.PlayerId != senderId) return;
+        if (message.PlayerId != senderId || senderId == _service?.NetId) return;
+        if (!ModProtocol.IsCompatible(message.ProtocolVersion))
+        {
+            GD.PrintErr($"{LogPrefix} player {senderId} runs mod protocol v{message.ProtocolVersion}, this is v{ModProtocol.Version}: votes are disabled until it matches");
+            return;
+        }
         Roster.MarkHasMod(message.PlayerId);
         Roster.MarkRejoined(message.PlayerId);
         if (message.IsHost) Roster.MarkHost(message.PlayerId);

@@ -1,6 +1,7 @@
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Multiplayer.Serialization;
 using MegaCrit.Sts2.Core.Multiplayer.Transport;
+using SlayTheSpireTestSubjectVote.Core.Voting;
 
 namespace SlayTheSpireTestSubjectVote.Godot.Net;
 
@@ -75,6 +76,9 @@ public class VoteSkipMessage : INetMessage
 /// </summary>
 public class ModHelloMessage : INetMessage
 {
+    /// <summary>Always first on the wire, so a peer on another version can still read it. See <see cref="ModProtocol"/>.</summary>
+    public int ProtocolVersion { get; set; } = ModProtocol.Version;
+
     public ulong PlayerId { get; set; }
 
     public bool IsHost { get; set; }
@@ -91,6 +95,7 @@ public class ModHelloMessage : INetMessage
 
     public void Serialize(PacketWriter writer)
     {
+        writer.WriteInt(ProtocolVersion, 8);
         writer.WriteULong(PlayerId);
         writer.WriteBool(IsHost);
         writer.WriteBool(IsReply);
@@ -98,6 +103,7 @@ public class ModHelloMessage : INetMessage
 
     public void Deserialize(PacketReader reader)
     {
+        ProtocolVersion = reader.ReadInt(8);
         PlayerId = reader.ReadULong();
         IsHost = reader.ReadBool();
         IsReply = reader.ReadBool();
