@@ -1,7 +1,7 @@
 {
   "id": "SlayTheSpireMapFog.Godot",
   "name": "Fog of War Map",
-  "author": "Kenmura",
+  "author": "awesomeguy6678",
   "description": "Introduces Fog of War to the Act Map, defaulting to revealing only 1 step ahead while keeping the Act Boss visible.",
   "version": "v1.1.0",
   "min_game_version": "0.107.0",

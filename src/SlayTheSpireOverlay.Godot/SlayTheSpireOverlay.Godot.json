@@ -1,7 +1,7 @@
 {
   "id": "SlayTheSpireOverlay.Godot",
   "name": "Overlay for Tier List",
-  "author": "Kenmura",
+  "author": "awesomeguy6678",
   "description": "Displays card, relic, and Ancient choice tier overlay badges in Slay the Spire 2.",
   "version": "v1.1.0",
   "min_game_version": "0.107.0",
