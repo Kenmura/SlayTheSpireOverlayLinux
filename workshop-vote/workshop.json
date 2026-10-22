@@ -1,5 +1,5 @@
 {
-  "title": "Test Subject Vote",
+  "title": "Please Don't Feed the Test Subject",
   "description": "Co-op only. When a player tries to play a Skill against the Test Subject's first form, everyone else votes first. If the vote fails the card goes back to their hand. Every player in the lobby needs this mod installed, otherwise the fight plays as normal. This mod changes gameplay.",
   "visibility": "private",
   "changeNote": "v1.0.0: Skill plays against the Test Subject's first form are put to a vote by the other players. Rejections strictly outnumbering approvals return the card to the hand and refund its energy; a tie allows the play. The vote waits for every voter; the host can press F9 (or click Skip vote) to release a stuck one.",

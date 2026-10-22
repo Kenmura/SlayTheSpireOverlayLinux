@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="55%" r="75%">
+      <stop offset="0" stop-color="#1f5a66"/>
+      <stop offset="0.6" stop-color="#10303a"/>
+      <stop offset="1" stop-color="#06141a"/>
+    </radialGradient>
+    <linearGradient id="skin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d6e84a"/>
+      <stop offset="1" stop-color="#7fae3a"/>
+    </linearGradient>
+    <g id="thumb">
+      <rect x="4" y="46" width="22" height="48" rx="5"/>
+      <path d="M32 48 L50 18 C54 9 67 12 65 25 L61 42 H88 C96 42 99 48 97 54 L91 83 C89 91 83 94 76 94 H32 Z"/>
+    </g>
+  </defs>
+
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <g fill="none" stroke="#0a2028" stroke-width="22" opacity="0.8">
+    <path d="M60 700 V330 Q60 150 230 150 Q400 150 400 330 V700"/>
+    <path d="M624 700 V330 Q624 150 794 150 Q964 150 964 330 V700"/>
+  </g>
+
+  <!-- title -->
+  <g font-family="Noto Serif, DejaVu Serif, serif" font-weight="700" text-anchor="middle">
+    <text x="512" y="108" font-size="76" fill="#1a0f06" stroke="#1a0f06" stroke-width="14" stroke-linejoin="round">PLEASE DON'T FEED</text>
+    <text x="512" y="108" font-size="76" fill="#f1c84b">PLEASE DON'T FEED</text>
+    <text x="512" y="196" font-size="76" fill="#1a0f06" stroke="#1a0f06" stroke-width="14" stroke-linejoin="round">THE TEST SUBJECT</text>
+    <text x="512" y="196" font-size="76" fill="#f1c84b">THE TEST SUBJECT</text>
+  </g>
+
+  <!-- minimalist Defend card, left -->
+  <g transform="translate(150 262) rotate(-5 120 170)">
+    <rect x="0" y="0" width="240" height="340" rx="24" fill="#b8472f" stroke="#f1c84b" stroke-width="9"/>
+    <path d="M120 70 L196 100 V170 Q196 228 120 262 Q44 228 44 170 V100 Z" fill="#d8dde3" stroke="#2a1a10" stroke-width="8" stroke-linejoin="round"/>
+    <path d="M120 92 L176 114 V170 Q176 212 120 240 Z" fill="#8a6a45"/>
+    <text x="120" y="312" font-family="Noto Serif, DejaVu Serif, serif" font-weight="700" font-size="40" text-anchor="middle" fill="#fff4d6">Defend</text>
+    <circle cx="8" cy="8" r="30" fill="#d4302a" stroke="#f1c84b" stroke-width="6"/>
+    <text x="8" y="21" font-family="Noto Serif, DejaVu Serif, serif" font-weight="700" font-size="38" text-anchor="middle" fill="#fff">1</text>
+  </g>
+
+  <!-- Test Subject head, right, facing the card -->
+  <g stroke="#2d4a12" stroke-width="7" stroke-linejoin="round" stroke-linecap="round">
+    <g fill="#f2b632" stroke="#7a4d0a" stroke-width="5">
+      <path d="M690 300 l22 -70 l34 62z"/><path d="M760 292 l42 -62 l22 74z"/><path d="M832 322 l62 -34 l-6 78z"/>
+    </g>
+    <path d="M560 500 C545 390 640 300 770 310 C890 320 950 420 935 520 C920 630 830 690 720 680 C620 670 570 600 560 500 Z" fill="url(#skin)"/>
+    <ellipse cx="760" cy="610" rx="130" ry="46" fill="#f3f58e" opacity="0.45" stroke="none"/>
+    <!-- mouth -->
+    <path d="M552 500 C560 430 650 405 735 440 C715 520 650 590 552 560 Z" fill="#c76a8a"/>
+    <path d="M566 505 C580 452 650 430 718 452 C700 515 645 565 566 545 Z" fill="#6b0f2a" stroke="none"/>
+    <path d="M628 482 C660 580 612 596 584 548 C604 530 614 508 628 482Z" fill="#e86a8e" stroke="none"/>
+    <g fill="#fff8e0" stroke="none">
+      <path d="M582 470 l10 24 l12 -28z"/><path d="M618 452 l10 24 l12 -28z"/><path d="M658 442 l10 24 l12 -26z"/><path d="M696 442 l8 22 l12 -24z"/>
+    </g>
+    <!-- eye -->
+    <ellipse cx="780" cy="440" rx="48" ry="44" fill="#fffdf0"/>
+    <circle cx="762" cy="446" r="18" fill="#1a1a1a" stroke="none"/><circle cx="755" cy="438" r="6" fill="#fff" stroke="none"/>
+    <path d="M735 398 q50 -34 94 10" fill="none" stroke-width="10"/>
+  </g>
+
+  <!-- thumbs -->
+  <g stroke="#0b1f12" stroke-width="5" stroke-linejoin="round">
+    <use href="#thumb" transform="translate(200 740) scale(1.9)" fill="#3fbf55"/>
+  </g>
+  <g stroke="#2a0a0a" stroke-width="5" stroke-linejoin="round">
+    <use href="#thumb" transform="translate(824 960) scale(-1.9 -1.9)" fill="#d6382f"/>
+  </g>
+</svg>
