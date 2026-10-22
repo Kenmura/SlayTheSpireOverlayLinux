@@ -16,10 +16,11 @@ public sealed class VotePopupView
     private readonly Control? _cardPreview;
     private readonly Button[] _buttons;
     private readonly Action<Control>? _releaseCard;
+    private readonly Action<Control>? _refreshCard;
     private int _ticks;
     private bool _skipRequested;
 
-    internal VotePopupView(CanvasLayer layer, Label status, Label subtitle, HBoxContainer pips, Control cardArea, Control? cardPreview, Button[] buttons, Action<Control>? releaseCard)
+    internal VotePopupView(CanvasLayer layer, Label status, Label subtitle, HBoxContainer pips, Control cardArea, Control? cardPreview, Button[] buttons, Action<Control>? releaseCard, Action<Control>? refreshCard = null)
     {
         _layer = layer;
         _status = status;
@@ -29,6 +30,7 @@ public sealed class VotePopupView
         _cardPreview = cardPreview;
         _buttons = buttons;
         _releaseCard = releaseCard;
+        _refreshCard = refreshCard;
     }
 
     /// <summary>True once if the host clicked Skip since the last call. Read from the vote loop (main thread).</summary>
@@ -44,6 +46,7 @@ public sealed class VotePopupView
     /// <summary>Refreshes the tally. Called about ten times a second; also rotates the waiting line for the card player.</summary>
     public void Update(VoteTally tally)
     {
+        if (_cardPreview != null && GodotObject.IsInstanceValid(_cardPreview)) _refreshCard?.Invoke(_cardPreview);
         int allow = tally.Allow;
         int reject = tally.Reject;
         int total = tally.Total;

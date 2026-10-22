@@ -6,8 +6,10 @@ namespace SlayTheSpireTestSubjectVote.Godot.UI;
 /// <summary>Per-pop-up settings that depend on game state the UI namespace cannot read itself.</summary>
 /// <param name="CanSkip">True on the host: shows the Skip button and hint (the escape hatch for a stuck vote).</param>
 /// <param name="SkipKeyName">Name of the host's skip hotkey, shown in the hint.</param>
+/// <param name="RefreshCard">Re-asserts what the card preview shows; called every tick because pooled game nodes can be re-skinned by the game. Null means never.</param>
 /// <param name="ReleaseCard">Hands the card preview back to the game (its node pool). Null means just free it.</param>
-public readonly record struct PopupOptions(bool CanSkip, string SkipKeyName, Action<Control>? ReleaseCard);
+public readonly record struct PopupOptions(bool CanSkip, string SkipKeyName, Action<Control>? ReleaseCard, Action<Control>? RefreshCard = null);
+
 
 /// <summary>Builds the vote pop-ups from built-in Godot nodes only (never subclass Control in a mod assembly).</summary>
 public static class VotePopupFactory
@@ -78,14 +80,14 @@ public static class VotePopupFactory
             if (focusTarget != null && GodotObject.IsInstanceValid(focusTarget)) focusTarget.GrabFocus();
         }).CallDeferred();
 
-        var view = new VotePopupView(layer, status, subtitle, pips, cardArea, cardPreview, lockable, options.ReleaseCard);
+        var view = new VotePopupView(layer, status, subtitle, pips, cardArea, cardPreview, lockable, options.ReleaseCard, options.RefreshCard);
         if (skip != null) skip.Pressed += view.RequestSkip;
         return view;
     }
 
     private static Control BuildCardArea(Control? cardPreview)
     {
-        var area = new Control { CustomMinimumSize = CardArea, MouseFilter = Control.MouseFilterEnum.Ignore };
+        var area = new Control { CustomMinimumSize = CardArea, MouseFilter = Control.MouseFilterEnum.Ignore, SizeFlagsHorizontal = Control.SizeFlags.ShrinkCenter };
         if (cardPreview == null) return area;
         IgnoreMouse(cardPreview);
         cardPreview.Position = CardArea / 2f;

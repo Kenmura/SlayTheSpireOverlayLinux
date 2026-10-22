@@ -165,7 +165,7 @@ internal static class VoteGate
 
     private static VotePopupView? OpenView(PlayCardAction action, HeldPlay held, ulong localId)
     {
-        var options = new PopupOptions(VoteNetwork.Instance.IsHost, SkipKey.ToString(), ReleaseCard);
+        var options = new PopupOptions(VoteNetwork.Instance.IsHost, SkipKey.ToString(), ReleaseCard, card => RefreshCard(card, held.Card));
         string cardName = held.Card.Title;
         bool isVoter = held.Voters.Contains(localId);
         try
@@ -191,13 +191,29 @@ internal static class VoteGate
     {
         try
         {
-            return NCard.Create(card);
+            var node = NCard.Create(card);
+            if (node == null) return null;
+            // A pooled card shows the scene's "Broken Card" placeholder until it is told what to display.
+            // UpdateVisuals needs the node ready (in the tree), so refresh once the pop-up has attached it.
+            Callable.From(() =>
+            {
+                if (GodotObject.IsInstanceValid(node) && node.IsNodeReady()) node.UpdateVisuals(PileType.Hand, CardPreviewMode.Normal);
+            }).CallDeferred();
+            return node;
         }
         catch (Exception ex)
         {
             GD.PrintErr($"{LogPrefix} no card preview: {ex.Message}");
             return null;
         }
+    }
+
+    /// <summary>Makes the preview show exactly <paramref name="model"/>: pooled nodes can come back with another card's title, text and cost.</summary>
+    private static void RefreshCard(Control preview, CardModel model)
+    {
+        if (preview is not NCard card || !card.IsNodeReady()) return;
+        if (card.Model != model) card.Model = model;
+        card.UpdateVisuals(PileType.Hand, CardPreviewMode.Normal);
     }
 
     private static void ReleaseCard(Control card)
