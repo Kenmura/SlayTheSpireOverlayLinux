@@ -10,11 +10,11 @@ namespace SlayTheSpireTestSubjectVote.Godot.Game;
 /// <summary>Reads what the vote needs to know about the Test Subject fight. All members used here are public in sts2.dll.</summary>
 public static class TestSubjectState
 {
-    public static Creature? Find(CombatState? combat) =>
+    public static Creature? Find(ICombatState? combat) =>
         combat?.Enemies.FirstOrDefault(c => c.Monster is TestSubject);
 
     /// <summary>First form: it still has Adaptable and has not yet gained Painful Stabs or Nemesis (those arrive on revive).</summary>
-    public static bool IsFirstForm(CombatState? combat)
+    public static bool IsFirstForm(ICombatState? combat)
     {
         var subject = Find(combat);
         return subject != null
@@ -24,7 +24,7 @@ public static class TestSubjectState
     }
 
     /// <summary>The Strength the Test Subject gains per Skill, read from its own Enrage power (2 or 3 depending on ascension).</summary>
-    public static int EnrageAmount(CombatState? combat) =>
+    public static int EnrageAmount(ICombatState? combat) =>
         Find(combat)?.GetPower<EnragePower>() is { } power ? Convert.ToInt32(power.Amount) : 0;
 
     public static bool IsMultiplayer() =>

@@ -86,7 +86,7 @@ public class DependencyTests
     public void ModAssembly_Should_Never_Subclass_GodotObject()
     {
         var subclasses = ModAssemblies
-            .SelectMany(a => a.GetTypes())
+            .SelectMany(LoadableTypes)
             .Where(t => t.IsSubclassOf(typeof(GodotObject)))
             .Select(t => t.FullName)
             .ToList();
@@ -100,8 +100,8 @@ public class DependencyTests
     public void AllTypes_Should_Not_Declare_Public_Mutable_Fields()
     {
         var offendingFields = ModAssemblies
-            .SelectMany(a => a.GetExportedTypes())
-            .Where(t => !t.IsEnum)
+            .SelectMany(LoadableTypes)
+            .Where(t => t.IsVisible && !t.IsEnum)
             .SelectMany(t => t.GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly))
             .Where(f => !f.IsLiteral && !f.IsInitOnly)
             .Select(f => $"{f.DeclaringType?.FullName}.{f.Name}")
@@ -110,5 +110,21 @@ public class DependencyTests
         Assert.IsEmpty(
             offendingFields,
             $"Public mutable fields are forbidden: {string.Join(", ", offendingFields)}");
+    }
+
+    /// <summary>
+    /// Types that implement game interfaces (for example INetMessage) cannot load without sts2.dll, which the test
+    /// output does not contain. Skip only those; every other type is still checked.
+    /// </summary>
+    private static IEnumerable<Type> LoadableTypes(Assembly assembly)
+    {
+        try
+        {
+            return assembly.GetTypes();
+        }
+        catch (ReflectionTypeLoadException ex)
+        {
+            return ex.Types.OfType<Type>();
+        }
     }
 }
